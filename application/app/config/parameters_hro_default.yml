@@ -1,0 +1,86 @@
+parameters:
+    database_driver:   driver
+    database_host:     host
+    database_port:     port
+    database_name:     name
+    database_path:     ~
+    database_user:     user
+    database_password: passwd_
+
+    hro_database_driver:   driver
+    hro_database_host:     host
+    hro_database_port:     port
+    hro_database_name:     name
+    hro_database_path:     ~
+    hro_database_user:     user
+    hro_database_password: passwd_
+    hro_database_pre:      public
+    hro_database_vers:     '09'
+
+    hro_search_database_driver:   driver
+    hro_search_database_host:     host
+    hro_search_database_port:     port
+    hro_search_database_name:     name
+    hro_search_database_path:     ~
+    hro_search_database_user:     user
+    hro_search_database_password: passwd
+
+    hro_log_database_driver:   driver
+    hro_log_database_host:     host
+    hro_log_database_port:     port
+    hro_log_database_name:     name
+    hro_log_database_path:     ~
+    hro_log_database_user:     user
+    hro_log_database_password: passwd
+    hro_log_database_schema:   schema
+    hro_log_database_table:    table
+
+    mailer_transport:  smtp
+    mailer_host:       localhost
+    mailer_user:       ~
+    mailer_password:   ~
+
+    fallback_locale:   en
+    locale:            de
+    secret:            secret
+
+    fom:
+        server_name:   Mapbender3
+        server_version: 3.0.5.3
+        server_logo:   bundles/mapbendercore/image/logo_mb3.png
+
+    ldap_host: ldaps://host
+    ldap_port: port
+    ldap_version: version
+    ldap_user_base_dn: dn
+    ldap_user_name_attribute: uid
+    ldap_role_base_dn: dn
+    ldap_role_name_attribute: cn
+    ldap_role_user_attribute: member
+    ldap_role_user_id: dn
+    ldap_scope_subtree: 1
+
+    cookie_secure: false
+    cookie_lifetime: 36000
+
+    solr:
+        host: localhost
+        port: port
+        path: solr
+        core: core
+        version: 5
+        srs: 'EPSG:25833'
+        hits: 25
+
+    ows_proxy3_logging: false
+    ows_proxy3_obfuscate_client_ip: true
+    ows_proxy3_host: host
+    ows_proxy3_port: 8080
+    ows_proxy3_connecttimeout: 60
+    ows_proxy3_timeout: 90
+    ows_proxy3_user: ~
+    ows_proxy3_password: ~
+    ows_proxy3_noproxy:
+        - 127.0.0.1
+        - 172.0.0.0/8
+        - localhost
