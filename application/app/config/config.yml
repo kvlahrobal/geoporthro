@@ -1,0 +1,128 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: %fallback_locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    default_locale:  %locale%
+    session:
+        cookie_httponly: true
+        cookie_secure: %cookie_secure%
+        cookie_lifetime: %cookie_lifetime%
+
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    globals:
+        fom:    %fom%
+    form:
+        resources:
+            - 'FOMCoreBundle:Form:fields.html.twig'
+
+# Assetic Configuration
+assetic:
+    debug: %kernel.debug%
+    use_controller: true
+    filters:
+        cssrewrite: ~
+        sass: ~
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   %database_driver%
+                host:     %database_host%
+                port:     %database_port%
+                dbname:   %database_name%
+                path:     %database_path%
+                user:     %database_user%
+                password: %database_password%
+                charset:  UTF8
+#            hro_data:
+#                driver:   %hro_database_driver%
+#                host:     %hro_database_host%
+#                port:     %hro_database_port%
+#                dbname:   %hro_database_name%
+#                path:     %hro_database_path%
+#                user:     %hro_database_user%
+#                password: %hro_database_password%
+#                charset:  UTF8
+#            hro_search_data:
+#                driver:   %hro_search_database_driver%
+#                host:     %hro_search_database_host%
+#                port:     %hro_search_database_port%
+#                dbname:   %hro_search_database_name%
+#                path:     %hro_search_database_path%
+#                user:     %hro_search_database_user%
+#                password: %hro_search_database_password%
+#                charset:  UTF8
+#            hro_log_data:
+#                driver:   %hro_log_database_driver%
+#                host:     %hro_log_database_host%
+#                port:     %hro_log_database_port%
+#                dbname:   %hro_log_database_name%
+#                path:     %hro_log_database_path%
+#                user:     %hro_log_database_user%
+#                password: %hro_log_database_password%
+#                charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+
+# FOM Manager Configuration
+fom_manager:
+    route_prefix: /manager
+
+# FOM User Configuration
+fom_user:
+    selfregister: false
+    reset_password: false
+    max_registration_time: 1
+    max_reset_time: 1
+    mail_from_address: wizard@oz.net
+    mail_from_name: Wizard of Oz
+    profile_entity: FOM\UserBundle\Entity\BasicProfile
+    profile_formtype: FOM\UserBundle\Form\Type\BasicProfileType
+    profile_template: FOMUserBundle:User:basic_profile.html.twig
+    self_registration_groups:
+        - Self Registered
+        - Demo Group
+
+# OWSProxy Configuration
+ows_proxy3_core:
+    logging: %ows_proxy3_logging%
+    obfuscate_client_ip: %ows_proxy3_obfuscate_client_ip%
+    proxy:
+        host: %ows_proxy3_host%
+        port: %ows_proxy3_port%
+        connecttimeout: %ows_proxy3_connecttimeout%
+        timeout: %ows_proxy3_timeout%
+        user: %ows_proxy3_user%
+        password: %ows_proxy3_password%
+        noproxy: %ows_proxy3_noproxy%
+#
+# Mapbender Configuration
+mapbender_core: ~

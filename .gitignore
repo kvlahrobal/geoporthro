@@ -4,7 +4,6 @@
 */web/doc
 */web/uploads
 
-application/app/config/config.yml
 application/app/config/paramters.yml
 
 application/web/xmlschemas/*
