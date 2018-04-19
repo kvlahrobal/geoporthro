@@ -1,0 +1,25 @@
+{
+    "name": "components/datatables",
+    "type": "component",
+    "license" : "MIT",
+    "require": {
+        "robloach/component-installer": "*",
+		"components/jquery" : "*"
+    },
+    "extra": {
+        "component": {
+			"scripts" : [
+				"media/js/jquery.dataTables.js"
+			],
+			"styles" : [
+				"media/css/jquery.dataTables.css"
+			],
+            "files": [
+				"media/js/jquery.dataTables.min.js",
+				"media/css/jquery.dataTables.min.css",
+				"media/css/jquery.dataTables_themeroller.css",
+                "media/images/*"
+            ]
+        }
+    }
+}

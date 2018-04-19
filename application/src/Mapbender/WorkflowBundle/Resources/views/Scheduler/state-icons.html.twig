@@ -1,0 +1,21 @@
+    <a class="iconReset iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.refresh" | trans }}" href="{{ path('mapbender_workflow_scheduler_index') }}" ></a>
+    <span class="iconFileText showReport iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.report" | trans }}" data-url="{{ path('mapbender_workflow_scheduler_report',  {'sid': scheduler.id}) }}" ></span>
+{% if scheduler.status == 'NEW' %}
+    <span class="icon iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.new" | trans }}" data-state="{{scheduler.status|lower}}"></span>
+    <a class="iconPlay iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.start" | trans }}" href="{{ path('mapbender_workflow_scheduler_start',  {'sid': scheduler.id}) }}" ></a>
+{% elseif scheduler.status == 'SUCCESS' %}
+    <span class="icon iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.success" | trans }}" data-state="{{scheduler.status|lower}}"></span>
+    <a class="iconPlay iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.start" | trans }}" href="{{ path('mapbender_workflow_scheduler_start',  {'sid': scheduler.id}) }}" ></a>
+{% elseif scheduler.status == 'RUNNING' %}
+    <span class="icon iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.running" | trans }}" data-state="{{scheduler.status|lower}}"></span>
+    <a class="iconStop iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.stop" | trans }}" href="{{ path('mapbender_workflow_scheduler_stop',  {'sid': scheduler.id}) }}" ></a>
+{% elseif scheduler.status == 'WAITING' %}
+    <span class="icon iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.waiting" | trans }}" data-state="{{scheduler.status|lower}}"></span>
+    <a class="iconStop iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.stop" | trans }}" href="{{ path('mapbender_workflow_scheduler_stop',  {'sid': scheduler.id}) }}" ></a>
+{% elseif scheduler.status == 'ERROR' %}
+    <span class="icon iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.error" | trans }}" data-state="{{scheduler.status|lower}}"></span>
+    <a class="iconStop iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.stop" | trans }}" href="{{ path('mapbender_workflow_scheduler_stop',  {'sid': scheduler.id}) }}" ></a>
+{% elseif scheduler.status == 'ABORTED' %}
+    <span class="icon iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.aborted" | trans }}" data-state="{{scheduler.status|lower}}"></span>
+    <a class="iconPlay iconBig" title="{{ "mapbender.workflowbundle.scheduler.icon.start" | trans }}" href="{{ path('mapbender_workflow_scheduler_start',  {'sid': scheduler.id}) }}" ></a>
+{% endif %}

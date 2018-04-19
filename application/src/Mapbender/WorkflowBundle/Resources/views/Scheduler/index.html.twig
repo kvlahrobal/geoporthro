@@ -1,0 +1,54 @@
+{% extends "FOMManagerBundle::manager.html.twig" %}
+{% block title %}{{ "mapbender.workflowbundle.scheduler.index.schedulers" | trans }}{% endblock %}
+{% block css %}
+    {{parent()}}
+{% endblock %}
+{% block js %}
+    {{parent()}}
+    <script type="text/javascript">
+    {% include "MapbenderWorkflowBundle::workflowbundle.json.twig" %}
+    </script>
+    <script type="text/javascript" src="{{ asset('bundles/mapbendermanager/js/application-list.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/mapbenderworkflow/js/mapbender.workflow.components.js')}}"></script>
+{% endblock %}
+{% block manager_content %}
+    {% if schedulers | length > 0 %}
+        <label for="inputFilterApplications" class="labelInput left">{{"mapbender.workflowbundle.scheduler.index.scheduler"|trans}}:</label><input id="inputFilterApplications" type="text" class="input listFilterInput">
+        {% include "MapbenderManagerBundle:Application:actions.html.twig" %}
+        <ul id="listFilterApplications" class="listFilterContainer clear listFilterBoxes listFilterApplicationBoxes">
+            {% for scheduler in schedulers %}
+                <li class="filterItem" data-state="{% if scheduler.status != null %}{{scheduler.status|lower}}{% endif %}">
+                    <a target="_blank" href="{#{ path('mapbender_core_application_application', {'slug': application.slug}) }#}" title="{{ 'mapbender.workflowbundle.scheduler.index.view' | trans }} {{ scheduler.title }}">
+                        <div class="col1 iconAppDefault"></div>
+                    </a>
+                    <div class="col2 box">
+                        <a href="{#{ path('mapbender_core_application_application', {'slug': application.slug}) }#}" class="title" title="{{ 'mapbender.workflowbundle.scheduler.index.view_this' | trans }}">
+                            {{ scheduler.title }}
+                        </a>
+                        <span class="smallerText">{{ scheduler.name }}</span>
+                        <div class="description">{{ scheduler.description }}</div>
+                        <div class="buttonGroup">
+                        {% if is_granted('OPERATOR', scheduler) %}
+                        {% include "MapbenderWorkflowBundle:Scheduler:state-icons.html.twig"  with {'sceduler': scheduler }%}
+                        {% endif %}
+                        {% if is_granted('EDIT', scheduler) %}
+                            <a class="iconEdit iconBig" href="{{ path('mapbender_workflow_scheduler_edit',  {'sid': scheduler.id}) }}" title="{{ 'mapbender.workflowbundle.scheduler.index.edit' | trans }} {{ scheduler.title }}"></a>
+                        {% endif %}
+                        {% if is_granted('DELETE', scheduler) %}
+                            <span class="iconRemove iconBig"
+                                  title="{{'mapbender.workflowbundle.scheduler.index.delete'|trans}} {{ scheduler.title }}"
+                                  data-url="{{ path('mapbender_workflow_scheduler_confirmdelete', { 'sid': scheduler.id}) }}"
+                                  data-slug="{{ scheduler.id }}" ></span>
+                        {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="clearContainer"></div>
+    {% else %}
+        <span class="description">{{ 'mapbender.workflowbundle.scheduler.index.no_scheduler' | trans }}</span>
+    {% endif %}
+    <div class="clearContainer"></div>
+
+{% endblock %}

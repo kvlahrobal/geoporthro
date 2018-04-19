@@ -1,0 +1,136 @@
+// @i mport url("components/jQuery-contextMenu/src/jquery.contextMenu.css");
+@import "../vendor/viscreation/vis-ui.js/src/styles/modal";
+@import "../vendor/mapbender/digitizer/Mapbender/DigitizerBundle/Resources/public/sass/element/context-menu";
+
+$selectColor: #F7F79A;
+
+.mb-element-digitizer {
+
+  padding: 0;
+
+  > .title {
+    margin-bottom: 9px;
+    text-shadow: 0px 1px 0px #fff;
+  }
+
+  > select {
+    background-color: #fff;
+    padding: 4px;
+    width: 100%;
+    display: block;
+    option {
+      font-weight: bold;
+    }
+    margin-bottom: 10px;
+  }
+
+  .mapbender-element-result-table {
+    margin-top: 10px;
+
+    > .dataTables_wrapper.no-footer{
+      overflow: hidden;
+    }
+
+    // Row higlight by feature select
+    table.dataTable > tbody > tr {
+
+      &.odd, &.even {
+        &.hover td {
+          background-color: $selectColor;
+        }
+        &:hover td {
+          background-color: $selectColor;
+        }
+      }
+      td{
+        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+        white-space: -webkit-pre-wrap; /*Chrome & Safari */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        white-space: pre-wrap;       /* css-3 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        word-break: break-all;
+        white-space: normal;
+      }
+    }
+  }
+
+}
+
+.olHandlerBoxSelectFeature {
+  background-color: white;
+  border: 2px solid blue;
+  font-size: 1px;
+  opacity: 0.5;
+  position: absolute;
+}
+
+.modal-body {
+  div.notifyjs-container > div.notifyjs-bootstrap-base > span {
+    display: block;
+    width: auto;
+    white-space: pre;
+  }
+  .image-container {
+    position: relative;
+    overflow: hidden;
+    > div.sub-container{
+      display: table-cell;
+      vertical-align: middle;
+    }
+//    > img {
+//      width: 100%;
+//      height: auto;
+//      display: inline-block;
+//    }
+  }
+  .file-container{
+
+    .progress-bar{
+      width: 0;
+      height: 100%;
+      background-color: #00ccaa;
+      float: none;
+      transition: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .fileinput-button {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      > input {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        opacity: 0;
+        -ms-filter: 'alpha(opacity=0)';
+        font-size: 200px;
+        direction: ltr;
+        cursor: pointer;
+
+        &:focus, &hover {
+          box-shadow: inset 0 1px 1px transparent, 0 0 4px #000 !important;
+        }
+
+      }
+    }
+  }
+
+
+
+
+  /* Fixes for IE < 8 */
+  @media screen\9 {
+    .fileinput-button > input {
+      filter: alpha(opacity=0);
+      font-size: 100%;
+      height: 100%;
+    }
+  }
+}

@@ -1,0 +1,73 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+        FOM\UserBundle\Entity\User: sha512
+        Mapbender\LdapIntegrationBundle\Entity\LdapUser: plaintext
+
+    providers:
+        main:
+            entity:
+                class: FOM\UserBundle\Entity\User
+                property: username
+        ldap:
+            id: imag_ldap.security.user.provider
+        chain_provider:
+            chain:
+                providers: ["main", "ldap"]
+
+    acl:
+        connection: default
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/user/login$
+            security: false
+
+        secured_area:
+            pattern:    ^/
+            anonymous: ~
+#            form_login:
+            imag_ldap:
+                provider: chain_provider
+                check_path: /user/login/check
+                login_path: /user/login
+            logout:
+                path:   /user/logout
+                target: /
+
+    access_control:
+        - { path: ^/user/login,    roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/manager,       roles: ROLE_USER }
+
+imag_ldap:
+    client:
+        host: %ldap_host%
+        port: %ldap_port%
+        version: %ldap_version% # Optional
+    #    username: cn=admin,dc=ldap,dc=kap24,dc=net # Optional
+    #    password: test # Optional
+    #    network_timeout: 10 # Optional
+    #    referrals_enabled: true # Optional
+    #    bind_username_before: true # Optional
+    #    skip_roles: true # Optional
+  
+    user:
+        base_dn: %ldap_user_base_dn%
+    #    filter: (ObjectClass=posixAccount) #Optional
+        name_attribute:  %ldap_user_name_attribute%
+  
+    role:
+        base_dn: %ldap_role_base_dn%
+    ##    filter: (ou=group) #Optional
+        name_attribute:  %ldap_role_name_attribute%
+        user_attribute: %ldap_role_user_attribute%
+        user_id: %ldap_role_user_id%
+  
+    user_class: Mapbender\LdapIntegrationBundle\Entity\LdapUser

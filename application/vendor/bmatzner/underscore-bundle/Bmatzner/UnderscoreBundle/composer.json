@@ -1,0 +1,24 @@
+{
+    "name":        "bmatzner/underscore-bundle",
+    "type":        "symfony-bundle",
+    "description": "Underscore.js Bundle for Symfony2",
+    "keywords":    ["underscore", "javascript", "symfony"],
+    "homepage":    "http://documentcloud.github.com/underscore/",
+    "license":     "MIT",
+    "authors":     [
+        {
+            "name":     "Bernd Matzner",
+            "email":    "bernd@matznermatzner.de",
+            "homepage": "http://berndmatzner.de"
+        }
+    ],
+    "require":     {
+        "symfony/framework-bundle": ">=2.1"
+    },
+    "autoload":    {
+        "psr-0": {
+            "Bmatzner\\UnderscoreBundle": ""
+        }
+    },
+    "target-dir":  "Bmatzner/UnderscoreBundle"
+}

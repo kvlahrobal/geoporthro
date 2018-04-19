@@ -1,0 +1,46 @@
+<ul class="itemLevel{{itemLevel}} list {% if itemLevel > 1 %}closed{% endif %}">
+{% for item in items %}
+  {% if item.subitems is defined and item.subitems|length > 0 %}
+    {% for subitem in item.subitems %}
+    <li>
+      {% include "MapbenderCoreBundle::metadata_item.html.twig"  with {'items': subitem, 'itemLevel': itemLevel + 1 }%}
+    </li>
+    {% endfor %}
+  {% else %}
+    {% for key,val in item %}
+    {% set vt=prefix~section.title~'.'~key %}
+    <li>
+        <div class="labelText">{{ vt | trans}}</div>
+        <div class="metaText">
+            {% if '~' in val %}
+                {% set val_splitted = val|split('~') %}
+                {% set last_value = '' %}
+                {% for key,value in val_splitted %}
+                    {% if value != last_value %}
+                        {{ value }}
+                    {% endif %}
+                    {% set last_value = value %}
+                    {% if not loop.last %}
+                        <br/>
+                    {% endif %}
+                {% endfor %}
+            {% elseif '@' in val and ',' in val %}
+                {% set val_splitted = val|split(',') %}
+                {% for key,value in val_splitted %}
+                    <a href="mailto:{{ value }}">{{ value }}</a>
+                    {% if not loop.last %}
+                        <br/>
+                    {% endif %}
+                {% endfor %}
+            {% elseif '@' in val %}
+                <a href="mailto:{{ val }}">{{ val }}</a>
+            {% else %}
+                {{ val|replace({'Hansestadt Rostock': "Hanse- und Universitätsstadt Rostock"}) }}
+            {% endif %}
+        </div>
+        <div class="clearContainer"></div>
+    </li>
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+</ul>

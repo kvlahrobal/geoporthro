@@ -1,0 +1,210 @@
+a {
+    color: #006cb7;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #d81920;
+}
+
+.basesearchonecontent .clickable {
+    margin-bottom: 0 !important;
+    line-height: 35px !important;
+}
+
+.basesearchonecontent .clickable:hover {
+    color: #d81920 !important;
+}
+
+.basesearchonecontent .even {
+    background-color: #eaf6ff !important;
+}
+
+.basesearchtwocontent .clickable {
+    margin-bottom: 0 !important;
+    line-height: 35px !important;
+}
+
+.basesearchtwocontent .clickable:hover {
+    color: #d81920 !important;
+}
+
+.basesearchtwocontent .even {
+    background-color: #eaf6ff !important;
+}
+
+.contentPane > .mb-element.mb-element-zoombar {
+    top: 10px !important;
+    right: 10px !important;
+}
+
+.contentPane > .mb-element.mb-element-zoombar > ul.toolPane {
+    border: 2px solid #006cb7;
+    background-color: rgba(0, 108, 183, 0.8);
+    color: #fff;
+    padding: 10px 10px 0 10px !important;
+}
+
+.contentPane > .mb-element.mb-element-zoombar > ul.toolPane > li {
+    color: #fff;
+}
+
+.contentPane > .mb-element.mb-element-zoombar > ul.toolPane > li .iconBig {
+    color: #fff;
+}
+
+.dropdown {
+    color: #3f3f3f !important;
+    min-width: 25% !important;
+    border-radius: 0 !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    border: solid 1px #006cb7 !important;
+    font-size: 12px !important;
+}
+
+.dropdown .dropdownList{
+    color: #3f3f3f !important;
+    border: solid 1px #006cb7 !important;
+    font-size: 12px !important;
+}
+
+.dropdown .dropdownList li:hover {
+    color: #3f3f3f !important;
+    background-color: #eaf6ff !important;
+}
+
+.dropdown .dropdownValue {
+    color: #3f3f3f !important;
+    line-height: 30px !important;
+}
+
+.iconBig {
+    color: #fff;
+    opacity: 0.7;
+}
+
+div[class^="iconPaging"] {
+    color: #006cb7;
+}
+
+div[class^="iconPaging"]:hover {
+    color: #d81920;
+}
+
+.impressum-bold {
+    font-weight: bold;
+}
+
+.impressum-italic {
+    font-style: italic;
+}
+
+.input {
+    color: #3f3f3f !important;
+    background-color: #eaf6ff !important;
+    border: solid 1px #006cb7 !important;
+    font-size: 13px !important;
+}
+
+.input:focus {
+    border: solid 1px #d81920 !important;
+}
+
+.js-content-content > table {
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.js-content-content > table > tbody > tr > th {
+    text-align: left;
+}
+
+.js-header {
+    cursor: pointer;
+    color: #006cb7;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.js-header.active {
+    color: #d81920;
+}
+
+.mb-element-layertree .iconCheckbox::before {
+    content:"\f096" !important;
+    margin-right: 3px !important;
+}
+
+.mb-element-layertree .iconCheckboxActive::before {
+    content:"\f046" !important;
+    margin-right: 0 !important;
+}
+
+.mb-element-zoombar .toolPane .iconBig::before {
+    opacity: 1;
+}
+
+.mobilePane .contentTitle {
+    font-style: normal;
+}
+
+.notifyjs-corner {
+    display: none;
+}
+
+.spacerDiv {
+    width: 100%;
+    height: 50px;
+}
+
+.splashScreen {
+    background-color: #fff;
+    border: 2px solid #006cb7;
+}
+
+.splashScreen img.app-screenshot {
+    display: block;
+    margin: 0 auto;
+}
+
+.subTitle {
+    color: #006cb7;
+}
+
+.toolBar {
+    border-top: 2px solid #006cb7;
+    background-color: rgba(0, 108, 183, 0.8);
+}
+
+.toolBar.bottom > .toolBarItem span::before, .toolBar.bottom > .toolBarItem label::before {
+    color: #fff;
+    opacity: 0.7;
+}
+
+.toolBar [class^="icon"]::before, .toolBar [class*=" icon"]::before {
+    color: #fff;
+    opacity: 0.7;
+}
+
+.toolBar.bottom > .toolBarItem span:hover, .toolBar.bottom > .toolBarItem label:hover {
+    opacity: 1 !important;
+}
+
+.toolBar.bottom > .toolBarItem span:hover::before, .toolBar.bottom > .toolBarItem label:hover::before {
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.toolBar.bottom > .toolBarItemActive span::before, .toolBar.bottom > .toolBarItemActive label::before {
+    color: rgba(255, 203, 5, 0.7) !important;
+}
+
+.toolBar.bottom > .toolBarItemActive span:hover::before, .toolBar.bottom > .toolBarItemActive label:hover::before {
+    color: rgba(255, 203, 5, 1) !important;
+}
+
+.toolBarItemActive {
+    background: none !important;
+    border: 0 !important;
+}

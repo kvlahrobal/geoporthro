@@ -1,0 +1,37 @@
+<fieldset class="serviceAddBox left box" style="width:100%">
+    <legend>{{"mapbender.workflowbundle.scheduler.report.task"|trans}}: {{ task.title }}</legend>
+    <table style="width:100%">
+        <tr style="font-weight:bold;">
+            <td>{{"mapbender.workflowbundle.scheduler.report.sourceping.head.id"|trans}}</td>
+            <td>{{"mapbender.workflowbundle.scheduler.report.sourceping.head.status"|trans}}</td>
+            <td>{{"mapbender.workflowbundle.scheduler.report.sourceping.head.source"|trans}}</td>
+            <td>{{"mapbender.workflowbundle.scheduler.report.sourceping.head.last_check"|trans}}</td>
+            <td>{{"mapbender.workflowbundle.scheduler.report.sourceping.head.last_duration"|trans}}</td>
+            <td>{{"mapbender.workflowbundle.scheduler.report.sourceping.head.stability"|trans}}</td>
+        </tr>
+        {% for report in task.reports %}
+        {% set source = report|targetFromReport %}
+        {% if report.status == constant('STATUS_OK', source) %}
+            {% set statusIcon = 'iconOk' %}
+            {% set statusTooltip = "mapbender.workflowbundle.scheduler.report.sourceping.message.source_ok"|trans %}
+        {% elseif report.status == constant('STATUS_TOUPDATE', source) %}
+            {% set statusIcon = 'iconReset' %}
+            {% set statusTooltip = "mapbender.workflowbundle.scheduler.report.sourceping.message.source_toupdate"|trans ~ ': ' ~ report.message %}
+        {% elseif report.status == constant('STATUS_UNREACHABLE', source) %}
+            {% set statusIcon = 'iconBan' %}
+            {% set statusTooltip = "mapbender.workflowbundle.scheduler.report.sourceping.message.source_unreachable"|trans ~ ': ' ~ report.message %}
+        {% else %}
+            {% set statusIcon = '' %}
+            {% set statusTooltip = '' %}
+        {% endif%}
+        <tr>
+            <td>{{report.id}}</td>
+            <td class="icon {{statusIcon}}" title="{{statusTooltip}}"></td>
+            <td title="Id/Type/Title/Name">{{source.id}}/{{source.type}}/{{source.title}}/{{source.name}}</td>
+            <td>{{report.starttime | date('d.m.Y-H:i:s')}}</td>
+            <td>{{report.latency/1000}}</td>
+            <td>{{report.stability|round}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</fieldset>

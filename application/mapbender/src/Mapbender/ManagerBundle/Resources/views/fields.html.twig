@@ -1,0 +1,8 @@
+
+{% block extent_widget %}
+    <div class="form-inline">
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "FOMManagerBundle::manager.html.twig" %}
+
+{% block title %}
+  {% if edit %}
+    {{ "fom.user.user.form.edit_user" | trans}}
+  {% else %}
+    {{ "fom.user.user.form.new_user" | trans}}
+  {% endif %}
+{% endblock %}
+
+{% block css %}
+  {{parent()}}
+{% endblock %}
+
+{% block js %}
+  {{parent()}}
+  <script type="application/javascript" src="{{ asset('bundles/fomuser/js/acl-form.js') }}"></script>
+  <script type="application/javascript" src="{{ asset('bundles/fommanager/js/form.js') }}"></script>
+  <script type="application/javascript" src="{{ asset('bundles/mapbendermanager/js/user-control.js') }}"></script>
+  {% for url in profile_assets.js %}
+    <script type="application/javascript" src="{{ asset(url) }}"></script>
+  {% endfor %}
+{% endblock %}
+
+{% block manager_content %}
+  {% if edit %}
+    <form action="{{ path('fom_user_user_update', { 'id': user.id }) }}" method="post" name="{{ form_name }}" {{ form_enctype(form)}} novalidate="novalidate">
+  {% else %}
+    <form action="{{ path('fom_user_user_create') }}" method="post" name="{{ form_name }}" {{ form_enctype(form)}} autocomplete="off" novalidate="novalidate">
+  {% endif %}
+
+   {% include 'FOMUserBundle:User:container.html.twig' %}
+
+    {{ form_row(form._token) }}
+
+    <div class="right">
+      <input class="button" type="submit" value="{% if edit %}{{ 'fom.user.user.form.save' | trans }}{% else %}{{ 'fom.user.user.form.create' | trans }}{% endif %}"/>
+      <a class="button critical" href="{{ url('fom_user_user_index') }}">{{ 'fom.user.user.form.cancel' | trans}}</a>
+    </div>
+  </form>
+
+<div class="clearContainer"></div>
+
+{% endblock %}

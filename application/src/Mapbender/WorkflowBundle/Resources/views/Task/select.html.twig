@@ -1,0 +1,8 @@
+{% for class, meta in tasks %}
+<a class="checkContainer chooseElement" data-tags="{{ meta.tags | join(',') | lower }}" title="Choose {{meta.title}} Element" href="{{ path('mapbender_workflow_task_new', {'wid': workflow.id, 'class': meta.class}) }}">
+    <span class="subTitle">{{ meta.title }}</span>
+    <span class="iconOk iconBig"></span>
+    <div class="description">{{ meta.description }}</div>
+    <div class="clearContainer"></div>
+</a>
+{% endfor %}

@@ -1,0 +1,32 @@
+{% set application = {'slug': 'manager'} %}
+
+{% extends "FOMManagerBundle::backend.html.twig" %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ path('mapbender_core_application_assets', {'slug': 'mb3-login', 'type': 'css'}) }}"/>
+{% endblock %}
+
+{% block trans %}
+  {{parent()}}
+  <script type="text/javascript" src="{{ path('mapbender_core_application_assets', {'slug': application.slug, 'type': 'trans'}) }}"></script>
+  <script type="text/javascript">
+   var Mapbender = Mapbender || {};
+   Mapbender.configuration = {elements:{}};
+  </script>
+{% endblock %}
+
+{% block js %}
+  {{parent()}}
+  <script type="text/javascript" src="{{ path('mapbender_core_application_assets', {'slug': application.slug, 'type': 'js'}) }}"></script>
+{% endblock %}
+{% block title %}{% endblock %}
+
+{% block backend_content %}
+  <div class="authWrapper">
+    <div class="head"><hr class="dekoSeperator"></div>
+    <div class="logoContainer">
+        <a href="{{ path('mapbender_core_welcome_list') }}"><img class="logo" alt="Mapbender 3" src="{{ asset(fom.server_logo)}}" /></a>
+    </div>
+    {% block box_content %}{% endblock %}
+  </div>
+{% endblock %}

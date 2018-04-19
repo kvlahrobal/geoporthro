@@ -1,0 +1,55 @@
+{% extends "FOMManagerBundle::manager.html.twig" %}
+
+{% block title %}{{ "mapbender.workflowbundle.workflow.index.workflows" | trans }}{% endblock %}
+
+{% block css %}
+    {{parent()}}
+{% endblock %}
+
+{% block js %}
+    {{parent()}}
+    <script type="text/javascript" src="{{ asset('bundles/mapbendermanager/js/application-list.js') }}"></script>
+{% endblock %}
+
+{% block manager_content %}
+
+    {% if workflows | length > 0 %}
+        <label for="inputFilterApplications" class="labelInput left">{{"mapbender.workflowbundle.workflow.index.workflow"|trans}}:</label><input id="inputFilterApplications" type="text" class="input listFilterInput">
+        {% include "MapbenderManagerBundle:Application:actions.html.twig" %}
+
+        <ul id="listFilterApplications" class="listFilterContainer clear listFilterBoxes listFilterApplicationBoxes">
+            {% for workflow in workflows %}
+                <li class="filterItem">
+                    <a target="_blank" href="{#{ path('mapbender_core_application_application', {'slug': application.slug}) }#}" title="{{ 'mapbender.workflowbundle.workflow.index.view' | trans }} {{ workflow.title }}">
+                        <div class="col1 iconAppDefault"></div>
+                    </a>
+                    <div class="col2 box">
+                        <a href="{#{ path('mapbender_core_application_application', {'slug': application.slug}) }#}" class="title" title="{{ 'mapbender.workflowbundle.workflow.index.view_this' | trans }}">
+                            {{ workflow.title }}
+                        </a>
+                        <span class="smallerText">{#{ application.slug }#}</span>
+                        <div class="description">{#{ work.description }#}</div>
+                        <div class="buttonGroup">
+                            {% if is_granted('EDIT', workflow) %}
+                                <a class="iconEdit iconBig" href="{{ path('mapbender_workflow_workflow_edit',  {'wid': workflow.id}) }}" title="{{ 'mapbender.workflowbundle.workflow.index.edit' | trans }} {{ workflow.title }}"></a>
+                            {% endif %}
+
+                            {% if is_granted('DELETE', workflow) %}
+                                <span class="iconRemove iconBig"
+                                      title="{{'mapbender.workflowbundle.workflow.index.delete'|trans}} {{ workflow.title }}"
+                                      data-url="{{ path('mapbender_workflow_workflow_confirmdelete', { 'wid': workflow.id}) }}"
+                                      data-slug="{{ workflow.id }}"
+                                      ></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="clearContainer"></div>
+    {% else %}
+        <span class="description">{{ 'mapbender.workflowbundle.workflow.index.no_workflow' | trans }}</span>
+    {% endif %}
+    <div class="clearContainer"></div>
+
+{% endblock %}

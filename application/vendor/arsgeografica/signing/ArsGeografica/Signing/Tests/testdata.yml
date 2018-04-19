@@ -1,0 +1,6 @@
+secretKey: MySecretKeyForSigning
+salt: ArsGeograficaSigningSigner
+data:
+    -
+        in: Hello World
+        sign: Hello World:USq84n1jg6RFmvAImiF9WVLxj8I

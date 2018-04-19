@@ -1,0 +1,179 @@
+{% if metadata.contenttype == 'html' %}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>Metadata</title>
+        <meta name="description" content="Metadata" xml:lang="en" />
+        <meta name="keywords" content="Metadata" xml:lang="en" />
+        <meta http-equiv="cache-control" content="no-cache"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="content-language" content="en" />
+        <meta http-equiv="content-style-type" content="text/css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <!--link type="text/css" href="../css/metadata.css" rel="Stylesheet" />
+        <link type="text/css" href="../extensions/jquery-ui-1.8.1.custom/css/custom-theme/jquery-ui-1.8.5.custom.css" rel="Stylesheet" />
+        <script type="text/javascript" src="../extensions/jquery-ui-1.8.1.custom/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="../extensions/jquery-ui-1.8.1.custom/js/jquery-ui-1.8.1.custom.min.js"></script>
+        <script type="text/javascript">
+            /*$(function(){
+                $("#tabs").tabs();
+            });*/
+        </script-->
+    </head>
+    <body>
+{% endif %}
+        {% if metadata.container == 'tabs' %}
+        <div class="tabContainerAlt metadataContainer">
+            <ul class="tabs">
+            {% for section in metadata.sections %}
+                {% set vt=prefix~section.title %}
+                <li id="tab{{loop.index}}" class="tab{% if loop.first %} active{% endif %}">{{ vt | trans}}</li>
+            {% endfor %}
+            </ul>
+            {% for section in metadata.sections %}
+            <div id="container{{loop.index}}" class="container{% if loop.first %} active{% endif %}">
+            {% for item in section.items %}
+                {% for key,val in item %}
+                {% set vt=prefix~section.title~'.'~key %}
+                <div class="labelText">{{ vt | trans}}</div>
+                <div class="metaText">
+                    {% if '~' in val %}
+                        {% set val_splitted = val|split('~') %}
+                        {% for key,value in val_splitted %}
+                            {{ value }}
+                            {% if not loop.last %}
+                                <br/>
+                            {% endif %}
+                        {% endfor %}
+                    {% elseif '@' in val and ',' in val %}
+                        {% set val_splitted = val|split(',') %}
+                        {% for key,value in val_splitted %}
+                            <a href="mailto:{{ value }}">{{ value }}</a>
+                            {% if not loop.last %}
+                                <br/>
+                            {% endif %}
+                        {% endfor %}
+                    {% elseif '@' in val %}
+                        <a href="mailto:{{ val }}">{{ val }}</a>
+                    {% else %}
+                        {{ val }}
+                    {% endif %}
+                </div>
+                <div class="clearContainer"></div>
+                {% endfor %}
+            {% endfor %}
+            </div>   
+            {% endfor %}        
+        </div>
+        {% elseif metadata.container == 'accordion' %}
+        <div class="accordionContainer metadataContainer">
+        {% for section in metadata.sections %}
+            {% set vt=prefix~section.title %}
+            {% if section.title == 'items' %}
+                <div id="accordion{{loop.index}}" class="accordion{% if loop.first %} active{% endif %}"><div class="tablecell">Bestandteile des Kartenthemas, Aktualität und Autorenschaft</div></div>
+            {% else %}
+                <div id="accordion{{loop.index}}" class="accordion{% if loop.first %} active{% endif %}"><div class="tablecell">{{ vt | trans}}</div></div>
+            {% endif %}
+            <div id="container{{loop.index}}" class="container-accordion{% if loop.first %} active{% endif %}">
+                <div class="accordion-cell">
+                    <div class="accordion-wrapper">
+                        <div>
+                    {% if section.title == 'items' %}
+                        {% include "MapbenderCoreBundle::metadata_item.html.twig"  with {'items': section.items, 'itemLevel': 1 }%}
+                    {% else %}
+                    {% for item in section.items %}
+                        {% for key,val in item %}
+                            {% set vt=prefix~section.title~'.'~key %}
+                            {% if vt == 'mb.wms.metadata.section.common.originUrl' %}
+                                <div class="labelText">WMS</div>
+                                <div class="metaText"><a href="{{val}}" target="_blank">{{val}}</a></div>
+                            {% else %}
+                                <div class="labelText">{{ vt | trans}}</div>
+                                {% if vt == 'mb.wms.metadata.section.common.wcsUrl' or vt == 'mb.wms.metadata.section.common.wfsUrl' %}
+                                    <div class="metaText"><a href="{{val}}" target="_blank">{{val}}</a></div>
+                                {% elseif vt == 'mb.wms.metadata.section.common.ckanId' %}
+                                    <div class="metaText"><a href="https://www.opendata-hro.de/dataset/{{val}}" target="_blank">https://www.opendata-hro.de/dataset/{{val}}</a></div>
+                                {% else %}
+                                    <div class="metaText">
+                                        {% if '~' in val %}
+                                            {% set val_splitted = val|split('~') %}
+                                            {% for key,value in val_splitted %}
+                                                {{ value }}
+                                                {% if not loop.last %}
+                                                    <br/>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elseif '@' in val and ',' in val %}
+                                            {% set val_splitted = val|split(',') %}
+                                            {% for key,value in val_splitted %}
+                                                <a href="mailto:{{ value }}">{{ value }}</a>
+                                                {% if not loop.last %}
+                                                    <br/>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% elseif '@' in val %}
+                                            <a href="mailto:{{ val }}">{{ val }}</a>
+                                        {% else %}
+                                            {{ val|replace({'Hansestadt Rostock': "Hanse- und Universitätsstadt Rostock"}) }}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="clearContainer"></div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                        </div>
+                    </div> 
+                </div> 
+            </div>   
+        {% endfor %}        
+        </div>
+        {% else %}
+        <div class="metadataContainer">
+        {% for section in metadata.sections %}
+            {% set vt=prefix~section.title %}
+            <div>{{ vt | trans}}</div>
+            <div>
+            {% if section.title == 'item' %}
+
+            {% else %}
+            {% for item in section.items %}
+                {% for key,val in item %}
+                {% set vt=prefix~section.title~'.'~key %}
+                <div class="labelText">{{ vt | trans}}</div>
+                <div class="metaText">
+                    {% if '~' in val %}
+                        {% set val_splitted = val|split('~') %}
+                        {% for key,value in val_splitted %}
+                            {{ value }}
+                            {% if not loop.last %}
+                                <br/>
+                            {% endif %}
+                        {% endfor %}
+                    {% elseif '@' in val and ',' in val %}
+                        {% set val_splitted = val|split(',') %}
+                        {% for key,value in val_splitted %}
+                            <a href="mailto:{{ value }}">{{ value }}</a>
+                            {% if not loop.last %}
+                                <br/>
+                            {% endif %}
+                        {% endfor %}
+                    {% elseif '@' in val %}
+                        <a href="mailto:{{ val }}">{{ val }}</a>
+                    {% else %}
+                        {{ val|replace({'Hansestadt Rostock': "Hanse- und Universitätsstadt Rostock"}) }}
+                    {% endif %}
+                </div>
+                <div class="clearContainer"></div>
+                {% endfor %}
+            {% endfor %}
+            {% endif %}
+            </div>   
+        {% endfor %}        
+        </div>
+        {% endif %}
+{% if metadata.contenttype == 'html' %}        
+    </body>
+</html>
+{% endif %}

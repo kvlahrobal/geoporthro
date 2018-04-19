@@ -1,0 +1,27 @@
+<div id="{{ id }}" class="mb-element mb-element-basesearchtwo" data-title="{{ title }}">
+    <div id="opr-search-select-two" style="width:180px" class="dropdown" title="Basissuche auswählen">
+        <select id="search-select-two" class="hiddenDropdown">
+        {% for opt in configuration.options %}
+          {% if opt == 'mv_addr' %}
+            <option value="mv_addr"{% if loop.first %} selected="true" {% endif %}>{{ 'Adressen' | trans }}</option>
+          {% elseif opt == 'mv_flur' %}
+            <option value="mv_flur"{% if loop.first %} selected="true" {% endif %}>{{ 'Flurstücke' | trans }}</option>
+          {% endif %}
+        {% endfor %}
+        </select>
+        <div class="dropdownValue iconDown"></div>
+        <ul class="dropdownList"></ul>
+    </div> 
+    <span id="removeResults" class="removeResultsButton button critical right" title="Sucheingabefeld und Liste mit Suchresultaten leeren sowie Objektmarkierungen aus Karte entfernen">{{ "Zurücksetzen"|trans}}</span>
+    <div class="search">   
+        <div class="clearContainer"></div>
+        <div class="inputWrapper">  
+            <input type="text" id="search-two" name="search" class="input left validationInput" title="Sucheingabefeld" placeholder="Sucheingabe…" />
+            <span class="clearer" id="clear-search-two"><i class="fa fa-times" title="Sucheingabefeld und Liste mit Suchresultaten leeren"></i></span>
+            <input type="hidden" id="page-two" name="page" value="1" />
+        </div>
+        <div class="clearContainer"></div>
+        <div class="basesearchtwocontent"></div>
+    </div>
+    <div class="clearContainer"></div>
+</div>

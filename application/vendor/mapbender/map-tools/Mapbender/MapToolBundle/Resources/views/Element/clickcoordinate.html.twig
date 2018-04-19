@@ -1,0 +1,25 @@
+<div id="{{ id }}" class="mb-element mb-element-mapcoordinate hidden" data-title="{{ title |trans }}">
+    <div class="block coords-extern">
+        <p>{{ "mb.maptool.clickcoordinate.extern.crs.title" | trans }}</p>
+        <div class="dropdown" title="{{ "mb.maptool.clickcoordinate.extern.crs.tooltip" | trans }}">
+            <select class="hiddenDropdown inputSrs"></select>
+            <div class="dropdownValue iconDown"></div>
+            <ul class="dropdownList"></ul>
+        </div>
+        <div class="input-to-clipboard">
+            <input class="input-readonly inputCoordinate" type="text" title="{{ "mb.maptool.clickcoordinate.extern.input_coords.tooltip" | trans }}" readonly="true"/>
+            <div class="icon iconBig copyClipBoard" title="{{ "mb.maptool.clickcoordinate.copytoclipboard.tooltip" | trans }}"></div>
+        </div>
+    </div>
+    <div class="block coords-intern">
+        <p>{{ "mb.maptool.clickcoordinate.intern.coords.title" | trans }}</p>
+        <div class="input-to-clipboard">
+            <input class="input-readonly mapCoordinate" type="text" title="{{ "mb.maptool.clickcoordinate.intern.coords.title" | trans }}" readonly="true"/>
+            <div class="icon iconBig copyClipBoard" title="{{ "mb.maptool.clickcoordinate.copytoclipboard.tooltip" | trans }}"></div>
+        </div>
+    </div>
+    <div class="buttonGroup">
+        <span class="button resetFields critical left">{{ "mb.maptool.clickcoordinate.button.reset" | trans }}</span>
+        <span class="button readFromMap right hiden" data-modelname="GetCoordinateModel"></span>
+    </div>
+</div>

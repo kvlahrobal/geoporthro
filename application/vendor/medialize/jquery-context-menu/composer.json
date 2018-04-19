@@ -1,0 +1,25 @@
+{
+  "name":  "medialize/jquery-context-menu",
+  "type": "component",
+  "homepage": "http://medialize.github.com/jQuery-contextMenu/",
+  "authors": [
+     {"name": "Rodney Rehm", "email": "rodney.rehm@medialize.de"}
+  ],
+  "description": "Full featured context menu handler capable of handling thousands of elements",
+  "keywords": ["contextmenu", "context-menu", "right-click-menu", "right-click", "navigation", "menu"],
+  "license": "MIT",
+  "require": {
+    "robloach/component-installer": "*"
+  },
+  "extra": {
+	"component": {
+		"scripts": ["src/jquery.ui.position.js","src/jquery.contextMenu.js"],
+		"styles": ["src/jquery.contextMenu.css"],
+		"files": ["src/images/*.png"]
+	}
+  },
+  "config": {
+    "bin-dir": "bin",
+    "component-dir": "web/assets"
+  }
+}

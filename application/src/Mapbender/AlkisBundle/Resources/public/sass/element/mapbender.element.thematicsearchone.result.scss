@@ -1,0 +1,111 @@
+@import "libs/variables";
+@import "libs/mixins";
+@import "modules/text";
+@import "modules/input";
+
+.thematicsearchonecontent{
+    .search-result-navi{
+      border-bottom: 3px solid $secondColor;
+      height:$fontSize*2;
+      margin-bottom:$space/4;
+    }
+  .results{
+    @extend .subTitle;
+    font-size:$fontSize*1.2;
+    margin-top:$space/4;
+    margin-bottom:$space/4;
+  }
+  .clickable{
+    cursor:pointer;
+    margin-bottom: 5px;
+  }
+  .even {
+    color: rgba(100, 100, 100, 0.7);
+  }
+  .even:hover {
+    color: #646464;
+  }
+  .noPage{color:$thirdColor;}
+  .document, .eigen, .grund{@extend .subTitle;}
+}
+
+/* PAGING */
+.paging {
+    height: 20px;
+    position: relative;
+    border: 0;
+    margin: 0 0 10px 0;
+}
+
+.paging .prev-page,
+.paging .current-page,
+.paging .next-page {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.paging .prev-page {
+    left: 0;
+    width: 80px;
+    text-align: left;
+}
+
+.paging .next-page {
+    right: 0;
+    width: 80px;
+    text-align: right;
+}
+
+.paging .current-page {
+    cursor: default;
+    left: 80px;
+    right: 80px;
+    text-align: center;
+}
+
+.iconPaging-back, .iconPaging-first-page, .iconPaging-next, .iconPaging-last-page {
+    text-align: center;
+    width: 25px;
+    cursor: pointer;
+    line-height: 21px;
+    vertical-align: middle;
+}
+
+.iconPaging-back, .iconPaging-first-page {
+    text-align: left;
+}
+
+.iconPaging-next, .iconPaging-last-page {
+    text-align: right;
+}
+
+.iconPaging-back:hover, .iconPaging-first-page:hover, .iconPaging-next:hover, .iconPaging-last-page:hover {
+    color: #A7C833;
+}
+
+.iconPaging-back, .iconPaging-first-page {
+    float: left;
+    margin-right: 5px;
+}
+
+.iconPaging-next, .iconPaging-last-page {
+    float: right;
+    margin-left: 5px;
+}
+
+.iconPaging-back:before {
+    content:"\f053";
+}
+
+.iconPaging-first-page:before {
+    content:"\f048";
+}
+
+.iconPaging-next:before {
+    content:"\f054";
+}
+
+.iconPaging-last-page:before {
+    content:"\f051";
+}

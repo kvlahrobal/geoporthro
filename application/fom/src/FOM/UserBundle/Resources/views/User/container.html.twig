@@ -1,0 +1,94 @@
+<div id="userGroupTabContainer" class="tabContainer userGroupTabContainer userTabContainer">
+  <ul class="tabs">
+    <li id="tabBaseData" class="tab active">{{"fom.user.user.container.base_data" | trans }}</li>
+    {% if form.profile is defined %}
+      <li id="tabProfile" class="tab">{{"fom.user.user.container.profile" | trans }}</li>
+    {% endif %}
+    <li id="tabGroups" class="tab">{{"fom.user.user.container.groups" | trans }}</li>
+    <li id="tabSecurity" class="tab">{{"fom.user.user.container.security" | trans }}</li>
+  </ul>
+
+  <div id="containerBaseData" class="container active containerBaseData">
+    {#{{ form_label(form.username) }}#}
+    <label class="left labelInput" for="{{ form.username.vars.id }}">{{"fom.user.user.container.username" | trans}}:<span class="required">*</span></label>
+    {{ form_widget(form.username, { 'disabled': (form.groups is not defined) }) }}
+    <div class="clearContainer"></div>
+    {{ form_label(form.email) }}
+    {{ form_widget(form.email) }}
+    <div class="clearContainer"></div>
+
+    {% for pw in form.password %}
+      {% if pw.vars['name'] == 'first' %}
+        <label class="left labelInput" for="{{ pw.vars['id'] }}">{{"fom.user.user.container.choose_password" | trans}}:<span class="required">*</span></label>
+      {% else %}
+        <label class="left labelInput" for="{{ pw.vars['id'] }}">{{"fom.user.user.container.confirm_password" | trans}}:<span class="required">*</span></label>
+      {% endif %}
+      {{ form_widget(pw) }}
+    {% endfor %}
+    {% if form.activated is defined %}
+    {{ form_widget(form.activated) }}<label for="{{form.activated.vars.id}}" class="labelCheck">{{"fom.user.user.container.activated"|trans}}</label>
+    <div class="clearContainer"></div>
+    {% endif %}
+  </div>
+  {% if form.profile is defined %}
+  <div id="containerProfile" class="container containerProfile">
+      {% if profile_template %}
+          {% include profile_template %}
+      {% else %}
+          {{ form_widget(form.profile) }}
+      {% endif %}
+  </div>
+  {% endif %}
+
+  <div id="containerGroups" class="container containerGroups">
+  {% if form.groups is defined %}
+    {% if form.groups|length > 0 %}
+
+      {% set group_count = '<span>' ~ user.groups | length ~ '</span>' %}
+
+      <label for="inputFilterUsers" class="labelInput left">{{"fom.user.user.container.filter"|trans}}</label>
+      <input id="inputFilterUsers" type="text" class="input left listFilterInput"/>
+      <div class="clearContainer"></div>
+
+      <table id="listFilterUsers" class="listFilterContainer tableCore tableUserGroups" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr class="doNotFilter">
+            <th>{{"fom.user.user.container.name"|trans}}</th>
+            <th class="description"><span id="selectedUsersGroups">{{user.groups | length}}</span> {{ 'fom.user.user.container.users_of_selected' | trans ({'%users_count%': form.groups|length }) }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in form.groups %}
+            <tr class="filterItem">
+              <td colspan="2">
+                <div class="tdContentWrapper iconGroup">
+                  {{ form_label(group) }}
+                  {{ form_widget(group) }}
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+      <p class="description left">{{"fom.user.user.container.no_goups_defined."|trans}}</p>
+      <div class="clearContainer"></div>
+    {% endif %}
+  {% else %}
+    <p>{{ 'fom.user.user.container.manage_not_allowed' | trans }}</p>
+  {% endif %}
+  </div>
+
+  <div id="containerSecurity" class="container containerSecurity">
+    {% if form.acl is defined %}
+    <a id="addPermission" href="{{path('fom_user_acl_overview')}}" class="iconAdd iconBig right" title="{{'fom.user.user.container.add_users_groups'|trans}}"></a>
+    <div class="clearContainer"></div>
+    {{ form_widget(form.acl) }}
+    {% else %}
+    <p>{{ 'fom.user.user.container.manage_not_allowed_security'|trans }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="clearContainer"></div>

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="mapbender.twig.workflow_task.class">Mapbender\WorkflowBundle\Extension\TaskExtension</parameter>
+    </parameters>
+    <services>
+        <service id="mapbender.twig.workflow_task" class="%mapbender.twig.workflow_task.class%">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension"/>
+        </service>
+    </services>
+</container>

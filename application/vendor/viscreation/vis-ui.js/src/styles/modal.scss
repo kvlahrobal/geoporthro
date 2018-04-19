@@ -1,0 +1,104 @@
+@mixin vertical-align-middle {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/**
+* Form elements!
+*/
+.modal-body {
+  .form-group, .checkbox {
+    position: relative;
+
+    &.image-container{
+      > img{
+        @include vertical-align-middle;
+      }
+    }
+
+    &.file-container{
+      .progress-bar{
+        transition: none;
+      }
+    }
+
+    &.text{
+      > .text{
+        font-size: 12px;
+        line-height: 29px;
+      }
+    }
+
+    > a.infoText {
+      display: block;
+      position: absolute;
+      bottom: -1px;
+      right: 0px;
+      font-size: 0;
+      color: #9999A9;
+      opacity: 0.6;
+      cursor: default;
+      text-decoration: none;
+
+      &:hover{
+        opacity: 1;
+      }
+
+      &:after {
+        display: inline-block;
+        font-family: FontAwesome;
+        content: "\f05a";
+        font-size:14px;
+        line-height: 30px;
+        vertical-align: middle;
+        margin-right: 7px;
+      }
+    }
+
+    &.has-title {
+      > a.infoText {
+        display: inline-block;
+        position: absolute;
+        bottom: inherit;
+        right: inherit;
+        &:after{
+          line-height: inherit;
+          vertical-align: top;
+          margin-left: 3px;
+          margin-top: 1px;
+        }
+      }
+    }
+
+    &.select-container{
+      > a.infoText{
+        bottom: inherit;
+        right: 15px;
+      }
+      &.has-title{
+        > a.infoText{
+          right: auto;
+        }
+      }
+    }
+    &.textarea-container{
+      > a.infoText{
+        bottom: inherit;
+      }
+    }
+  }
+
+  .checkbox{
+    > a.infoText {
+      display: inline-block;
+      position: absolute;
+      bottom: inherit;
+      right: inherit;
+      margin-top: -4px;
+      z-index: 1;
+    }
+  }
+}

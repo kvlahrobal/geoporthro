@@ -1,0 +1,32 @@
+{
+  "name": "eslider/sasscb",
+  "description": "SASS compiler binaries",
+  "keywords": [
+    "scss",
+    "compiler",
+    "assets",
+    "compression",
+    "minification"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andriy Oblivantsev",
+      "email": "eslider@gmail.com",
+      "homepage": "https://github.com/eSlider"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.1"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "autoload": {
+    "psr-0": { "Eslider\\": "src/" }
+  },
+  "suggest": {
+    "kriswallsmith/assetic": "Asset Management for PHP"
+  }
+}

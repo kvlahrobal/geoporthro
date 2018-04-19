@@ -1,0 +1,51 @@
+# Per default, the application list is the start page. You may change that to fit your project's needs.
+mapbender_start:
+    pattern: "/"
+    defaults: { _controller: MapbenderCoreBundle:Welcome:list}
+
+mapbender_corebundle:
+    resource: "@MapbenderCoreBundle/Controller/"
+    type: annotation
+
+mapbender_managerbundle:
+    resource: "@MapbenderManagerBundle/Controller/"
+    type: annotation
+
+mapbender_wmsbundle:
+    resource: "@MapbenderWmsBundle/Controller/"
+    type: annotation
+
+mapbender_wmtsbundle:
+    resource: "@MapbenderWmtsBundle/Controller/"
+    type: annotation
+
+fom_managerbundle:
+    resource: "@FOMManagerBundle/Controller"
+    type: annotation
+
+fom_userbundle:
+    resource: "@FOMUserBundle/Controller"
+    type: annotation
+
+ows_corebundle:
+    resource: "@OwsProxy3CoreBundle/Controller/"
+    prefix: "/owsproxy"
+    type: annotation
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+mapbender_alkisbundle:
+    resource: "@MapbenderAlkisBundle/Controller/"
+    type: annotation
+    prefix: "/alkis"
+    
+mapbender_workflowbundle:
+    resource: "@MapbenderWorkflowBundle/Controller/"
+    type: annotation
+#    prefix: "/workflow"
+
+     
+mapbender_ldapintegration:
+    resource: "@MapbenderLdapIntegrationBundle/Controller/"
+    type: annotation

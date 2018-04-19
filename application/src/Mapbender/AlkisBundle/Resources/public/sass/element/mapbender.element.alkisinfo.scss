@@ -1,0 +1,29 @@
+@import "libs/variables";
+@import "libs/mixins";
+@import "libs/icons";
+@import "modules/button";
+@import "modules/text";
+
+.mb-element-alkisinfo{
+  iframe.alkisInfoFrame{
+    width: 100%;
+    border-width: 0px;
+    min-height: 400px;
+  }
+}
+
+.mb-element-alkisinfo-mobile{
+  height: 100%;
+  width: 100%;
+  iframe.alkisInfoFrame{
+    height: 100%;
+    width: 100%;
+    border: none;
+    display: block;
+  }
+}
+
+.alkisDialog{
+  margin-left: 50px !important;
+  margin-top: 50px !important;
+}

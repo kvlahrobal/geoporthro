@@ -1,0 +1,10 @@
+{% if configuration.type == 'element' %}
+<div id="{{ id }}" class="mb-element mb-element-alkisinfo-mobile hidden" data-title="{{ title |trans }}">
+{% else %}
+<div id="{{ id }}" class="mb-element mb-element-alkisinfo hidden" data-title="{{ title |trans }}">
+{% endif %}
+    <div class="js-header-parent js-content-parent">
+        <div id="" class="js-header js-header-content" data-idname="common"></div>
+        <div id="" class="js-content js-content-content" data-idname="content"></div>
+    </div>
+</div>

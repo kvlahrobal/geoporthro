@@ -1,0 +1,15 @@
+<header>
+{{ 'fom.user.acl.required' | trans }}
+</header>
+
+{###############################################################################
+    Render any remaining fields inside the rulers to make you aware you forgot
+    them
+###############################################################################}
+{% set form_rest = form_rest(form) %}
+{% if form_rest %}
+<hr />
+{{ form_rest | raw }}
+<hr />
+{% endif %}
+

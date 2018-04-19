@@ -1,0 +1,53 @@
+<div id="{{ id }}" class="mb-element mb-element-thematicsearchone" data-title="{{ title }}">
+    <div id="opr-search-select-thematic-one" style="width:250px" class="dropdown" title="Themasuche auswählen">
+        <select id="search-select-thematic-one" class="hiddenDropdown">
+        {% for opt in configuration.options %}
+          {% if opt == 'anundverkauf' %}
+            <option value="anundverkauf"{% if loop.first %} selected="true" {% endif %}>{{ 'An- und Verkauf' | trans }}</option>
+          {% elseif opt == 'anlagevermoegendereigenbetriebe' %}
+            <option value="anlagevermoegendereigenbetriebe"{% if loop.first %} selected="true" {% endif %}>{{ 'Anlagevermögen der Eigenbetriebe' | trans }}</option>
+          {% elseif opt == 'baumkataster' %}
+            <option value="baumkataster"{% if loop.first %} selected="true" {% endif %}>{{ 'Baumkataster' | trans }}</option>
+          {% elseif opt == 'bebauungsplaene' %}
+            <option value="bebauungsplaene"{% if loop.first %} selected="true" {% endif %}>{{ 'Bebauungspläne' | trans }}</option>
+          {% elseif opt == 'bebauungsplaene_nur_rk' %}
+            <option value="bebauungsplaene_nur_rk"{% if loop.first %} selected="true" {% endif %}>{{ 'Bebauungspläne' | trans }}</option>
+          {% elseif opt == 'betriebegewerblicherart' %}
+            <option value="betriebegewerblicherart"{% if loop.first %} selected="true" {% endif %}>{{ 'Betriebe gewerblicher Art' | trans }}</option>
+          {% elseif opt == 'grundvermoegen' %}
+            <option value="grundvermoegen"{% if loop.first %} selected="true" {% endif %}>{{ 'Grundvermögen' | trans }}</option>
+          {% elseif opt == 'gruenfriedhofsflaechen' %}
+            <option value="gruenfriedhofsflaechen"{% if loop.first %} selected="true" {% endif %}>{{ 'Grünflächen und Friedhofsbegleitflächen' | trans }}</option>
+          {% elseif opt == 'gruenpflegeobjekte' %}
+            <option value="gruenpflegeobjekte"{% if loop.first %} selected="true" {% endif %}>{{ 'Grünpflegeobjekte' | trans }}</option>
+          {% elseif opt == 'ingenieurbauwerke' %}
+            <option value="ingenieurbauwerke"{% if loop.first %} selected="true" {% endif %}>{{ 'Ingenieurbauwerke' | trans }}</option>
+          {% elseif opt == 'leuchten' %}
+            <option value="leuchten"{% if loop.first %} selected="true" {% endif %}>{{ 'Leuchten' | trans }}</option>
+          {% elseif opt == 'lichtsignalanlagen' %}
+            <option value="lichtsignalanlagen"{% if loop.first %} selected="true" {% endif %}>{{ 'Lichtsignalanlagen' | trans }}</option>
+          {% elseif opt == 'mietenpachten' %}
+            <option value="mietenpachten"{% if loop.first %} selected="true" {% endif %}>{{ 'Mieten und Pachten' | trans }}</option>
+          {% elseif opt == 'spielgeraete' %}
+            <option value="spielgeraete"{% if loop.first %} selected="true" {% endif %}>{{ 'Spielgeräte' | trans }}</option>
+          {% elseif opt == 'wirtschaftseinheiten_wiro' %}
+            <option value="wirtschaftseinheiten_wiro"{% if loop.first %} selected="true" {% endif %}>{{ 'WIRO-Wirtschaftseinheiten' | trans }}</option>
+          {% endif %}
+        {% endfor %}
+        </select>
+        <div class="dropdownValue iconDown"></div>
+        <ul class="dropdownList"></ul>
+    </div> 
+    <span id="removeResults" class="removeResultsButton button critical right" title="Sucheingabefeld und Liste mit Suchresultaten leeren sowie Objektmarkierungen aus Karte entfernen">{{ "Zurücksetzen"|trans}}</span>
+    <div class="search">   
+        <div class="clearContainer"></div>
+        <div class="inputWrapper">  
+            <input type="text" id="search-thematic-one" name="search" class="input left validationInput" title="Sucheingabefeld" placeholder="Sucheingabe…" />
+            <span class="clearer" id="clear-search-thematic-one"><i class="fa fa-times" title="Sucheingabefeld und Liste mit Suchresultaten leeren"></i></span>
+            <input type="hidden" id="page-thematic-one" name="page" value="1" />
+        </div>
+        <div class="clearContainer"></div>
+        <div class="thematicsearchonecontent"></div>
+    </div>
+    <div class="clearContainer"></div>
+</div>

@@ -1,0 +1,11 @@
+
+.mb-poi-popup textarea {
+  @extend .input;
+  width: 100%;
+  height: 90px;
+}
+
+.span-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

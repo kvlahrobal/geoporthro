@@ -1,0 +1,16 @@
+{% extends "FOMUserBundle:Login:box.html.twig" %}
+
+{% block title %} {{ 'fom.user.login.error_notocken.password_reset' | trans}} {% endblock %}
+
+{% block box_content %}
+    <div class="loginBox">
+        <h2 class="contentTitle">{{ 'fom.user.login.error_notocken.sorry' | trans}}</h2>
+        <span class="description">{{ 'fom.user.login.error_notocken.no_such_tocken' | trans }}</span>
+        <div class="clearContainer"></div>
+        {% if site_email is defined %}
+        <a class="linkButton iconLinkButton right" href="mailto:{{site_email}}">{{ 'fom.user.login.error_notocken.contact' | trans }}</a>
+        {% endif %}
+        <a class="left iconLinkButton linkButton" href="{{ path('fom_user_login_login') }}">{{ "fom.user.login.error_notocken.back_to_login"|trans}}</a>
+        <div class="clearContainer"></div>
+    </div>
+{% endblock %}

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="405f906677efc5354f24ea46ccb73e74" resname="mapbender.workflowbundle.mapbenderworkflowbundle.components">
+        <source>mapbender.workflowbundle.mapbenderworkflowbundle.components</source>
+        <target>Serverkomponente</target>
+      </trans-unit>
+      <trans-unit id="a42eaf9253c32dae001d504afcab1ce9" resname="mapbender.workflowbundle.mapbenderworkflowbundle.workflows">
+        <source>mapbender.workflowbundle.mapbenderworkflowbundle.workflows</source>
+        <target>Workflows</target>
+      </trans-unit>
+      <trans-unit id="8108673d14eeaa8da03ada9bfe92d664" resname="mapbender.workflowbundle.mapbenderworkflowbundle.new_workflow">
+        <source>mapbender.workflowbundle.mapbenderworkflowbundle.new_workflow</source>
+        <target>New workflow</target>
+      </trans-unit>
+      <trans-unit id="9872f8cefd01230968bc6651863b1fcb" resname="mapbender.workflowbundle.mapbenderworkflowbundle.monitoring">
+        <source>mapbender.workflowbundle.mapbenderworkflowbundle.monitoring</source>
+        <target>Monitoring</target>
+      </trans-unit>
+      <trans-unit id="31fb39c4b4a2e19373739af6d2854706" resname="mapbender.workflowbundle.mapbenderworkflowbundle.new_scheduler">
+        <source>mapbender.workflowbundle.mapbenderworkflowbundle.new_scheduler</source>
+        <target>New scheduler</target>
+      </trans-unit>
+      <trans-unit id="9cd160ee7a07275ca8eaa85be9215eba" resname="mapbender.workflowbundle.component.sourceping.title">
+        <source>mapbender.workflowbundle.component.sourceping.title</source>
+        <target>Source-Ping</target>
+      </trans-unit>
+      <trans-unit id="0babe6ed51fbf4cff797df6ab07f797e" resname="mapbender.workflowbundle.component.sourceping.description">
+        <source>mapbender.workflowbundle.component.sourceping.description</source>
+        <target>Source-Ping Komponent prüft, ob die Quelle erreichbar ist.</target>
+      </trans-unit>
+      <trans-unit id="53803895fbf1d9e828ca0aecd641ce0e" resname="mapbender.workflowbundle.component.sourceping.tag.ping">
+        <source>mapbender.workflowbundle.component.sourceping.tag.ping</source>
+        <target>ping</target>
+      </trans-unit>
+      <trans-unit id="dd47fa532f5fcb3967bf8f09bc6d29c7" resname="mapbender.workflowbundle.component.sourceping.tag.wms">
+        <source>mapbender.workflowbundle.component.sourceping.tag.wms</source>
+        <target>source</target>
+      </trans-unit>
+      <trans-unit id="498b7ddcb12d86f904b409fa7f3a1eaa" resname="mapbender.workflowbundle.component.sourceping.tag.workflow">
+        <source>mapbender.workflowbundle.component.sourceping.tag.workflow</source>
+        <target>workflow</target>
+      </trans-unit>
+      <trans-unit id="4effcdae98c0dacd7ace56717aa59dde" resname="mapbender.workflowbundle.component.sourceping.tag.task">
+        <source>mapbender.workflowbundle.component.sourceping.tag.task</source>
+        <target>Auftrag</target>
+      </trans-unit>
+      <trans-unit id="a0ce7368c98086f75bdcd6c960ff4c53" resname="mapbender.workflowbundle.component.sourceping.tag.source">
+        <source>mapbender.workflowbundle.component.sourceping.tag.source</source>
+        <target>Quelle</target>
+      </trans-unit>
+      <trans-unit id="092e876a661879702a08012f5dbc98f0" resname="mapbender.workflowbundle.workflow.index.workflows">
+        <source>mapbender.workflowbundle.workflow.index.workflows</source>
+        <target>Workflows</target>
+      </trans-unit>
+      <trans-unit id="424ad9a1bae7ccf53a8309bdce120df9" resname="mapbender.workflowbundle.workflow.index.workflow">
+        <source>mapbender.workflowbundle.workflow.index.workflow</source>
+        <target>Workflow</target>
+      </trans-unit>
+      <trans-unit id="a4469a9fa89de6a784ea77e57d971cc5" resname="mapbender.workflowbundle.workflow.index.delete">
+        <source>mapbender.workflowbundle.workflow.index.delete</source>
+        <target>Entfernen</target>
+      </trans-unit>
+      <trans-unit id="0568469f90414a0f9cb340eac3f7e8b0" resname="mapbender.workflowbundle.workflow.index.no_workflow">
+        <source>mapbender.workflowbundle.workflow.index.no_workflow</source>
+        <target>No workflow</target>
+      </trans-unit>
+      <trans-unit id="60bd180adadf9167c64a5d7c1a2b5ded" resname="mapbender.workflowbundle.workflow.index.view">
+        <source>mapbender.workflowbundle.workflow.index.view</source>
+        <target>View</target>
+      </trans-unit>
+      <trans-unit id="817143f8d2935b33eea9d7c31b893185" resname="mapbender.workflowbundle.workflow.index.view_this">
+        <source>mapbender.workflowbundle.workflow.index.view_this</source>
+        <target>View this</target>
+      </trans-unit>
+      <trans-unit id="6ec4506f07d3aad2464e0523fb2505b7" resname="mapbender.workflowbundle.workflow.index.edit">
+        <source>mapbender.workflowbundle.workflow.index.edit</source>
+        <target>Editieren</target>
+      </trans-unit>
+      <trans-unit id="0130385e8a322f5ddcff2884c3f894a7" resname="mapbender.workflowbundle.workflow.new.new_workflow">
+        <source>mapbender.workflowbundle.workflow.new.new_workflow</source>
+        <target> workflow</target>
+      </trans-unit>
+      <trans-unit id="b3223051e9f057f24c90430a7d5b39b6" resname="mapbender.workflowbundle.workflow.new.base_data">
+        <source>mapbender.workflowbundle.workflow.new.base_data</source>
+        <target>Base data</target>
+      </trans-unit>
+      <trans-unit id="fd01b207e13e91105bbbf07b9b585c3b" resname="mapbender.workflowbundle.workflow.new.btn.create">
+        <source>mapbender.workflowbundle.workflow.new.btn.create</source>
+        <target>Erstellen</target>
+      </trans-unit>
+      <trans-unit id="e7e0ab5993e139913c32f7b52dfe6c18" resname="mapbender.workflowbundle.workflow.new.btn.cancel">
+        <source>mapbender.workflowbundle.workflow.new.btn.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="6295d36f90dfc528b2b05cfc693c3698" resname="mapbender.workflowbundle.workflow.edit.base_data">
+        <source>mapbender.workflowbundle.workflow.edit.base_data</source>
+        <target>Base data</target>
+      </trans-unit>
+      <trans-unit id="1ee10af295920740531b51f144ea2ce4" resname="mapbender.workflowbundle.workflow.edit.tasks">
+        <source>mapbender.workflowbundle.workflow.edit.tasks</source>
+        <target>Aufträge</target>
+      </trans-unit>
+      <trans-unit id="d505c1a2b1efefd4a9a4764da052ebf7" resname="mapbender.workflowbundle.workflow.edit.security">
+        <source>mapbender.workflowbundle.workflow.edit.security</source>
+        <target>Security</target>
+      </trans-unit>
+      <trans-unit id="fec5097541e13146e2ff01e9a653f19c" resname="mapbender.workflowbundle.workflow.edit.save">
+        <source>mapbender.workflowbundle.workflow.edit.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="28592bd43f30929eda7d60df6bcaa27b" resname="mapbender.workflowbundle.workflow.edit.cancel">
+        <source>mapbender.workflowbundle.workflow.edit.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="3c885d30c316fefef078d49553c9c129" resname="mapbender.workflowbundle.task.tasks.title">
+        <source>mapbender.workflowbundle.task.tasks.title</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="381203889c6716b1519c20e7d7c6fa0a" resname="mapbender.workflowbundle.task.tasks.type">
+        <source>mapbender.workflowbundle.task.tasks.type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="90272766e47caf05148244cbed465ca8" resname="mapbender.workflowbundle.task.tasks.add">
+        <source>mapbender.workflowbundle.task.tasks.add</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="37f22fe58347a46f55a1cca9bc88c133" resname="mapbender.workflowbundle.task.tasks.edit">
+        <source>mapbender.workflowbundle.task.tasks.edit</source>
+        <target>Editieren</target>
+      </trans-unit>
+      <trans-unit id="80d9c32b029db359a69ab564119f804a" resname="mapbender.workflowbundle.task.tasks.delete">
+        <source>mapbender.workflowbundle.task.tasks.delete</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="48361b12577a385ca49b70194c85280e" resname="mapbender.workflowbundle.task.tasks.no_task_added">
+        <source>mapbender.workflowbundle.task.tasks.no_task_added</source>
+        <target>Kein Auftrag</target>
+      </trans-unit>
+      <trans-unit id="398c3b6d1173b39822ec91b5159b58e7" resname="mapbender.workflowbundle.scheduler.index.schedulers">
+        <source>mapbender.workflowbundle.scheduler.index.schedulers</source>
+        <target>Scheduler</target>
+      </trans-unit>
+      <trans-unit id="2a3c98a863e0b19e3c8724f65bee1a1b" resname="mapbender.workflowbundle.scheduler.index.scheduler">
+        <source>mapbender.workflowbundle.scheduler.index.scheduler</source>
+        <target>Scheduler</target>
+      </trans-unit>
+      <trans-unit id="b72e5a37e26054bf684fb240059ab4c6" resname="mapbender.workflowbundle.scheduler.index.view">
+        <source>mapbender.workflowbundle.scheduler.index.view</source>
+        <target>View</target>
+      </trans-unit>
+      <trans-unit id="a1b9557fa5e737ee5fb585e5416c307f" resname="mapbender.workflowbundle.scheduler.index.view_this">
+        <source>mapbender.workflowbundle.scheduler.index.view_this</source>
+        <target>View this</target>
+      </trans-unit>
+      <trans-unit id="a4f2d9c18c68c64be024016ba3353f78" resname="mapbender.workflowbundle.scheduler.index.edit">
+        <source>mapbender.workflowbundle.scheduler.index.edit</source>
+        <target>Editieren</target>
+      </trans-unit>
+      <trans-unit id="ec94785d118658e1234f1b9da2f78b70" resname="mapbender.workflowbundle.scheduler.index.delete">
+        <source>mapbender.workflowbundle.scheduler.index.delete</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="a0aed88c5a9a8b0d9b949c958a470c32" resname="mapbender.workflowbundle.scheduler.index.no_scheduler">
+        <source>mapbender.workflowbundle.scheduler.index.no_scheduler</source>
+        <target>Kein Scheduler</target>
+      </trans-unit>
+      <trans-unit id="d4be61d14ac9230ea1b43ca0d371f592" resname="mapbender.workflowbundle.scheduler.edit.base_data">
+        <source>mapbender.workflowbundle.scheduler.edit.base_data</source>
+        <target>Base data</target>
+      </trans-unit>
+      <trans-unit id="4513cd75360aaae138cb1da6c992a83b" resname="mapbender.workflowbundle.scheduler.edit.security">
+        <source>mapbender.workflowbundle.scheduler.edit.security</source>
+        <target>Security</target>
+      </trans-unit>
+      <trans-unit id="81e4c10967d5df80c57164719c46083a" resname="mapbender.workflowbundle.scheduler.edit.save">
+        <source>mapbender.workflowbundle.scheduler.edit.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="39e26cbdac19c55fcd776a2c91eba558" resname="mapbender.workflowbundle.scheduler.edit.cancel">
+        <source>mapbender.workflowbundle.scheduler.edit.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="378d21a3f2fd3968b35f01ff0c7ccc63" resname="mapbender.workflowbundle.scheduler.new.new_scheduler">
+        <source>mapbender.workflowbundle.scheduler.new.new_scheduler</source>
+        <target>Neuer Scheduler</target>
+      </trans-unit>
+      <trans-unit id="0b7ca815ea78f36431ca642e1daf709b" resname="mapbender.workflowbundle.scheduler.new.base_data">
+        <source>mapbender.workflowbundle.scheduler.new.base_data</source>
+        <target>Base data</target>
+      </trans-unit>
+      <trans-unit id="b90b2418e798991a68d40a2583c764e9" resname="mapbender.workflowbundle.scheduler.new.btn.create">
+        <source>mapbender.workflowbundle.scheduler.new.btn.create</source>
+        <target>Create</target>
+      </trans-unit>
+      <trans-unit id="c0cef98ae0653e8a1a19d4e202afc1f7" resname="mapbender.workflowbundle.scheduler.new.btn.cancel">
+        <source>mapbender.workflowbundle.scheduler.new.btn.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="fc4f1506b3952d6a2173263eda88f759" resname="mapbender.workflowbundle.scheduler.icon.refresh">
+        <source>mapbender.workflowbundle.scheduler.icon.refresh</source>
+        <target>Aktualisieren</target>
+      </trans-unit>
+      <trans-unit id="09a7de8a63ee5aaed77a327fce6aa86a" resname="mapbender.workflowbundle.scheduler.icon.report">
+        <source>mapbender.workflowbundle.scheduler.icon.report</source>
+        <target>Report</target>
+      </trans-unit>
+      <trans-unit id="f584b660855796522354c9bedac07302" resname="mapbender.workflowbundle.scheduler.icon.new">
+        <source>mapbender.workflowbundle.scheduler.icon.new</source>
+        <target>Neu</target>
+      </trans-unit>
+      <trans-unit id="15db2bc75c2b9555efc118241a498a34" resname="mapbender.workflowbundle.scheduler.icon.start">
+        <source>mapbender.workflowbundle.scheduler.icon.start</source>
+        <target>Starten</target>
+      </trans-unit>
+      <trans-unit id="429ad803530f08c65934b181d1cca5ee" resname="mapbender.workflowbundle.scheduler.icon.success">
+        <source>mapbender.workflowbundle.scheduler.icon.success</source>
+        <target>Erfolgreich</target>
+      </trans-unit>
+      <trans-unit id="e65dfd3cb0a9318a5b8adf2058aecc5b" resname="mapbender.workflowbundle.scheduler.icon.running">
+        <source>mapbender.workflowbundle.scheduler.icon.running</source>
+        <target>Running</target>
+      </trans-unit>
+      <trans-unit id="1a9729ee4c219548474f676916136420" resname="mapbender.workflowbundle.scheduler.icon.stop">
+        <source>mapbender.workflowbundle.scheduler.icon.stop</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="8b836387ffbb088f4a87722436256144" resname="mapbender.workflowbundle.scheduler.icon.waiting">
+        <source>mapbender.workflowbundle.scheduler.icon.waiting</source>
+        <target>Warteschleife</target>
+      </trans-unit>
+      <trans-unit id="18f7531a850c03a9c2775498a713b24f" resname="mapbender.workflowbundle.scheduler.icon.error">
+        <source>mapbender.workflowbundle.scheduler.icon.error</source>
+        <target>Fehler</target>
+      </trans-unit>
+      <trans-unit id="927e5648ef06f588a3f5ba6055677f2e" resname="mapbender.workflowbundle.scheduler.icon.aborted">
+        <source>mapbender.workflowbundle.scheduler.icon.aborted</source>
+        <target>Abgebrochen</target>
+      </trans-unit>
+      <trans-unit id="e1d62253ad4eb360c967bb645ff70885" resname="mapbender.workflowbundle.scheduler.report.scheduler">
+        <source>mapbender.workflowbundle.scheduler.report.scheduler</source>
+        <target>Scheduler</target>
+      </trans-unit>
+      <trans-unit id="e563cdee330321d3301644ba1164442e" resname="mapbender.workflowbundle.scheduler.report.workflow">
+        <source>mapbender.workflowbundle.scheduler.report.workflow</source>
+        <target>Workflow</target>
+      </trans-unit>
+      <trans-unit id="8d193e4903a420a604eb5a6ec1a96f9b" resname="mapbender.workflowbundle.scheduler.report.task">
+        <source>mapbender.workflowbundle.scheduler.report.task</source>
+        <target>Auftrag</target>
+      </trans-unit>
+      <trans-unit id="aaf0c156b576b62b2db0e037f41d6ee1" resname="mapbender.workflowbundle.scheduler.report.popup.title">
+        <source>mapbender.workflowbundle.scheduler.report.popup.title</source>
+        <target>Report</target>
+      </trans-unit>
+      <trans-unit id="8900a7b5b24162f9757ec7f857a73b5a" resname="mapbender.workflowbundle.scheduler.report.popup.button.cancel">
+        <source>mapbender.workflowbundle.scheduler.report.popup.button.cancel</source>
+        <target>Schließen</target>
+      </trans-unit>
+      <trans-unit id="162833f1510ce91822383a6db97645a9" resname="mapbender.workflowbundle.scheduler.report.sourceping.head.id">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.head.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="81be53b5dcc302443de9167324b8d4c2" resname="mapbender.workflowbundle.scheduler.report.sourceping.head.status">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.head.status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="5d766402c22a825d5a992dd96dd732d2" resname="mapbender.workflowbundle.scheduler.report.sourceping.head.source">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.head.source</source>
+        <target>Source</target>
+      </trans-unit>
+      <trans-unit id="283a7fab0a3278177fc28bff12346bdd" resname="mapbender.workflowbundle.scheduler.report.sourceping.head.last_check">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.head.last_check</source>
+        <target>Letzte Überprüfung</target>
+      </trans-unit>
+      <trans-unit id="8802e0175e7b331a72f6e396f42b95c0" resname="mapbender.workflowbundle.scheduler.report.sourceping.head.last_duration">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.head.last_duration</source>
+        <target>Letzte Dauer (Sek.)</target>
+      </trans-unit>
+      <trans-unit id="14fcdd21f4fcf0f2e90a6417c19093fa" resname="mapbender.workflowbundle.scheduler.report.sourceping.head.stability">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.head.stability</source>
+        <target>Stabilität (%)</target>
+      </trans-unit>
+      <trans-unit id="cf39f7732d440b90ad84382b6b58ac71" resname="mapbender.workflowbundle.scheduler.report.sourceping.message.source_ok">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.message.source_ok</source>
+        <target>Source OK</target>
+      </trans-unit>
+      <trans-unit id="fc3b7ce8265429dce2fdadd057155517" resname="mapbender.workflowbundle.scheduler.report.sourceping.message.source_toupdate">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.message.source_toupdate</source>
+        <target>Aktualisieren Sie Source</target>
+      </trans-unit>
+      <trans-unit id="fd45ac675edd908b4522fb4a3a25d95f" resname="mapbender.workflowbundle.scheduler.report.sourceping.message.source_unreachable">
+        <source>mapbender.workflowbundle.scheduler.report.sourceping.message.source_unreachable</source>
+        <target>Source unerreichbar</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

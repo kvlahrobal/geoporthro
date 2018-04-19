@@ -1,0 +1,80 @@
+    <div id="searchResultsThematicOne">
+    {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
+
+    {% if result.documents is defined %}
+    {% for doc in result.documents %}
+
+        {% set json = doc.json|json_decode %}
+
+        {% if loop.index is odd %}
+            <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="clickable
+        {% else %}
+            <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="even clickable
+        {% endif %}
+        
+             {% if type == 'anundverkauf'%} anundverkauf document
+             {% elseif type == 'anlagevermoegendereigenbetriebe'%} anlagevermoegendereigenbetriebe document
+             {% elseif type == 'baumkataster'%} baumkataster document
+             {% elseif type == 'bebauungsplaene'%} bebauungsplaene document
+             {% elseif type == 'bebauungsplaene_nur_rk'%} bebauungsplaene_nur_rk document
+             {% elseif type == 'betriebegewerblicherart'%} betriebegewerblicherart document
+             {% elseif type == 'grundvermoegen'%} grundvermoegen document
+             {% elseif type == 'gruenfriedhofsflaechen'%} gruenfriedhofsflaechen document
+             {% elseif type == 'gruenpflegeobjekte'%} gruenpflegeobjekte document
+             {% elseif type == 'ingenieurbauwerke'%} ingenieurbauwerke document
+             {% elseif type == 'leuchten' %} leuchten document
+             {% elseif type == 'lichtsignalanlagen' %} lichtsignalanlagen document
+             {% elseif type == 'mietenpachten' %} mietenpachten document
+             {% elseif type == 'spielgeraete' %} spielgeraete document
+             {% elseif type == 'wirtschaftseinheiten_wiro' %} wirtschaftseinheiten_wiro document {% endif %}"
+{#             {% if json.title is defined %} title="{{ json.title }}"{% endif %}#}
+             {% if json.x is defined %} data-x="{{ json.x }}" data-y="{{ json.y }}" {% endif %}
+             {% if json.geom is defined %}data-geom="{{ json.geom }}"{% endif %}
+
+             >
+            {% if type == 'anundverkauf' and json.data.type == 'anundverkauf' %}
+                {{ json.data.flurstueckskennzeichen }}{% if json.data.anundverkauf_aktenzeichen is defined and json.data.anundverkauf_aktenzeichen != null%}, {{ json.data.anundverkauf_aktenzeichen }}{% endif %}, Realnutzungsart {{ json.data.realnutzungsarten }}{% if json.data.anundverkauf_bemerkung is defined and json.data.anundverkauf_bemerkung != null%}, {{ json.data.anundverkauf_bemerkung }}{% endif %}
+            {% elseif type == 'anlagevermoegendereigenbetriebe' and json.data.type == 'anlagevermoegendereigenbetriebe' %}
+                {{ json.data.flurstueckskennzeichen }}{% if json.data.vermoegensbewertung_aktenzeichen is defined and json.data.vermoegensbewertung_aktenzeichen != null%}, {{ json.data.vermoegensbewertung_aktenzeichen }}{% endif %}, Realnutzungsart {{ json.data.realnutzungsarten }}, Wirtschaftseinheit {{ json.data.betriebsvermoegen_wirtschaftseinheit }}
+            {% elseif type == 'baumkataster' and json.data.type == 'baum' %}
+                Baum (Bewirtschafter {{ json.data.bewirtschafter }}, Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Nummer {{ json.data.nummer }})
+            {% elseif type == 'baumkataster' and json.data.type == 'baumgruppe' %}
+                Baumgruppe (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Teil {{ json.data.teil }})
+            {% elseif type == 'baumkataster' and json.data.type == 'baumreihe' %}
+                Baumreihe (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Teil {{ json.data.teil }})
+            {% elseif type == 'bebauungsplaene' and json.data.type == 'bebauungsplaene' %}
+                {{ json.data.nummer }}, {{ json.data.bezeichnung }}{{ json.data.rechtskraeftig }}
+            {% elseif type == 'bebauungsplaene_nur_rk' and json.data.type == 'bebauungsplaene_nur_rk' %}
+                {{ json.data.nummer }}, {{ json.data.bezeichnung }}
+            {% elseif type == 'betriebegewerblicherart' and json.data.type == 'betriebegewerblicherart' %}
+                {{ json.data.flurstueckskennzeichen }}{% if json.data.vermoegensbewertung_aktenzeichen is defined and json.data.vermoegensbewertung_aktenzeichen != null%}, {{ json.data.vermoegensbewertung_aktenzeichen }}{% endif %}, Realnutzungsart {{ json.data.realnutzungsarten }}{% if json.data.bga_bemerkung is defined and json.data.bga_bemerkung != null%}, {{ json.data.bga_bemerkung }}{% endif %}
+            {% elseif type == 'grundvermoegen' and json.data.type == 'grundvermoegen' %}
+                {{ json.data.vermoegensbewertung_aktenzeichen }}
+            {% elseif type == 'gruenfriedhofsflaechen' and json.data.type == 'gruenfriedhofsflaechen' %}
+                {{ json.data.art }} (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Pflegebezeichnung {{ json.data.pflegebezeichnung }}, Teil {{ json.data.teil }})
+            {% elseif type == 'gruenpflegeobjekte' and json.data.type == 'gruenpflegeobjekte' %}
+                Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Objektart {{ json.data.objektart }}
+            {% elseif type == 'ingenieurbauwerke' and json.data.type == 'ingenieurbauwerke' %}
+                {{ json.data.art }}, {{ json.data.nummer_asb }}, {{ json.data.nummer }}
+            {% elseif type == 'leuchten' and json.data.type == 'leuchten' %}
+                Leuchtentragsystem: {{ json.data.tragsystem_nummer }}, {{ json.data.tragsystem_mslink }}; Leuchte: {{ json.data.nummer }}{% if json.data.nummer_zusatz is defined and json.data.bezeichnung != null%}, {{ json.data.nummer_zusatz }}{% endif %}, {{ json.data.mslink }}
+            {% elseif type == 'lichtsignalanlagen' and json.data.type == 'lichtsignalanlagen' %}
+                {{ json.data.nummer }}{% if json.data.bezeichnung is defined and json.data.bezeichnung != null%}, {{ json.data.bezeichnung }}{% endif %}{% if json.data.knoten_nummer is defined and json.data.knoten_nummer != null%}, {{ json.data.knoten_nummer }}{% endif %}
+            {% elseif type == 'mietenpachten' and json.data.type == 'mietenpachten' %}
+                {% if json.data.flaeche is defined and json.data.flaeche == 'g' %}
+                    {{ json.data.aktenzeichen }} – Gesamtfläche
+                {% elseif json.data.flaeche is defined and json.data.flaeche == 't' %}
+                    {{ json.data.aktenzeichen }} – Teilfläche{{ json.data.status }}
+                {% else %}
+                    {{ json.data.aktenzeichen }}{{ json.data.status }}
+                {% endif %}
+            {% elseif type == 'spielgeraete' and json.data.type == 'spielgeraete' %}
+                Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Objektart {{ json.data.objektart }}, Pflegeeinheit {{ json.data.pflegeeinheit }}, Nummer {{ json.data.nummer }}
+            {% elseif type == 'wirtschaftseinheiten_wiro' and json.data.type == 'wirtschaftseinheiten_wiro' %}
+                {{ json.data.nummer }} ({{ json.data.adressen }})
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
+</div>

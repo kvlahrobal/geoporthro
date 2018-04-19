@@ -1,0 +1,25 @@
+{
+    "name": "mapbender/ldapintegration",
+    "version": "0.1.1",
+    "description": "Searchable ldap integration for Mapbender",
+    "keywords": ["mapbender", "ldap"],
+    "type": "library",
+    "license": "ISC",
+    "authors": [
+        {
+            "name": "Arne Schubert <atd.schubert@gmail.com>"
+        }
+    ],
+    "provide": {
+        "ext-ldap": "*"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "imag/ldap-bundle": "2.3.x"
+    },
+    "autoload": {
+        "psr-0": {
+            "Mapbender\\LdapIntegrationBundle": "src/"
+        }
+    }
+}

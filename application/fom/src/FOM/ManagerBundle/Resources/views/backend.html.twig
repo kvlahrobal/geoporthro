@@ -1,0 +1,23 @@
+{% extends "FOMCoreBundle::skel.html.twig" %}
+
+{% block css %}{% endblock %}
+
+{% block content %}
+    {% block backend_content %}{% endblock %}
+{% endblock %}
+
+{% block js %}
+  {{parent()}}
+  {#<!-- WATCHOUT: TODO: Assets -->#}
+  <script type="text/javascript" src="{{ asset('bundles/fomcore/js/widgets/popup.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/fomcore/js/widgets/dropdown.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/fomcore/js/widgets/checkbox.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/fomcore/js/widgets/radiobuttonExtended.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/fomcore/js/components.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/fomcore/js/widgets/collection.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/mapbendercore/mapbender.trans.js')}}"></script>
+  <script type="text/javascript">
+    {% include "FOMCoreBundle::components.json.twig" %}
+    {% include "MapbenderManagerBundle::components.json.twig" %}
+  </script>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% set application = {'slug': 'manager'} %}
+{% extends "FOMManagerBundle::manager.html.twig" %}
+
+{% block title %}{{ "mapbender.workflowbundle.workflow.new.new_workflow" | trans}}{% endblock %}
+
+{% block js %}
+    {{parent()}}
+    <script type="text/javascript" src="{{ asset('bundles/fomuser/js/acl-form.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/mapbendermanager/js/application-edit.js') }}"></script>
+{% endblock %}
+
+{% block manager_content %}
+    <form action="{{ path('mapbender_workflow_workflow_create') }}" method="post" name="{{ form.vars.name }}" {{ form_enctype(form)}} novalidate="novalidate">
+        <div id="applicationTabContainer" class="tabContainer applicationTabContainer">
+            <ul class="tabs">
+                <li id="tabBaseData" class="tab active">{{"mapbender.workflowbundle.workflow.new.base_data" | trans }}</li>
+                <!--li id="tabSecurity" class="tab">{#{"mapbender.workflowbundle.workflow.new.security" | trans }#}</li-->
+            </ul>
+            <div id="containerBaseData" class="container active containerBaseData">
+                {% include 'MapbenderWorkflowBundle:Workflow:form-workflow.html.twig' %}
+            </div>
+            <!--div id="containerSecurity" class="container">
+                {#% include 'MapbenderWorkflowBundle:Workflow:form-security.html.twig' %#}
+            </div-->
+        </div>
+        <div class="clearContainer"></div>
+        <div class="right">
+            <input type="submit" value="{{ 'mapbender.workflowbundle.workflow.new.btn.create' | trans }}" class="button"/>
+            <a href="{{ url('mapbender_workflow_workflow_index') }}" class="button critical">{{ 'mapbender.workflowbundle.workflow.new.btn.cancel' | trans}}</a>
+        </div>
+        <div class="clearContainer"></div>
+        {{ form_row(form._token) }}
+    </form>
+{% endblock %}

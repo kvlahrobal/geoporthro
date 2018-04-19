@@ -1,0 +1,4 @@
+services:
+  mapbender2_geometryprovider:
+    class: OwsProxy3\CoreBundle\GeometryProvider\Mapbender2GeometryProvider
+    arguments: [ "@service_container" ]

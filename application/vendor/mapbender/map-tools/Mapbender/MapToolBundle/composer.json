@@ -1,0 +1,20 @@
+{
+    "name": "mapbender/map-tools",
+    "description": "Mapbender map tools",
+    "keywords": ["mapbender", "map tools"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {"name": "Paul Schmidt",  "email": "paul.schmidt@wheregroup.com"}
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {"Mapbender\\MapToolBundle": "."}
+    },
+    "target-dir": "Mapbender/MapToolBundle"
+}

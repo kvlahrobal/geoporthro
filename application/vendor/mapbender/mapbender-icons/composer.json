@@ -1,0 +1,32 @@
+{
+  "name": "mapbender/mapbender-icons",
+  "type": "component",
+  "description": "Mapbender3 icons",
+  "keywords": [
+    "mapbender3",
+    "icons",
+    "assets"
+  ],
+  "homepage": "http://mapbender3.org/",
+  "type": "library",
+  "license": "Open Source Geospatial Foundation",
+  "authors": [
+    {
+      "name": "Andriy Oblivantsev",
+      "email": "eslider@gmail.com"
+    }
+  ],
+  "require": {
+    "robloach/component-installer": "*"
+  },
+  "extra": {
+    "component": {
+      "styles": [
+        "style.css"
+      ],
+      "files": [
+        "fonts/*"
+      ]
+    }
+  }
+}

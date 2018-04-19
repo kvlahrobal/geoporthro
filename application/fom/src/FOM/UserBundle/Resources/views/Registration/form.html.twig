@@ -1,0 +1,35 @@
+{% extends "FOMUserBundle:Login:box.html.twig" %}
+
+{% block title %} {{ 'fom.user.registration.form.title' | trans}} {% endblock %}
+
+{% block box_content %}
+  <div class="loginBox register">
+    <h2 class="contentTitle">{{ 'fom.user.registration.form.caption' | trans}}</h2>
+    <form action="{{ path('fom_user_registration_register') }}" method="post" {{ form_enctype(form) }} autocomplete="off" novalidate="novalidate">
+
+        <label class="left labelInput" for="{{ form.username.vars['id'] }}">{{"fom.user.registration.form.username" | trans}}:<span class="required">*</span></label>
+        {{ form_widget(form.username) }}
+        <div class="clearContainer"></div>
+
+        {% for pw in form.password %}
+          {% if pw.vars['name'] == 'first' %}
+            <label class="left labelInput" for="{{ pw.vars['id'] }}">{{"fom.user.registration.form.choose_password" | trans}}:<span class="required">*</span></label>
+          {% else %}
+            <label class="left labelInput" for="{{ pw.vars['id'] }}">{{"fom.user.registration.form.confirm_password" | trans}}:<span class="required">*</span></label>
+          {% endif %}
+
+          {{ form_widget(pw) }}
+        {% endfor %}
+
+        <label class="left labelInput" for="{{ form.email.vars['id'] }}">{{"fom.user.registration.form.email" | trans}}:<span class="required">*</span></label>
+        {{ form_widget(form.email) }}
+        <div class="clearContainer"></div>
+
+        {{ form_row(form._token) }}
+
+        <a class="left linkButton iconLinkButton" href="{{ path('fom_user_login_login') }}">{{ "fom.user.registration.form.back_to_login"|trans}}</a>
+        <button class="right button">{{ 'fom.user.registration.form.register' | trans }}</button>
+    </form>
+    <div class="clearContainer"></div>
+  </div>
+{% endblock %}

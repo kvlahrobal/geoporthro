@@ -1,0 +1,31 @@
+{
+    "name": "drmonty-leaflet",
+    "repo": "drmonty/leaflet",
+    "description": "JavaScript library for mobile-friendly interactive maps http://leafletjs.com",
+    "version": "0.7.7",
+    "homepage": "http://leafletjs.com/",
+    "keywords": [
+        "gis",
+        "map"
+    ],
+    "licenses": [
+        {
+            "type": "BSD-2-Clause",
+            "url": "https://github.com/Leaflet/Leaflet/blob/master/LICENSE"
+        }
+    ],
+    "main": "leaflet.js",
+    "scripts": [
+        "js/leaflet.js"
+    ],
+    "files": [
+        "js/leaflet.js",
+        "js/leaflet.min.js",
+        "css/leaflet.css",
+        "images/layers.png",
+        "images/layers-2x.png",
+        "images/marker-icon.png",
+        "images/marker-icon-2x.png",
+        "images/market-shadow.png"
+    ]
+}

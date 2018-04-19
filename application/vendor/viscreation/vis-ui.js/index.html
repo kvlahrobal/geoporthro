@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>VIS UI - Demo</title>
+
+    <link media="all" type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="src/styles/base.css">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/r/dt/dt-1.10.8/datatables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/ROMB/jquery-dialogextend/master/build/jquery.dialogextend.min.js" type="text/javascript"></script>
+    <link media="all" type="text/css" rel="stylesheet" href="https://raw.githubusercontent.com/jquery/jquery-ui/master/themes/base/resizable.css">
+
+    <!-- Underscore -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" type="text/javascript"></script>
+
+    <!-- Leaflat -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/Leaflet/Leaflet/master/dist/leaflet.css" />
+
+    <!--[if lt IE 9]>
+    <script src="web/assets/html5shiv/dist/html5shiv.js" type="text/javascript"></script>
+    <script src="web/assets/respondjs/respondjs-built.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <!--[if lt IE 10]>
+    <script src="web/assets/placeholdersjs/placeholdersjs-built.js" type="text/javascript"></script>
+    <![endif]-->
+
+
+    <script type="application/javascript">
+        $(function() {
+            jQuery.getScript("src/js/loader.js?ver=" + Math.random(), function() {
+                loadElements(function() {
+
+                    var nameFields = [{
+                        type:    "select",
+                        title:   "Title",
+                        options: {
+                            mr: "Mr.",
+                            ms: "Ms."
+                        },
+                        css:     {width: "20%"}
+                    }, {
+                        type:        "input",
+                        title:       "Name",
+                        placeholder: "Please enter name",
+                        mandatory:   true,
+                        css:         {width: "40%"}
+                    }, {
+                        type:        "input",
+                        name:        "secondname",
+                        title:       "Second name",
+                        placeholder: "Please enter secondname",
+                        css:         {width: "40%"}
+                    }, {
+                        type:   "date",
+                        title:  "Birthday",
+                        value:  "2015",
+                        format: "YY",
+                        css:    {width: "20%"}
+                    }];
+
+                    $("body").generateElements({
+                        type:     "form",
+                        children: [{
+                            type:    "select",
+                            title:   "Examples",
+                            options: {popup: "popup demo #1"}
+                        }, {type:     "fieldSet",
+                            children: nameFields
+                        }]
+                    });
+
+                    // Map test
+                    (function() {
+                        var leafLatPopup = $("<div><div class='leaflat-map'/></div>");
+                        var isCreated = false;
+                        leafLatPopup.popupDialog({
+                            title:  'Leaflat demo',
+                            height: "500",
+                            width:  "500px",
+                            open:   function() {
+                                var map = L.map(leafLatPopup.find('.leaflat-map')[0]).setView([51.505, -0.09], 13);
+                                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                                    maxZoom:     18,
+                                    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                                    id:          'examples.map-i875mjb7'
+                                }).addTo(map);
+
+                                L.marker([51.5, -0.09]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+
+                                var popup = L.popup();
+                                map.on('click', function(e) {
+                                    popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
+                                });
+                            }
+                        });
+                    })();
+
+                    // Form test
+                    (function() {
+                        var $div = $("<div/>");
+                        var agreementElements = [{
+                            type:  "checkbox",
+                            name:  'agb',
+                            title: "AGB"
+                        }, {
+                            type:  "radio",
+                            name:  'ato',
+                            value: 1,
+                            title: "Yes"
+                        }, {
+                            type:  "radio",
+                            name:  'ato',
+                            value: 0,
+                            title: "No"
+                        }];
+
+                        $div.generateElements({
+                            children: [{
+                                type:     'fieldSet',
+                                children: nameFields
+                            }, {type: "breakLine"}, {
+                                type:        "textArea",
+                                title:       "Description",
+                                placeholder: "Something..."
+                            }, {
+                                type:     "fieldSet",
+                                children: agreementElements
+                            }]
+                        });
+
+                        $div.popupDialog({
+                            title:       "Demo",
+                            maximizable: true,
+                            width:       "500px",
+                            buttons:     [{
+                                text:  "OK",
+                                click: function(e) {
+                                    var popup = $(e.currentTarget).closest(".ui-").find(".popup-");
+                                    console.log(popup.formData());
+                                    return;
+                                    popup.popup('close');
+                                }
+                            }]
+                        });
+                    })()
+
+                });
+            })
+        });
+    </script>
+
+    <style type="text/css" media="all">
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .leaflat-map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+</body>
+</html>

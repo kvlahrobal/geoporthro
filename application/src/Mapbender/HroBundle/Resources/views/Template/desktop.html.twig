@@ -1,0 +1,100 @@
+{% extends "MapbenderCoreBundle::frontend.html.twig" %}
+
+{% block title %}Geoport.HRO – {{ application.title }}{% endblock %}
+
+{% block favicon %}{{ asset('bundles/mapbenderhro/images/favicon.ico') }}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ path('mapbender_core_application_assets', {'slug': application.slug, 'type': 'css'}) }}"/>
+  <meta name="description" content="Interaktive Karte mit Stadtplan, Luftbild, Adressensuche und Druckfunktion" />
+{% endblock %}
+
+{% block trans %}
+  {{parent()}}
+  <script type="text/javascript" src="{{ path('mapbender_core_application_assets', {'slug': application.slug, 'type': 'trans'}) }}"></script>
+{% endblock %}
+
+{% block js %}
+  {{parent()}}
+  <script type="text/javascript" src="{{ path('mapbender_core_application_assets', {'slug': application.slug, 'type': 'js'}) }}"></script>
+{% endblock %}
+
+
+{% block frontend_content %}
+
+  <div id="mainnav">
+    <a href="https://www.rostock.de" target="_blank">Hanse- und Universitätsstadt Rostock</a> |
+    <a href="/geoport-hilfe" target="_blank"><b>Hilfe</b></a> |
+    <a href="/geoport-hilfe/datenschutz.html" target="_blank">Datenschutz</a> |
+    <a href="/geoport-hilfe/impressum.html" target="_blank">Impressum</a> |
+    <a href="/geoport-hilfe/nutzungsbedingungen.html" target="_blank">Nutzungsbedingungen</a> |
+    <a href="/geoport-hilfe/kontakt.html" target="_blank">Kontakt</a>
+  </div>
+
+  <div id="templateWrapper" class="templateWrapper sidePaneOpened">
+    <div class="logoContainer">
+      <img class="logo" height="75" alt="Geoport.HRO" src="{{ asset('bundles/mapbenderhro/images/logo.svg')}}" />
+    </div>
+
+    <ul id="toolbar" class="toolBar itemsRight top">
+      {% if application.elements.toolbar is defined %}
+        {% for element in application.elements.toolbar %}
+          <li class="toolBarItem">{{ element.render() | raw }}</li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+    {# Right sidepane definition #}
+    {% set name = 'sidepane' %}
+    {% if application.elements[name] is defined %}
+      {% set region = application.elements[name] %}
+      {% set properties = region_props[name].properties %}
+      {% set align = properties.align|default('left') %}
+
+      <div id="{{ name }}"  class="clear sidePane {{ align }}" {% if properties.width is defined %} style="width: {{ properties.width }}"{% endif %}>
+        <ul class="sidePaneTabs">
+          <li class="sidePaneTabItem toggleSideBar"></li>
+        </ul>
+        <div class="sideContent">
+          {% include "MapbenderCoreBundle:Template:region.html.twig"  with {'region_props': region_props, 'application': application, 'region': name } %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div id="content" class="contentPane">
+      {% include "MapbenderCoreBundle:Template:region.html.twig"  with {'region_props': region_props, 'application': application, 'region': 'content' }%}
+    </div>
+
+    <ul id="footer" class="toolBar itemsRight bottom">
+      {% if application.elements.footer is defined %}
+        {% for element in application.elements.footer %}
+          <li class="toolBarItem">{{ element.render() | raw }}</li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+
+  <script type="text/javascript">
+    var Mapbender = Mapbender || {};
+    Mapbender.configuration = {{ application.configuration | raw }};
+  </script>
+  
+  <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+      _paq.push(["setCookieDomain", "*.geoport-hro.de"]);
+      _paq.push(["setDomains", ["*.geoport-hro.de"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//geo.sv.rostock.de/piwik/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', '2']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><p><img src="//geo.sv.rostock.de/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+  <!-- End Piwik Code -->
+{% endblock %}

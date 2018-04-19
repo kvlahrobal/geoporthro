@@ -1,0 +1,63 @@
+@import "libs/variables";
+@import "libs/mixins";
+@import "modules/text";
+@import "modules/input";
+
+.copyClipBoard:before{content:"\f0ea";}
+
+.mb-element-mapcoordinate {
+    div.block{
+        margin-bottom: 10px;
+    }
+    .dropdown{
+        width:100% !important;
+        margin-bottom: 10px;}
+    .input-to-clipboard{
+        position: relative;
+        width:100%;
+        & .input {
+            width:100%;
+            font-size: 11px;
+            padding-right: 26px;
+            &.error{
+                color:$errorColor;
+                background-color: lighten($errorColor, 50%);
+                border:solid 1px lighten($errorColor, 40%);
+            }
+        }
+        & .input-readonly {
+            width:100%;
+            font-size: $space*0.7;
+            padding-right: 26px;
+            border: none;
+            background-color: #ebebeb;
+            &.error{
+                color:$errorColor;
+                background-color: lighten($errorColor, 50%);
+                border:solid 1px lighten($errorColor, 40%);
+            }
+        }
+        & .copyClipBoard.iconBig {
+            position: absolute;
+            right: 0px;
+            top: 6px;
+            color: $thirdColor;
+        }
+    }
+
+    .buttonGroup{
+        height: $space*2;
+        width: 100%;
+        position: relative;
+        & .button.disabled{
+            background-color: $thirdColor;
+            border: 1px solid $secondColor;
+        }
+        .button.right {
+            margin-left: 4px;
+        }
+    }
+}
+.mb-element-map.crosshair {
+    cursor: crosshair !important;
+}

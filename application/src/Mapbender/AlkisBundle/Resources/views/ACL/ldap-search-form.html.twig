@@ -1,0 +1,7 @@
+
+  <label for="inputSearchGroupsAndUsers" class="labelInput left">{{"fom.user.acl.groups_users.filter"|trans}}</label>
+  <input id="inputSearchGroupsAndUsers" type="text" class="input left listFilterInput"/>
+  <script src="{{ asset('bundles/mapbenderalkis/js/ldap-search.js') }}"></script>
+  <div class="clearContainer"></div>
+  <div id="inputLdapSearchResults" data-search-url="{{path('fom_user_acl_search_index')}}"></div>
+  

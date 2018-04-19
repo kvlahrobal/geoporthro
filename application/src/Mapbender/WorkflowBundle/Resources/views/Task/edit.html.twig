@@ -1,0 +1,13 @@
+{% block manager_content %}
+
+  {% if task.id != null %}
+  <form id="elementForm" action="{{ path('mapbender_workflow_task_update', { 'tid': task.id }) }}" method="post" {{ form_enctype(form)}} novalidate="novalidate">
+  {% else %}
+  <form id="elementForm" action="{{ path('mapbender_workflow_task_create', { 'wid': task.workflow.id }) }}" method="post" {{ form_enctype(form)}} novalidate="novalidate">
+  {% endif %}
+    <div class="elementForm defaultForm">
+    {% include 'MapbenderWorkflowBundle:Task:form-basic.html.twig' %}
+    </div>
+  </form>
+  <script src="{{ asset('bundles/mapbendermanager/js/element-edit.js') }}"></script>
+{% endblock %}

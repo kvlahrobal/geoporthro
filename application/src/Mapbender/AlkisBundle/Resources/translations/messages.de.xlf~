@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="5edcddf245c029cca2139bda9830cf6a" resname="fom.user.acl.groups_users.name">
+        <source>fom.user.acl.groups_users.name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="32b138b1f3a0106f404ef74cbe959a20" resname="IS_AUTHENTICATED_ANONYMOUSLY">
+        <source>IS_AUTHENTICATED_ANONYMOUSLY</source>
+        <target>IS_AUTHENTICATED_ANONYMOUSLY</target>
+      </trans-unit>
+      <trans-unit id="216fe12bb8ae642c4c7ad3f131a4397a" resname="fom.user.acl.groups_users.no_goups_users">
+        <source>fom.user.acl.groups_users.no_goups_users</source>
+        <target>Keine Gruppen/Benutzer definiert.</target>
+      </trans-unit>
+      <trans-unit id="9969ae932e36dbd70a99eb454a70d1f2" resname="fom.user.acl.groups_users.filter">
+        <source>fom.user.acl.groups_users.filter</source>
+        <target>Filter</target>
+      </trans-unit>
+      <trans-unit id="5a4991b92a10f7f4445f47d899ef212b" resname="fom.user.acl.edit.edit_class_acl">
+        <source>fom.user.acl.edit.edit_class_acl</source>
+        <target>ACL-Klasse bearbeiten von %name%</target>
+      </trans-unit>
+      <trans-unit id="114595c7c88ab1f3d8f962ea276c3531" resname="fom.user.acl.edit.security">
+        <source>fom.user.acl.edit.security</source>
+        <target>Sicherheit</target>
+      </trans-unit>
+      <trans-unit id="7ca241ee4294e362ceeafe477874ccf6" resname="fom.user.acl.edit.add_users_groups">
+        <source>fom.user.acl.edit.add_users_groups</source>
+        <target>Benutzer/Gruppen hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="85608e08998ce5f16f6893194018ba07" resname="fom.user.acl.edit.save">
+        <source>fom.user.acl.edit.save</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="f9007b62d93a32bf1702f15ae0ea1d65" resname="fom.user.acl.edit.cancel">
+        <source>fom.user.acl.edit.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="a808e5d914908a241ee6bb18fdaee180" resname="Flurstücke">
+        <source>Flurstücke</source>
+        <target>Flurstücke</target>
+      </trans-unit>
+      <trans-unit id="50d46c2f993f4c6ab66c095555dcc401" resname="Adresse">
+        <source>Adresse</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit id="c0ebe99ebdebbaccd35b6eb3b9308424" resname="Eigentümer">
+        <source>Eigentümer</source>
+        <target>Eigentümer</target>
+      </trans-unit>
+      <trans-unit id="86b5fb43fa75ce95fbf211ca7c6bafc0" resname="Grundbuch">
+        <source>Grundbuch</source>
+        <target>Grundbuch</target>
+      </trans-unit>
+      <trans-unit id="a520cdd17c2f8806f318ff5db00fb07f" resname="Koordinaten">
+        <source>Koordinaten</source>
+        <target>Koordinaten</target>
+      </trans-unit>
+      <trans-unit id="02fa34697a2d64c5c56aa809d6be3be2" resname="Zurücksetzen">
+        <source>Zurücksetzen</source>
+        <target>Zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="c8587e5b20310829978fbd3eec4667a4" resname="mb.alkis.admin.alkisinfo.label.autoopen">
+        <source>mb.alkis.admin.alkisinfo.label.autoopen</source>
+        <target>Autoopen</target>
+      </trans-unit>
+      <trans-unit id="9f829935b655151cf9962fd2a7ab7c37" resname="mb.alkis.admin.alkisinfo.label.deactivateonclose">
+        <source>mb.alkis.admin.alkisinfo.label.deactivateonclose</source>
+        <target>Beim Schließen deaktivieren</target>
+      </trans-unit>
+      <trans-unit id="ac735ab19e272aa38d84acf77f4c75b0" resname="mb.alkis.admin.alkisinfo.label.secured">
+        <source>mb.alkis.admin.alkisinfo.label.secured</source>
+        <target>Abgesichert</target>
+      </trans-unit>
+      <trans-unit id="f0321ad2d4d20e17dcd5efa4ed6a7570" resname="mb.alkis.admin.application.cancel">
+        <source>mb.alkis.admin.application.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="4249d9a8fcfe6705dffe80b6668db0d8" resname="mb.alkis.admin.application.view">
+        <source>mb.alkis.admin.application.view</source>
+        <target>View</target>
+      </trans-unit>
+      <trans-unit id="4ee911c4ef47592a33ab23757cb9fadb" resname="mb.alkis.admin.application.edit.base_data">
+        <source>mb.alkis.admin.application.edit.base_data</source>
+        <target>Base data</target>
+      </trans-unit>
+      <trans-unit id="9ec5de8de17271050c0308e12524c3e7" resname="mb.alkis.admin.application.layouts">
+        <source>mb.alkis.admin.application.layouts</source>
+        <target>Layouts</target>
+      </trans-unit>
+      <trans-unit id="749a2d3e9ecb30976b91cc75b92414cc" resname="mb.alkis.admin.application.layersets">
+        <source>mb.alkis.admin.application.layersets</source>
+        <target>Layersets</target>
+      </trans-unit>
+      <trans-unit id="0291f92112c0cd07ec188b74d2bfcf84" resname="mb.alkis.admin.application.custom_css">
+        <source>mb.alkis.admin.application.custom_css</source>
+        <target>Custom css</target>
+      </trans-unit>
+      <trans-unit id="c6207aaae62c76f08f320a5f4a829258" resname="mb.alkis.admin.application.security">
+        <source>mb.alkis.admin.application.security</source>
+        <target>Security</target>
+      </trans-unit>
+      <trans-unit id="4efaf796a5bf1a01e2e8dd26091b81a2" resname="mb.alkis.admin.application.save">
+        <source>mb.alkis.admin.application.save</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="f9d5477f58f95f9971393d092a164d9d" resname="mb.alkis.admin.application.new">
+        <source>mb.alkis.admin.application.new</source>
+        <target>Neu</target>
+      </trans-unit>
+      <trans-unit id="38cc3fa6f72469790b18c40d3d257462" resname="mb.alkis.admin.application.new.base_data">
+        <source>mb.alkis.admin.application.new.base_data</source>
+        <target>Base data</target>
+      </trans-unit>
+      <trans-unit id="b32c4cbd022e687ad1d5664d851680e9" resname="mb.alkis.admin.application.create_use">
+        <source>mb.alkis.admin.application.create_use</source>
+        <target>Create use</target>
+      </trans-unit>
+      <trans-unit id="73c0e0c435daa7f45624569499d6316a" resname="mb.alkis.admin.application.btn.create">
+        <source>mb.alkis.admin.application.btn.create</source>
+        <target>Erstellen</target>
+      </trans-unit>
+      <trans-unit id="e280b3076bfe39e39a3b3cfd5e059010" resname="mb.alkis.admin.application.btn.cancel">
+        <source>mb.alkis.admin.application.btn.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="49a08961b0e5b8b4fb076d6082f67b55" resname="mb.manager.admin.application.security.add_users_groups">
+        <source>mb.manager.admin.application.security.add_users_groups</source>
+        <target>Benutzer/Gruppen hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="55e18fb3b32d459c43c4108aa49ed8a2" resname="mb.manager.admin.application.security.public">
+        <source>mb.manager.admin.application.security.public</source>
+        <target>aktiviert</target>
+      </trans-unit>
+      <trans-unit id="603ba1dd4e694ed4922d791ad2161089" resname="mb.manager.admin.application.security.listed">
+        <source>mb.manager.admin.application.security.listed</source>
+        <target>gelistet</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

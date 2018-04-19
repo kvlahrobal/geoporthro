@@ -1,0 +1,20 @@
+parameters:
+    applications:
+        # Backoffice app definition
+        manager:
+            title: Mapbender Administration
+            template:  Mapbender\ManagerBundle\Template\ManagerTemplate
+            excludeFromList: true
+            published: true
+            listed: false
+            roles: [IS_AUTHENTICATED_ANONYMOUSLY]
+
+        # Login app definition
+        mb3-login:
+            title: Mapbender Login
+            template:  Mapbender\ManagerBundle\Template\LoginTemplate
+            excludeFromList: true
+            published: true
+            listed: false
+            anonymous: true
+            roles: [IS_AUTHENTICATED_ANONYMOUSLY]

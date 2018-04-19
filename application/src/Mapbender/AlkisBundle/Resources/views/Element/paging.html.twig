@@ -1,0 +1,18 @@
+{% if result.count > 0 %}
+<div class="paging">
+    <div class="prev-page">
+        {% if result.prevPage is defined %}
+            <div data-page="1" class="iconPaging-first-page"></div>
+            <div data-page="{{ result.prevPage }}" class="iconPaging-back"></div>
+        {% endif %}
+    </div>
+    <div class="current-page" title="zeigt {{ result.documents|length }} von {{ result.count }} gefundenen Objekten">Seite {{ result.currentPage }} von {{ result.pages }}</div>
+    <div class="next-page">
+        {% if result.nextPage is defined %}
+            <div data-page="{{ result.pages }}" class="iconPaging-last-page"></div>
+            <div data-page="{{ result.nextPage }}" class="iconPaging-next"></div>
+        {% endif %}
+    </div>
+    <div class="clear"></div>
+</div>
+{% endif %}

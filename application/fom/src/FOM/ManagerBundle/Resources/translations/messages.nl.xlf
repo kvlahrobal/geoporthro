@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="nl" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="14f411d9c52d97ae8af96139dd319c27" resname="fom.core.manager.logged_as">
+        <source>fom.core.manager.logged_as</source>
+        <target>Ingelogd als</target>
+      </trans-unit>
+      <trans-unit id="cf7759d4f9dd04fff9e68b8633ed4b99" resname="fom.core.manager.you_account">
+        <source>fom.core.manager.you_account</source>
+        <target>Uw gebruikersnaam</target>
+      </trans-unit>
+      <trans-unit id="40ff2b87ae4d5a77b86f8f6548b1d226" resname="fom.core.manager.btn.logout">
+        <source>fom.core.manager.btn.logout</source>
+        <target>Log uit</target>
+      </trans-unit>
+      <trans-unit id="442502e2833543b9400dea2979297b09" resname="fom.core.manager.btn.login">
+        <source>fom.core.manager.btn.login</source>
+        <target>Log in</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

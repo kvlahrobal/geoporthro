@@ -1,0 +1,26 @@
+.mb-element-printclient {
+  $labelHeight: 23px;
+
+  display: none;
+  overflow: visible;
+
+  label.labelInput {
+    width: 80px;
+    font-weight: inherit;
+    margin-bottom: inherit;
+    line-height: $labelHeight;
+    height: $labelHeight;
+  }
+  .input, .dropdown {
+    min-width: 190px;
+    width: 100%;
+    margin-bottom: $space/2;
+  }
+  .printSubmit {
+    float: right;
+  }
+
+  #printToggle.active {
+    background-color: #538e24;
+  }
+}

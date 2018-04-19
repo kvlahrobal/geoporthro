@@ -1,0 +1,32 @@
+language: php
+
+php:
+  - 5.6
+  - 5.5
+  - 5.4
+  - 5.3
+
+before_script:
+  - cd ..
+  - git clone https://github.com/mapbender/mapbender-starter
+  - cd mapbender-starter
+  - git checkout develop
+  - if (test $TRAVIS_PULL_REQUEST = false) then git checkout $TRAVIS_BRANCH; fi
+  - git submodule update --init --recursive
+  - cd application
+  - cp app/config/parameters.yml.dist app/config/parameters.yml
+  - composer update
+  - rm -rf fom
+  - ln -s ../../fom
+  - sudo pip install selenium
+
+script: phpunit -c app/ --coverage-clover ../testresults/clover.xml
+
+after_script:
+  - php bin/coveralls -v
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - cd mapbender
+  - export MYREV=$(git rev-parse HEAD)
+  - cd ..
+  - cat /tmp/weblog
+  - php ocular.phar code-coverage:upload --repository g/mapbender/mapbender --format=php-clover ../testresults/clover.xml --revision $MYREV

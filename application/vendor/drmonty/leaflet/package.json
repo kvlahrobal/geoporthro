@@ -1,0 +1,22 @@
+{
+    "name": "drmonty-leaflet",
+    "description": "JavaScript library for mobile-friendly interactive maps http://leafletjs.com",
+    "homepage": "http://leafletjs.com/",
+    "version": "0.7.7",
+    "keywords": [
+        "gis",
+        "map"
+    ],
+    "licenses": [
+        {
+            "type": "BSD-2-Clause",
+            "url": "https://github.com/Leaflet/Leaflet/blob/master/LICENSE"
+        }
+    ],
+    "author": "Vladimir Agafonkin",
+    "main": "js/leaflet.min.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/drmonty/leaflet.git"
+    }
+}

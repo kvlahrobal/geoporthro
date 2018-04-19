@@ -1,0 +1,33 @@
+<div id="{{ id }}" class="mb-element mb-element-basesearchone" data-title="{{ title }}">
+    <div id="opr-search-select" style="width:180px" class="dropdown" title="Basissuche auswählen">
+        <select id="search-select" class="hiddenDropdown">
+        {% for opt in configuration.options %}
+          {% if opt == 'addr' %}
+            <option value="addr"{% if loop.first %} selected="true" {% endif %}>{{ 'Adressen' | trans }}</option>
+          {% elseif opt == 'eigen' %}
+            <option value="eigen"{% if loop.first %} selected="true" {% endif %}>{{ 'Eigentümer' | trans }}</option>
+          {% elseif opt == 'flur' %}
+            <option value="flur"{% if loop.first %} selected="true" {% endif %}>{{ 'Flurstücke' | trans }}</option>
+          {% elseif opt == 'grund' %}
+            <option value="grund"{% if loop.first %} selected="true" {% endif %}>{{ 'Grundbuchblätter' | trans }}</option>
+          {% elseif opt == 'schiffe' %}
+            <option value="schiffe"{% if loop.first %} selected="true" {% endif %}>{{ 'Schiffssuche Hanse Sail' | trans }}</option>
+          {% endif %}
+        {% endfor %}
+        </select>
+        <div class="dropdownValue iconDown"></div>
+        <ul class="dropdownList"></ul>
+    </div> 
+    <span id="removeResults" class="removeResultsButton button critical right" title="Sucheingabefeld und Liste mit Suchresultaten leeren sowie Objektmarkierungen aus Karte entfernen">{{ "Zurücksetzen"|trans}}</span>
+    <div class="search">   
+        <div class="clearContainer"></div>
+        <div class="inputWrapper">
+            <input type="text" id="search" name="search" class="input left validationInput" title="Sucheingabefeld" placeholder="Sucheingabe…" />
+            <span class="clearer" id="clear-search"><i class="fa fa-times" title="Sucheingabefeld und Liste mit Suchresultaten leeren"></i></span>
+            <input type="hidden" id="page" name="page" value="1" />
+        </div>
+        <div class="clearContainer"></div>
+        <div class="basesearchonecontent"></div>
+    </div>
+    <div class="clearContainer"></div>
+</div>

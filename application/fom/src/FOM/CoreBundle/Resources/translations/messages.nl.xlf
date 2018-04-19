@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="nl" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="b3f2204c6ae085806aa664f34bb52758" resname="fom.core.components.popup.add_user_group.title">
+        <source>fom.core.components.popup.add_user_group.title</source>
+        <target>Toevoegen gebruikers en groepen</target>
+      </trans-unit>
+      <trans-unit id="fa0730c1943e2451142ff2daeb150ebe" resname="fom.core.components.popup.add_user_group.btn.cancel">
+        <source>fom.core.components.popup.add_user_group.btn.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="3b0d4f85e5941cb2ab0ffbb3593b74b6" resname="fom.core.components.popup.add_user_group.btn.add">
+        <source>fom.core.components.popup.add_user_group.btn.add</source>
+        <target>Voeg toe</target>
+      </trans-unit>
+      <trans-unit id="3fb798c23db486b16e9e685785fab018" resname="fom.core.components.popup.delete_user_group.title">
+        <source>fom.core.components.popup.delete_user_group.title</source>
+        <target>Bevestig verwijderen</target>
+      </trans-unit>
+      <trans-unit id="f1065d0cfa78675a733aef889a2452b7" resname="fom.core.components.popup.delete_user_group.content">
+        <source>fom.core.components.popup.delete_user_group.content</source>
+        <target>%userGroup% echt verwijderen?</target>
+      </trans-unit>
+      <trans-unit id="fc405e3a1124a6f6956cda651e7bdfd9" resname="fom.core.components.popup.delete_user_group.btn.cancel">
+        <source>fom.core.components.popup.delete_user_group.btn.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="05b3d25759411f136378a855431e875c" resname="fom.core.components.popup.delete_user_group.btn.ok">
+        <source>fom.core.components.popup.delete_user_group.btn.ok</source>
+        <target>OK</target>
+      </trans-unit>
+      <trans-unit id="1c95ee7d7297c9de68e25414f7ccb78d" resname="fom.core.fields.filter">
+        <source>fom.core.fields.filter</source>
+        <target>Filter</target>
+      </trans-unit>
+      <trans-unit id="9bb04ab703cc6046b9cb27dc8fa4ba50" resname="fom.core.fields.no_user_group_defined">
+        <source>fom.core.fields.no_user_group_defined</source>
+        <target>Geen gebruiker of groep gedefineerd.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

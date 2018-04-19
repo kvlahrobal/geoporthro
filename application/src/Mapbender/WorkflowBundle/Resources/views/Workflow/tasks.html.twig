@@ -1,0 +1,32 @@
+<table class="tableCore">
+    <thead>
+        <tr>
+            <th>{{ 'mapbender.workflowbundle.task.tasks.title' | trans }}</th>
+            <th class="type">{{ 'mapbender.workflowbundle.task.tasks.type' | trans }}</th>
+            <th class="iconColumn">
+                <a href="{{ url('mapbender_workflow_task_select', { 'wid': workflow.id }) }}" class="iconAdd iconSmall addElement" title="{{'mapbender.workflowbundle.task.tasks.add'|trans}}"></a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if workflow.tasks|length > 0 %}
+            {% for task in workflow.tasks %}
+                <tr class="element" data-id="{{task.id}}" data-href="{{ path('mapbender_manager_element_weight', {'id': task.id})}}">
+                    <td class="titleColumn description">{{ task.title | trans }}</td>
+                    <td class="typeColumn description">{{ element_class_title(task) | trans }}</td>
+                    <td class="iconColumn">
+                        <span class="iconEdit editElement iconSmall" title="{{"mapbender.workflowbundle.task.tasks.edit"|trans}}  {{task.title}}" data-url="{{ path('mapbender_workflow_task_edit', {'tid': task.id})}}"></span>
+                        <span class="iconRemove removeElement iconSmall" title="{% trans with {'%task_title%': task.title} %} mapbender.workflowbundle.task.tasks.delete {% endtrans %}" data-id="{{ task.id }}" data-slug="{{ workflow.id }}" data-url="{{ path('mapbender_workflow_task_confirmdelete', {'wid': task.workflow.id, 'tid': task.id}) }}"></span>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr class="placeholderRow"></tr>
+        {% else %}
+            <tr class="dummy">
+                <td class="description">{{"mapbender.workflowbundle.task.tasks.no_task_added"|trans}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

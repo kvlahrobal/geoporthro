@@ -1,0 +1,11 @@
+<fieldset class="serviceAddBox left box" style="width:100%">
+  <legend>{{"mapbender.workflowbundle.scheduler.report.scheduler"|trans}}: {{ scheduler.title }}</legend>
+  <fieldset class="serviceAddBox left box" style="width:100%">
+    <legend>{{"mapbender.workflowbundle.scheduler.report.workflow"|trans}}: {{ scheduler.workflow.title }}</legend>
+{% for task in scheduler.workflow.tasks %}
+    {% set handler=task|taskhandler %}
+    {{handler.renderReport|raw}}
+{% endfor %}
+
+  </fieldset>
+</fieldset>

@@ -1,0 +1,65 @@
+/* Style fuer Feature-Info-Request - nicht kommunal-spezifisch,
+Vers.	23.09.2010
+	16.03.2012
+*/
+body {	background-color: #FCFCFC;}
+h1, h2, p, td, th, a, iframe, div {font-family:Verdana, Arial, Helvetica, sans-serif; color:navy;}
+h1	{color:navy;
+	font-size:14pt;
+	text-align:center;
+	border-bottom:2px solid #AAAAAA;
+	border-top:2px solid #AAAAAA;
+	margin-bottom:6px;}
+h2	{font-size:13pt;}
+p, td, a, iframe {font-size:11pt;}
+p.datum, a.datum {font-size: 8pt; text-align:right;}
+p.hinweis, td.hinweis, div.hinweis {font-size: 8pt;}
+p.err {	color: red; }
+/* Tabelle allgemein */
+td, th	{min-width:40px; border-bottom:1px solid gray;}
+/* Tabellenfeld invisible */
+td.inv {border-bottom:0px;}
+/* linke Tabellenspalte - Feldname */
+td.li, td.gr {
+	color:gray;
+	padding-left:8px;
+	padding-right:8px;
+	border-bottom:0px;
+	vertical-align:top; }
+/* Tabellenspalte - Gruppenueberschrift */
+td.gr {	margin-top:8px;
+	font-style:italic ;
+	font-stretch:expanded;
+	border-top:1px dotted #AAAAAA; }
+/* Tabellenspalte - Nav-Form gerahmt Google */
+td.nav, div.nav {
+	padding:8px;
+	margin:8px;
+	border:1px solid #AAAAAA;
+	background-color: #ffffdd;}
+/* Tabellenspalte - Nav-Form gerahmt OpenRouteService */
+td.ors, div.ors {
+	padding:8px;
+	margin:8px;
+	border:1px solid #AAAAAA;
+	background-color: #ddffdd;}
+/* cms2map */
+div.poi {text-align: center; }
+iframe.poi {
+	text-align: center;
+	margin: 1px;
+	padding: 1px;
+	height: 40px;
+	width: 96%;
+	background-color: #fff5fa;}
+
+iframe.inlay {border:1px dotted #FFBBBB; ; width: 100%; height: 400px;}
+
+a.cms2map {background-color: #ffff22;}
+
+@media print {
+	body {
+		width: 100%;
+		background-color:white;
+	}
+}

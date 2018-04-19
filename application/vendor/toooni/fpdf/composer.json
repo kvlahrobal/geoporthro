@@ -1,0 +1,23 @@
+{
+    "name": "toooni/fpdf",
+    "type": "library",
+    "description": "fpdf vendor for symfony2",
+    "keywords": [],
+    "homepage": "http://github.com/toooni",
+    "license": "BSD-3",
+    "version": "1.0",
+	"authors": [
+        {
+            "name": "Toni Rudolf",
+            "email": "toni.rudolf@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.4"
+    },
+    "autoload": {
+        "psr-0" : {
+            "FPDF_" : "lib/"
+        }
+    }
+}

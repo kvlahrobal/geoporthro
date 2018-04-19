@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="ef2802b65627d5d062664fbf8200674f" resname="fom.user.registration.email_body_html">
+        <source>fom.user.registration.email_body_html</source>
+        <target>&lt;p&gt;Olá %user_username%,&lt;/p&gt;&lt;p&gt; você recentemente criou uma conta. Para completar o seu registo, por favor clique &lt;a href="%url%"&gt;aqui&lt;/a&gt;.&lt;/p&gt;</target>
+      </trans-unit>
+      <trans-unit id="16aedf1aba17d3e32708607f6574d3af" resname="fom.user.registration.done.title">
+        <source>fom.user.registration.done.title</source>
+        <target>Registo</target>
+      </trans-unit>
+      <trans-unit id="45d317725f4efe761d9b65307599dcfd" resname="fom.user.registration.done.congratulations">
+        <source>fom.user.registration.done.congratulations</source>
+        <target>Parabéns!</target>
+      </trans-unit>
+      <trans-unit id="26fa34e09be3c0a5575e85bfef6adb45" resname="fom.user.registration.done.account_activated">
+        <source>fom.user.registration.done.account_activated</source>
+        <target>A sua conta foi activada com sucesso e está pronta para uso.</target>
+      </trans-unit>
+      <trans-unit id="7ba00ae553bedb1b42714f8b3350dcf4" resname="fom.user.registration.done.back_to_login">
+        <source>fom.user.registration.done.back_to_login</source>
+        <target>Voltar à página de login</target>
+      </trans-unit>
+      <trans-unit id="b8be6915fb2e96e2b44a5bb021f5f80a" resname="fom.user.registration.form.title">
+        <source>fom.user.registration.form.title</source>
+        <target>Registo</target>
+      </trans-unit>
+      <trans-unit id="a27e104a38706000d978e5ab1e7f957e" resname="fom.user.registration.form.caption">
+        <source>fom.user.registration.form.caption</source>
+        <target>Registo</target>
+      </trans-unit>
+      <trans-unit id="9a05e3585fbe170df917d9e096f03434" resname="fom.user.registration.form.username">
+        <source>fom.user.registration.form.username</source>
+        <target>Usuário</target>
+      </trans-unit>
+      <trans-unit id="add62342bbd49cf06d071fbad0ebebc7" resname="fom.user.registration.form.choose_password">
+        <source>fom.user.registration.form.choose_password</source>
+        <target>Escolha uma senha</target>
+      </trans-unit>
+      <trans-unit id="72c8e265eb14cb642fda059b06b54743" resname="fom.user.registration.form.confirm_password">
+        <source>fom.user.registration.form.confirm_password</source>
+        <target>Confirmar senha</target>
+      </trans-unit>
+      <trans-unit id="0455b07d743b48ec7a8bf69b61177755" resname="fom.user.registration.form.email">
+        <source>fom.user.registration.form.email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="4b26782248f1b8731bf3a5a4619e3d6a" resname="fom.user.registration.form.back_to_login">
+        <source>fom.user.registration.form.back_to_login</source>
+        <target>Voltar à página de login</target>
+      </trans-unit>
+      <trans-unit id="4e5294f740132c3972c620fa1452cdbb" resname="fom.user.registration.form.register">
+        <source>fom.user.registration.form.register</source>
+        <target>Registar</target>
+      </trans-unit>
+      <trans-unit id="f90dadd9a7b69217a91ed29524ff91be" resname="fom.user.registration.email_subject">
+        <source>fom.user.registration.email_subject</source>
+        <target>Seu registo</target>
+      </trans-unit>
+      <trans-unit id="ae5487e173dec3e0302950761956eb40" resname="fom.user.registration.send.title">
+        <source>fom.user.registration.send.title</source>
+        <target>Registo</target>
+      </trans-unit>
+      <trans-unit id="99e368a528e92b430ae5f9fe86774d19" resname="fom.user.registration.send.caption">
+        <source>fom.user.registration.send.caption</source>
+        <target>Registo</target>
+      </trans-unit>
+      <trans-unit id="212f432f9e7067e376517bf4dfce8403" resname="fom.user.registration.send.account_created">
+        <source>fom.user.registration.send.account_created</source>
+        <target>A sua conta foi criada. Um e-mail de activação foi enviado para o seu email.</target>
+      </trans-unit>
+      <trans-unit id="eab99c2eee2fb46156581cd2e23f96f1" resname="fom.user.registration.send.back_to_login">
+        <source>fom.user.registration.send.back_to_login</source>
+        <target>Voltar à página de login</target>
+      </trans-unit>
+      <trans-unit id="77294a9ed86037d2480940e78b4e4797" resname="fom.user.registration.email_body_text">
+        <source>fom.user.registration.email_body_text</source>
+        <target>Olá %user_username%. Você recentemente criou uma conta. Para completar o seu registo, por favor clique no link ao seu browser %url%.</target>
+      </trans-unit>
+      <trans-unit id="16f6c2959610a4555dc745eab58bdec2" resname="fom.user.group.index.groups">
+        <source>fom.user.group.index.groups</source>
+        <target>Grupos</target>
+      </trans-unit>
+      <trans-unit id="e9a6218e243bde1969e7f02e7dc539a7" resname="fom.user.group.index.add_new_group">
+        <source>fom.user.group.index.add_new_group</source>
+        <target>Adicionar um novo grupo</target>
+      </trans-unit>
+      <trans-unit id="aaf537104353dbfa6269d9e2d5753637" resname="fom.user.group.index.filter">
+        <source>fom.user.group.index.filter</source>
+        <target>Filtro</target>
+      </trans-unit>
+      <trans-unit id="cb6640ba9c471b5668ff99d902436f5b" resname="fom.user.group.index.title">
+        <source>fom.user.group.index.title</source>
+        <target>Título</target>
+      </trans-unit>
+      <trans-unit id="c390b4cfb84517c1251e04cd41341f1a" resname="fom.user.group.index.description">
+        <source>fom.user.group.index.description</source>
+        <target>Descrição</target>
+      </trans-unit>
+      <trans-unit id="124794f2919025d52daec581fb3b88a1" resname="fom.user.group.index.edit_group">
+        <source>fom.user.group.index.edit_group</source>
+        <target>Editar grupo</target>
+      </trans-unit>
+      <trans-unit id="62fe4c4b64f0fd7bf93fcd82a3563630" resname="fom.user.group.index.delete_group">
+        <source>fom.user.group.index.delete_group</source>
+        <target>Eliminar grupo</target>
+      </trans-unit>
+      <trans-unit id="53219117656e9119f3b9f64a54cd4a04" resname="fom.user.group.index.no_groups_available">
+        <source>fom.user.group.index.no_groups_available</source>
+        <target>Nenhum grupo disponível</target>
+      </trans-unit>
+      <trans-unit id="0211637e7bde98ca682db21bc63e3478" resname="fom.user.group.form.edit_group">
+        <source>fom.user.group.form.edit_group</source>
+        <target>Editar grupo</target>
+      </trans-unit>
+      <trans-unit id="80019e1d895e323c659a89cbdfc5ec44" resname="fom.user.group.form.new_group">
+        <source>fom.user.group.form.new_group</source>
+        <target>Novo grupo</target>
+      </trans-unit>
+      <trans-unit id="6ae3fbfce9736f267242e823fb59a23d" resname="fom.user.group.form.save">
+        <source>fom.user.group.form.save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="526efe9dd2e7601123415620da7db198" resname="fom.user.group.form.create">
+        <source>fom.user.group.form.create</source>
+        <target>Criar</target>
+      </trans-unit>
+      <trans-unit id="baee2fae6b5b174007ceb2c0fd70bafb" resname="fom.user.group.form.cancel">
+        <source>fom.user.group.form.cancel</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="10ebd083788b8b81bc23dfbf949591e0" resname="fom.user.group.container.base_data">
+        <source>fom.user.group.container.base_data</source>
+        <target>Dados básicos</target>
+      </trans-unit>
+      <trans-unit id="d0695ec25e176e3501ba3cfe40c9babb" resname="fom.user.group.container.users">
+        <source>fom.user.group.container.users</source>
+        <target>Usuários</target>
+      </trans-unit>
+      <trans-unit id="f90c8d549d9ef3e912787f680bb51e95" resname="fom.user.group.container.filter">
+        <source>fom.user.group.container.filter</source>
+        <target>Filtro</target>
+      </trans-unit>
+      <trans-unit id="6d589ba4cbb02d36d7aae0a6fba718d3" resname="fom.user.group.container.users_of_selected">
+        <source>fom.user.group.container.users_of_selected</source>
+        <target>Usuários de %users_count% selecionado</target>
+      </trans-unit>
+      <trans-unit id="4f4942e8969a5f16db08fd269c7782b1" resname="fom.user.group.container.no_user_exists">
+        <source>fom.user.group.container.no_user_exists</source>
+        <target>Não existe nenhum usuário</target>
+      </trans-unit>
+      <trans-unit id="0ac6f8f22228bce348c0871bb2cec820" resname="fom.user.login.error_tockenexp.title">
+        <source>fom.user.login.error_tockenexp.title</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id="0e948182a2a0fa50b146eef46ae3f6d2" resname="fom.user.login.error_tockenexp.sorry">
+        <source>fom.user.login.error_tockenexp.sorry</source>
+        <target>Desculpa!</target>
+      </trans-unit>
+      <trans-unit id="2faabfc0bdd50996d6746f3d1f83e17e" resname="fom.user.login.error_tockenexp.registration_token_expired">
+        <source>fom.user.login.error_tockenexp.registration_token_expired</source>
+        <target>O seu registo expirou. Infelizmente, você tem que solicitar um novo token.</target>
+      </trans-unit>
+      <trans-unit id="6e8d5ca43f7660d17123d296025d5fde" resname="fom.user.login.error_tockenexp.request_new_token">
+        <source>fom.user.login.error_tockenexp.request_new_token</source>
+        <target>Solicitar novo token</target>
+      </trans-unit>
+      <trans-unit id="70966b21d4c02f098624fcaed5ff4def" resname="fom.user.login.error_tockenexp.back_to_login">
+        <source>fom.user.login.error_tockenexp.back_to_login</source>
+        <target>Voltar à página de login</target>
+      </trans-unit>
+      <trans-unit id="9689c69246ee6383ba6614c71bee6d2a" resname="fom.user.login.login.title">
+        <source>fom.user.login.login.title</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="317a163a7868f3c834beb884be3a7fdd" resname="fom.user.login.login.caption">
+        <source>fom.user.login.login.caption</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="bd60e3bfdde2f9ad9cd9f40d3913cc28" resname="fom.user.login.login.username">
+        <source>fom.user.login.login.username</source>
+        <target>Usuário</target>
+      </trans-unit>
+      <trans-unit id="6e6c6488c2d50480c4daa4fdfa0d8032" resname="fom.user.login.login.password">
+        <source>fom.user.login.login.password</source>
+        <target>Senha</target>
+      </trans-unit>
+      <trans-unit id="87d39228027ecf745cba8404d30ecc2f" resname="fom.user.login.login.register">
+        <source>fom.user.login.login.register</source>
+        <target>Registar</target>
+      </trans-unit>
+      <trans-unit id="ecc9af7170d6fbf57b6d0ddaccd53804" resname="fom.user.login.login.forgot_password">
+        <source>fom.user.login.login.forgot_password</source>
+        <target>Esqueceu a senha</target>
+      </trans-unit>
+      <trans-unit id="85ea81326e987117cc84666e02b0a239" resname="fom.user.login.login.login">
+        <source>fom.user.login.login.login</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="5b080485a66b8daa5eae45d8751b7daa" resname="fom.user.login.error_notocken.password_reset">
+        <source>fom.user.login.error_notocken.password_reset</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id="92009c75df1d83e5ea8395b3780c82b1" resname="fom.user.login.error_notocken.sorry">
+        <source>fom.user.login.error_notocken.sorry</source>
+        <target>Desculpa!</target>
+      </trans-unit>
+      <trans-unit id="34e2c9797567d7c5ada8cbc25219ffff" resname="fom.user.login.error_notocken.no_such_tocken">
+        <source>fom.user.login.error_notocken.no_such_tocken</source>
+        <target>Token não foi encontrado. Se detectar um erro, por favor entre em contato com o administrador do site.</target>
+      </trans-unit>
+      <trans-unit id="45d1bebc078ced811e44ecfc7184d01b" resname="fom.user.login.error_notocken.contact">
+        <source>fom.user.login.error_notocken.contact</source>
+        <target>Contactar o Administrador</target>
+      </trans-unit>
+      <trans-unit id="86a280b655b2e702ee8c491197682f7c" resname="fom.user.login.error_notocken.back_to_login">
+        <source>fom.user.login.error_notocken.back_to_login</source>
+        <target>Voltar à página de login</target>
+      </trans-unit>
+      <trans-unit id="769dad75b1b5531367e34d0a429d67bb" resname="fom.user.user.index.title">
+        <source>fom.user.user.index.title</source>
+        <target>Usuários</target>
+      </trans-unit>
+      <trans-unit id="27de15b2f0f08c0ddc92e4cf1c9aaab3" resname="fom.user.user.index.add_new_user">
+        <source>fom.user.user.index.add_new_user</source>
+        <target>Adicionar novo usuário</target>
+      </trans-unit>
+      <trans-unit id="b00e48cd7ac939825b34d24250c645a1" resname="fom.user.user.index.filter">
+        <source>fom.user.user.index.filter</source>
+        <target>Filtro</target>
+      </trans-unit>
+      <trans-unit id="f3100ed59cd9567bdcc8f384813c7c9d" resname="fom.user.user.index.name">
+        <source>fom.user.user.index.name</source>
+        <target>Nome</target>
+      </trans-unit>
+      <trans-unit id="75bff28ab02e55bdb14a7c293ce2a909" resname="fom.user.user.index.email">
+        <source>fom.user.user.index.email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="6f636d6323952eeedc0ab799332a11f1" resname="fom.user.user.index.groups">
+        <source>fom.user.user.index.groups</source>
+        <target>Grupos</target>
+      </trans-unit>
+      <trans-unit id="26f104ef361767092cdf44cba0f6a682" resname="fom.user.user.index.edit_user">
+        <source>fom.user.user.index.edit_user</source>
+        <target>Editar usuário</target>
+      </trans-unit>
+      <trans-unit id="08d43b58684f6800a5edc1e14131eed0" resname="fom.user.user.index.contact_user">
+        <source>fom.user.user.index.contact_user</source>
+        <target>Contactar usuário por e-mail</target>
+      </trans-unit>
+      <trans-unit id="bb3dd6c3b92fe66631820ea572865b88" resname="fom.user.user.index.edit_group">
+        <source>fom.user.user.index.edit_group</source>
+        <target>Editar grupo</target>
+      </trans-unit>
+      <trans-unit id="f22e88107c6b88ecb94632244e27ba5d" resname="fom.user.user.index.delete_user">
+        <source>fom.user.user.index.delete_user</source>
+        <target>Eliminar usuário</target>
+      </trans-unit>
+      <trans-unit id="5c1192f73832d3d61f78070a447a6f1a" resname="fom.user.user.index.no_users_available">
+        <source>fom.user.user.index.no_users_available</source>
+        <target>Nenhum usuário disponível</target>
+      </trans-unit>
+      <trans-unit id="87c70c141191d86803f5efb864bf625c" resname="fom.user.user.form.edit_user">
+        <source>fom.user.user.form.edit_user</source>
+        <target>Editar usuário</target>
+      </trans-unit>
+      <trans-unit id="9d2d8a020eecf3d88cdb90a5e44b8679" resname="fom.user.user.form.new_user">
+        <source>fom.user.user.form.new_user</source>
+        <target>Novo usuário</target>
+      </trans-unit>
+      <trans-unit id="35fe15790aa8a8cb0c9b8f128b8b06ee" resname="fom.user.user.form.save">
+        <source>fom.user.user.form.save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="21dc708e5b1b87cad327510a160795a0" resname="fom.user.user.form.create">
+        <source>fom.user.user.form.create</source>
+        <target>Criar</target>
+      </trans-unit>
+      <trans-unit id="af5a078bc3d25f703bf609dd0d913a6d" resname="fom.user.user.form.cancel">
+        <source>fom.user.user.form.cancel</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="1857e332573452e99c43f95205d285fb" resname="fom.user.user.container.base_data">
+        <source>fom.user.user.container.base_data</source>
+        <target>Dados básicos</target>
+      </trans-unit>
+      <trans-unit id="c75ba394d97036dd35107a597cfd5d60" resname="fom.user.user.container.profile">
+        <source>fom.user.user.container.profile</source>
+        <target>Perfil</target>
+      </trans-unit>
+      <trans-unit id="3abe88b2e8ae6e8a1a5346dd16d583c5" resname="fom.user.user.container.groups">
+        <source>fom.user.user.container.groups</source>
+        <target>Grupos</target>
+      </trans-unit>
+      <trans-unit id="11ca4b3bebf997bbae4c8f23221b8b11" resname="fom.user.user.container.security">
+        <source>fom.user.user.container.security</source>
+        <target>Segurança</target>
+      </trans-unit>
+      <trans-unit id="1f5d1912ccb7e71869eefbf8bdd49d32" resname="fom.user.user.container.choose_password">
+        <source>fom.user.user.container.choose_password</source>
+        <target>Escolher uma senha</target>
+      </trans-unit>
+      <trans-unit id="239b29c899597beed4dc8bf99bcf30a7" resname="fom.user.user.container.confirm_password">
+        <source>fom.user.user.container.confirm_password</source>
+        <target>Confirmar senha</target>
+      </trans-unit>
+      <trans-unit id="79bd35e34f3d4a4d74761e1bf948b4e9" resname="fom.user.user.container.filter">
+        <source>fom.user.user.container.filter</source>
+        <target>Filtro</target>
+      </trans-unit>
+      <trans-unit id="f6d4a21575a3d7daaa063571ac7e2ce9" resname="fom.user.user.container.name">
+        <source>fom.user.user.container.name</source>
+        <target>Nome</target>
+      </trans-unit>
+      <trans-unit id="c64e6ae7261a99ed96d7754802424890" resname="fom.user.user.container.users_of_selected">
+        <source>fom.user.user.container.users_of_selected</source>
+        <target>grupos de %users_count% selecionados</target>
+      </trans-unit>
+      <trans-unit id="1b09066b0fb3977196f0d580f20217d2" resname="fom.user.user.container.no_goups_defined.">
+        <source>fom.user.user.container.no_goups_defined.</source>
+        <target>Não definia grupos.</target>
+      </trans-unit>
+      <trans-unit id="414b080311e903094e01a6d810d5b702" resname="fom.user.user.container.manage_not_allowed">
+        <source>fom.user.user.container.manage_not_allowed</source>
+        <target>Você não tem autorização para gerenciar grupos.</target>
+      </trans-unit>
+      <trans-unit id="8e65e5019a37cd2aaf52addefa0c526b" resname="fom.user.user.container.add_users_groups">
+        <source>fom.user.user.container.add_users_groups</source>
+        <target>Adicionar usuários e grupos</target>
+      </trans-unit>
+      <trans-unit id="2cd7151086892a654ee449d89fa8ea9d" resname="fom.user.user.container.manage_not_allowed_security">
+        <source>fom.user.user.container.manage_not_allowed_security</source>
+        <target>Você não tem autorização para gerenciar segurança.</target>
+      </trans-unit>
+      <trans-unit id="d79b7fe56c950f569f02000eed4459e2" resname="fom.user.acl.index.access_control_lists">
+        <source>fom.user.acl.index.access_control_lists</source>
+        <target>Global Access Control Lists</target>
+      </trans-unit>
+      <trans-unit id="ca2bcfa70fbd79424f67d44fa3353207" resname="fom.user.acl.index.name">
+        <source>fom.user.acl.index.name</source>
+        <target>Nome</target>
+      </trans-unit>
+      <trans-unit id="c08cc5d0b82a9d3846355b6637f7e586" resname="fom.user.acl.index.class">
+        <source>fom.user.acl.index.class</source>
+        <target>Classe</target>
+      </trans-unit>
+      <trans-unit id="52972485e4e8c7a7c6a8201c8eef9e71" resname="fom.user.acl.index.edit">
+        <source>fom.user.acl.index.edit</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id="192916a6b1aebf1705b2b5a0d14a80de" resname="fom.user.acl.required">
+        <source>fom.user.acl.required</source>
+        <target>Campos obrigatoŕios são marcados com rótulos escuros. Required fields are marked with dark labels. Campos opcionais tem rótulos mais ligeiro.</target>
+      </trans-unit>
+      <trans-unit id="5a4991b92a10f7f4445f47d899ef212b" resname="fom.user.acl.edit.edit_class_acl">
+        <source>fom.user.acl.edit.edit_class_acl</source>
+        <target>Editar classe ACL para %name%</target>
+      </trans-unit>
+      <trans-unit id="114595c7c88ab1f3d8f962ea276c3531" resname="fom.user.acl.edit.security">
+        <source>fom.user.acl.edit.security</source>
+        <target>Segurança</target>
+      </trans-unit>
+      <trans-unit id="7ca241ee4294e362ceeafe477874ccf6" resname="fom.user.acl.edit.add_users_groups">
+        <source>fom.user.acl.edit.add_users_groups</source>
+        <target>Adicionar usuários e grupos</target>
+      </trans-unit>
+      <trans-unit id="85608e08998ce5f16f6893194018ba07" resname="fom.user.acl.edit.save">
+        <source>fom.user.acl.edit.save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="f9007b62d93a32bf1702f15ae0ea1d65" resname="fom.user.acl.edit.cancel">
+        <source>fom.user.acl.edit.cancel</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="9969ae932e36dbd70a99eb454a70d1f2" resname="fom.user.acl.groups_users.filter">
+        <source>fom.user.acl.groups_users.filter</source>
+        <target>Filtro</target>
+      </trans-unit>
+      <trans-unit id="5edcddf245c029cca2139bda9830cf6a" resname="fom.user.acl.groups_users.name">
+        <source>fom.user.acl.groups_users.name</source>
+        <target>Nome</target>
+      </trans-unit>
+      <trans-unit id="216fe12bb8ae642c4c7ad3f131a4397a" resname="fom.user.acl.groups_users.no_goups_users">
+        <source>fom.user.acl.groups_users.no_goups_users</source>
+        <target>Não definia grupos e usuários</target>
+      </trans-unit>
+      <trans-unit id="c2dd3a91aa1dbb6d29654af01b23eebf" resname="fom.user.password.email_body_html">
+        <source>fom.user.password.email_body_html</source>
+        <target>&amp;lt;p&amp;gt;Olá %user_username%,&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Você solicitou uma nova senha.
+&amp;lt;br /&amp;gt;Por Favor, clique &amp;lt;a href="%url%"&amp;gt;aqui&amp;lt;/a&amp;gt;.</target>
+      </trans-unit>
+      <trans-unit id="d160ecbaff18ffa6372d34ae92839db9" resname="fom.user.password.request_error_no_user">
+        <source>fom.user.password.request_error_no_user</source>
+        <target>Usuário não foi encontrado</target>
+      </trans-unit>
+      <trans-unit id="902bd29a337e0bd7cc08589e638f70d9" resname="fom.user.password.done.password_reset">
+        <source>fom.user.password.done.password_reset</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id="3d728215a4780cacac12687cd5cc56fc" resname="fom.user.password.done.congratulations">
+        <source>fom.user.password.done.congratulations</source>
+        <target>Parabéns!</target>
+      </trans-unit>
+      <trans-unit id="b0a72dcf0e4bd95c53418fc548740e10" resname="fom.user.password.done.password_been_reset">
+        <source>fom.user.password.done.password_been_reset</source>
+        <target>Sua senha foi redefinida. </target>
+      </trans-unit>
+      <trans-unit id="704c79de283eb8b7dcb695b56c3696fe" resname="fom.user.password.done.back_to_login">
+        <source>fom.user.password.done.back_to_login</source>
+        <target>Voltar à login</target>
+      </trans-unit>
+      <trans-unit id="482a130e8a32b331d90f828c7d3c2d22" resname="fom.user.password.reset.title">
+        <source>fom.user.password.reset.title</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id="d3ccbae359ed62e5cb184b97b7b84b17" resname="fom.user.password.reset.caption">
+        <source>fom.user.password.reset.caption</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id="7c8cbf09a39433d48e757aef1dc52765" resname="fom.user.password.reset.btn">
+        <source>fom.user.password.reset.btn</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id='manual1' resname="fom.user.password.form.message">
+        <source>fom.user.password.form.message</source>
+        <target>Para redefinir a sua senha, por favor introduza o seu nome de usuário e o seu email.</target>
+      </trans-unit>
+      <trans-unit id="bd9c4c31f46a10086b47386ddf5ab9cd" resname="fom.user.password.form.title">
+        <source>fom.user.password.form.title</source>
+        <target>Esqueceu a senha</target>
+      </trans-unit>
+      <trans-unit id="9c87ea653c3279a4267ab825a93a9f36" resname="fom.user.password.form.caption">
+        <source>fom.user.password.form.caption</source>
+        <target>Esqueceu a senha</target>
+      </trans-unit>
+      <trans-unit id="8058b89e4e3a602444e3d641eb1b7d58" resname="fom.user.password.form.username_email">
+        <source>fom.user.password.form.username_email</source>
+        <target>Usuário o email</target>
+      </trans-unit>
+      <trans-unit id="ef1a3df0bace80b4b690a4587fe130d9" resname="fom.user.password.form.back_to_login">
+        <source>fom.user.password.form.back_to_login</source>
+        <target>Voltar à login</target>
+      </trans-unit>
+      <trans-unit id="f4a77ed5240e57177d7fc54d6576ff9a" resname="fom.user.password.form.require_password">
+        <source>fom.user.password.form.require_password</source>
+        <target>Exigir uma senha</target>
+      </trans-unit>
+      <trans-unit id="befe75da50f0d271a7cc9bb4c613db00" resname="fom.user.password.email_subject">
+        <source>fom.user.password.email_subject</source>
+        <target>Esqueceu a senha</target>
+      </trans-unit>
+      <trans-unit id="1eebe68f26f3cf0317331743261e4e6f" resname="fom.user.password.send.title">
+        <source>fom.user.password.send.title</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id="5bb2e26b9a3c276df4d6a68267446ffd" resname="fom.user.password.send.caption">
+        <source>fom.user.password.send.caption</source>
+        <target>Nova senha</target>
+      </trans-unit>
+      <trans-unit id="e2cfd44d316cca82e3ce67851e98dd8a" resname="fom.user.password.send.email_been_sent">
+        <source>fom.user.password.send.email_been_sent</source>
+        <target>O link para redefinir a sua password foi enviado para o endereço de e-mail desta conta.</target>
+      </trans-unit>
+      <trans-unit id="fffe19404fde23a9b3a85496c1bd482e" resname="fom.user.password.send.back_to_login">
+        <source>fom.user.password.send.back_to_login</source>
+        <target>Voltar à login</target>
+      </trans-unit>
+      <trans-unit id="87c33391dbfc5af08c1bd1190ea1e2e1" resname="fom.user.password.request.user_inactive">
+        <source>fom.user.password.request.user_inactive</source>
+        <target>O usuário é inactivo. Por favor activar primeiro.</target>
+      </trans-unit>
+      <trans-unit id="d6d0b6344c51305d3f403f46c9e361a9" resname="fom.user.password.email_body_text">
+        <source>fom.user.password.email_body_text</source>
+        <target>Olá %user_username%, você solicitou uma nova senha. Clique no link ao seu browser "%url%".</target>
+      </trans-unit>
+      <trans-unit id="a3d21fdd612642cde6e9fb017a5ab722" resname="fom.user.userbundle.user_control">
+        <source>fom.user.userbundle.user_control</source>
+        <target>Controle de usuários</target>
+      </trans-unit>
+      <trans-unit id="8ec6670ad0fbf0a2625c0da661612db2" resname="fom.user.userbundle.users">
+        <source>fom.user.userbundle.users</source>
+        <target>Usuários</target>
+      </trans-unit>
+      <trans-unit id="3b0415aecfed8074c8013fff575fa5fb" resname="fom.user.userbundle.new_user">
+        <source>fom.user.userbundle.new_user</source>
+        <target>Novo usuário</target>
+      </trans-unit>
+      <trans-unit id="b51f225fb25cc139ccedb5a8c6a38f9b" resname="fom.user.userbundle.groups">
+        <source>fom.user.userbundle.groups</source>
+        <target>Grupos</target>
+      </trans-unit>
+      <trans-unit id="773c3ff46a6cf4628e1974a796566b04" resname="fom.user.userbundle.new_group">
+        <source>fom.user.userbundle.new_group</source>
+        <target>Novo grupo</target>
+      </trans-unit>
+      <trans-unit id="06a55817b83d0c6a3a072533d26a5ed3" resname="fom.user.userbundle.acls">
+        <source>fom.user.userbundle.acls</source>
+        <target>ACLs</target>
+      </trans-unit>
+      <trans-unit id="43dc608aeb4eb67af41e17d7b4dd455f" resname="fom.user.userbundle.classes.acls">
+        <source>fom.user.userbundle.classes.acls</source>
+        <target>ACLs</target>
+      </trans-unit>
+      <trans-unit id="78578622ab61212049ffc9138ee0755e" resname="fom.user.userbundle.classes.users">
+        <source>fom.user.userbundle.classes.users</source>
+        <target>Usuários</target>
+      </trans-unit>
+      <trans-unit id="4bb4835a269300d75d56b4d9fd968adf" resname="fom.user.userbundle.classes.groups">
+        <source>fom.user.userbundle.classes.groups</source>
+        <target>Grupos</target>
+      </trans-unit>
+      <trans-unit id="e17e415d80699f104b275d62fec85c07" resname="fom.user.userbundle.roles.super_admin">
+        <source>fom.user.userbundle.roles.super_admin</source>
+        <target>Pode adminstrar tudo (super admin)</target>
+      </trans-unit>
+      <trans-unit id="94f12c2a219f99cc1e5bcd8eb42f3315" resname="fom.user.userbundle.roles.user_admin">
+        <source>fom.user.userbundle.roles.user_admin</source>
+        <target>Pode administrar usuários e grupos</target>
+      </trans-unit>
+      <trans-unit id="fa79e6576af41618e338bb0770639524" resname="fom.user.login.errors.bad-credentials">
+        <source>fom.user.login.errors.bad-credentials</source>
+        <target>Bad credentials</target>
+      </trans-unit>
+      <trans-unit id="15a81cc81721a159e6e91890c5141aed" resname="fom.user.user.container.activated">
+        <source>fom.user.user.container.activated</source>
+        <target>activated</target>
+      </trans-unit>
+      <trans-unit id="6cf67002310ad2668e1791ed59470e80" resname="User account is locked.">
+        <source>User account is locked.</source>
+        <target>User account is locked.</target>
+      </trans-unit>
+      <trans-unit id="a2e3811a3713a404cdb23abf512db362" resname="User account is disabled.">
+        <source>User account is disabled.</source>
+        <target>User account is disabled.</target>
+      </trans-unit>
+      <trans-unit id="23d48526bdbf2023ad7bdae13ec7f879" resname="User account has expired.">
+        <source>User account has expired.</source>
+        <target>User account has expired.</target>
+      </trans-unit>
+      <trans-unit id="2d3eef069b32aacbd940b100195e1e17" resname="User credentials have expired.">
+        <source>User credentials have expired.</source>
+        <target>User credentials have expired.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

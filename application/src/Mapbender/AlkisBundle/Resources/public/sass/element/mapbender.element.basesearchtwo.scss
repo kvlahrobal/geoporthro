@@ -1,0 +1,17 @@
+@import "libs/variables";
+@import "libs/mixins";
+@import "modules/text";
+@import "modules/input";
+
+.mb-element-basesearchtwo{
+    .inputWrapper {
+        width:100%;
+        margin-bottom: $space/2;
+        .input{width:90%;}
+        .clearer{cursor:pointer; margin-left:3px;}
+    }
+    .button{margin-top: 1px; height: 26px;}
+    .input{width: 71%;}
+    .input::-ms-clear{display: none;}
+    .dropdown{margin-bottom: $space/2;}
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="053379679cff2de66b4ac78cfb1fcb83" resname="mb.maptool.clickcoordinate.class.title">
+        <source>mb.maptool.clickcoordinate.class.title</source>
+        <target>Click coordinate</target>
+      </trans-unit>
+      <trans-unit id="e980f321b71e6e9092b1fa9d501ab750" resname="mb.maptool.clickcoordinate.class.description">
+        <source>mb.maptool.clickcoordinate.class.description</source>
+        <target>Click coordinate</target>
+      </trans-unit>
+      <trans-unit id="6febdfc8577ca58cd75e8cc6cb0c0463" resname="mb.maptool.clickcoordinate.tag.coordinate">
+        <source>mb.maptool.clickcoordinate.tag.coordinate</source>
+        <target>coordinate</target>
+      </trans-unit>
+      <trans-unit id="628aa4657e090b5c1005d89e08e82ef8" resname="mb.maptool.clickcoordinate.tag.click">
+        <source>mb.maptool.clickcoordinate.tag.click</source>
+        <target>click</target>
+      </trans-unit>
+      <trans-unit id="db8b381b82ea0a3d6668c797daeb4ab5" resname="mb.maptool.searchcoordinate.class.title">
+        <source>mb.maptool.searchcoordinate.class.title</source>
+        <target>Search coordinate</target>
+      </trans-unit>
+      <trans-unit id="6b7e719bcaeba049184dcc8960ff0f6d" resname="mb.maptool.searchcoordinate.class.description">
+        <source>mb.maptool.searchcoordinate.class.description</source>
+        <target>Search coordinate</target>
+      </trans-unit>
+      <trans-unit id="fc84ed472c41997e4ad54b03b5b7025e" resname="mb.maptool.searchcoordinate.tag.coordinate">
+        <source>mb.maptool.searchcoordinate.tag.coordinate</source>
+        <target>coordinate</target>
+      </trans-unit>
+      <trans-unit id="4f6a67c03f2b3a15b7782f57aa3a7c73" resname="mb.maptool.searchcoordinate.tag.search">
+        <source>mb.maptool.searchcoordinate.tag.search</source>
+        <target>search</target>
+      </trans-unit>
+      <trans-unit id="6b99fe71f6687c5b9b53c0ed97cdb6ba" resname="mb.maptool.clickcoordinate.extern.crs.title">
+        <source>mb.maptool.clickcoordinate.extern.crs.title</source>
+        <target>Coordinate system</target>
+      </trans-unit>
+      <trans-unit id="7a19cbd3bd8160e59d86c1f6db034299" resname="mb.maptool.clickcoordinate.extern.crs.tooltip">
+        <source>mb.maptool.clickcoordinate.extern.crs.tooltip</source>
+        <target>Coordinate system</target>
+      </trans-unit>
+      <trans-unit id="f207d53dde62bb3c160c4dfc0aa304d7" resname="mb.maptool.clickcoordinate.extern.input_coords.tooltip">
+        <source>mb.maptool.clickcoordinate.extern.input_coords.tooltip</source>
+        <target>Output coordinate/s</target>
+      </trans-unit>
+      <trans-unit id="8e544ec30e06edceaf4439c522bc5600" resname="mb.maptool.clickcoordinate.copytoclipboard.tooltip">
+        <source>mb.maptool.clickcoordinate.copytoclipboard.tooltip</source>
+        <target>Copy to clipboard</target>
+      </trans-unit>
+      <trans-unit id="5f3373b188a1895395a23aa46eb3e242" resname="mb.maptool.clickcoordinate.intern.coords.title">
+        <source>mb.maptool.clickcoordinate.intern.coords.title</source>
+        <target>Coordinate in map reference system</target>
+      </trans-unit>
+      <trans-unit id="c76979bab98d9f4b783ec9c08144d09f" resname="mb.maptool.clickcoordinate.button.reset">
+        <source>mb.maptool.clickcoordinate.button.reset</source>
+        <target>Reset</target>
+      </trans-unit>
+      <trans-unit id="2f7b46c661d43ff666730a8af38083e7" resname="mb.maptool.searchcoordinate.extern.crs.title">
+        <source>mb.maptool.searchcoordinate.extern.crs.title</source>
+        <target>Coordinate system</target>
+      </trans-unit>
+      <trans-unit id="7ab5a8c3921b6c095904f8be71a0347f" resname="mb.maptool.searchcoordinate.extern.crs.tooltip">
+        <source>mb.maptool.searchcoordinate.extern.crs.tooltip</source>
+        <target>Coordinate system</target>
+      </trans-unit>
+      <trans-unit id="93f4fe75a86034166dd99e91f920a70f" resname="mb.maptool.searchcoordinate.extern.input_coords.tooltip">
+        <source>mb.maptool.searchcoordinate.extern.input_coords.tooltip</source>
+        <target>Input coordinates. Use ',' or ' ' to separate ordinates</target>
+      </trans-unit>
+      <trans-unit id="b0b5e5f72b179bd1e0f01188f11a5408" resname="mb.maptool.searchcoordinate.copytoclipboard.tooltip">
+        <source>mb.maptool.searchcoordinate.copytoclipboard.tooltip</source>
+        <target>Copy to clipboard</target>
+      </trans-unit>
+      <trans-unit id="afe537c126213611fff8222b5a3083ae" resname="mb.maptool.searchcoordinate.intern.coords.title">
+        <source>mb.maptool.searchcoordinate.intern.coords.title</source>
+        <target>Coordinate in map reference system</target>
+      </trans-unit>
+      <trans-unit id="bb17fe6555de6b1cc688608c270963c4" resname="mb.maptool.searchcoordinate.button.reset">
+        <source>mb.maptool.searchcoordinate.button.reset</source>
+        <target>Reset</target>
+      </trans-unit>
+      <trans-unit id="9a5e9ef0dbf2c195e50026a03e3e29d6" resname="mb.maptool.searchcoordinate.button.centermap">
+        <source>mb.maptool.searchcoordinate.button.centermap</source>
+        <target>Center map</target>
+      </trans-unit>
+      <trans-unit id="0f092a470d3188f2b7955ff90184bcd4" resname="mb.maptool.searchcoordinate.error.coordinate_outside">
+        <source>mb.maptool.searchcoordinate.error.coordinate_outside</source>
+        <target>The given coordinate is beyond the map's extent.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

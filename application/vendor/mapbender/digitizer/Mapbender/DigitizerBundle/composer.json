@@ -1,0 +1,23 @@
+{
+    "name": "mapbender/digitizer",
+    "description": "Mapbender digitizer element",
+    "keywords": ["mapbender", "digitizer","digitizing"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {"name": "Andriy Oblivantsev"},
+        {"name": "Stefan Winkelmann"}
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "blueimp/jquery-file-upload": "9.*",
+        "phayes/geophp": "1.2"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+		"psr-0": {"Mapbender\\DigitizerBundle": "."}
+    },
+    "target-dir": "Mapbender/DigitizerBundle"
+}

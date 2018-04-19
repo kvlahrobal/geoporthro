@@ -1,0 +1,27 @@
+{
+    "name": "rogeriopradoj/respond",
+    "description": "A way to install Respond.js via composer",
+    "license": "MIT",
+    "type": "component",
+    "keywords": [
+        "js"
+    ],
+    "authors": [{
+        "name": "Rogerio Prado de Jesus",
+        "email": "rogeriopradoj@gmail.com"
+    }],
+    "require": {
+        "robloach/component-installer": "*"
+    },
+    "extra": {
+        "component": {
+            "name": "respond",
+            "scripts": [
+                "dest/respond.src.js"
+            ],
+            "files": [
+                "dest/respond.min.js"
+            ]
+        }
+    }
+}

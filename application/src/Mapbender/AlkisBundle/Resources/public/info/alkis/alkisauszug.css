@@ -1,0 +1,159 @@
+/*    Modul: alkisauszug.css
+    S t y l e s zur ALKIS-Buchauskunft, Kommunales Rechenzentrum Minden-Ravensberg/Lippe (Lemgo).
+
+    Version:
+    2010-09-21    Inlay
+    2010-09-30    body-width bei Print
+    2010-10-12    class p.fsd: margin statt position-relative, dann keine Scrollbar
+    2011-01-04    Spalte td.fla im fsnw
+    2011-01-26    einheitlich td padding-top 6px
+    2011-11-16    FS-Historie
+    2013-06-27    p.recht
+    2014-01-27    strasse, hsnr, Print-Balken
+*/
+body    {background-color: #FDFFFD;}
+p, body    {font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 10pt; color: #000033; margin-top: 2pt; margin-bottom: 2pt;}
+
+/* ** Banner im Kopf (farbiger Balken), Farbcode fuer Nachweis-Art ** */
+p.fsausk,p.fskennz,p.fsei,p.fshis,p.gbkennz,p.nakennz,p.geb,p.lage,p.strasse,p.recht {text-align: right;}
+p.fsausk    {background-color: teal; color: silver;}    /* Uebersichts-Seite Flurstuecks-Auskunft */
+p.fskennz,p.fsei{background-color: navy; color: silver;}    /* Flurstuecks-Nachweis */
+/* p.fsei    {background-color: olive; color: silver;}*/    /* Flurstuecks- und Eigentuemer-Nachweis */
+p.fshis        {background-color: gray; color: white;}        /* Flurstuecks-Historie */
+p.gbkennz    {background-color: green; color: silver;}    /* Bestandsnachweis */
+p.nakennz    {background-color: maroon; color: silver;}    /* Personen- und Adressdaten */
+p.geb        {background-color: yellow; color: gray;}    /* Gebaeude zum FS */
+p.lage        {background-color: lime; color: gray;}        /* Lage/Adresse zum FS */
+p.strasse    {background-color: limegreen; color: slategray;}    /* Strasse */
+p.recht        {background-color: #F0F8FF; color: gray;}    /* Baurecht, Bodenneuordnung */
+
+/* Format nach Inhalt */
+p.bezieh    {text-align: right; background: olive;    color: silver;} /* Beziehungen */p.fsd        {margin-left: 170px;}    /* Flst-Flaeche */
+p.gbl        {position: relative; left: 60px;}    /* Nam: Buchungsstelle*/
+p.zus        {margin: 2pt; padding: 2pt; border:1px dotted maroon; background: white;} /* Zusatz zum Eigent., gerahmt */
+p.avh        {font-style: italic; color: navy;}    /* Anteilsverhaeltnis */
+p.ant        {font-style: italic; position: relative;left: 12px;} /* Anteil am FS */
+p.geig        {color: navy;}        /* GB-Nachw. Eigentuemer Name */
+p.gadr        {color: maroon; margin-top: 1pt;}    /* GB-Nachw. Eigentuemer Adresse */
+p.nwlink, td.nwlink {font-size: 7pt; text-align: right; margin-top: 0pt;}    /* Link zum Nachweis GB, FS, ..*/
+p.err        {font-size: 11px; color: red;}        /* Fehler -> Anwender */
+p.dbg        {font-size: 10px; color: gray;}        /* Debug -> Entwickler */
+p.warn        {color: gray; font-style: italic;}    /* Warnung, Hinweis */
+p.ph        {color: gray;}                        /* Platzhalter */
+
+/* waagerechte Trennlinien */
+hr                     {border: none; background-color: rgb(0,0,0); color: rgb(0,0,0);}
+hr.thin           {height: 1px;}
+hr.thick         {height: 3px;}
+
+/* Links */
+a:link        {color: rgb(0,102,153);}
+a:visited    {color: rgb(0,153,102);}
+a:active    {color: rgb(0,102,102);}
+a:hover        {color: rgb(255,40,40);}
+
+/* Globaler Identifikator gml_id - Link fuer Entwicklung */
+a.gmlid        {text-decoration: none;    color: silver; font-style: italic; font-size: 7pt; text-align: right;}
+span.gmlid    {font-style: italic; font-size: 7pt; text-align: right;}
+
+/* komplette Adresse im Rahmen */
+div.adr {border-left-width: 0px; border-right-width: 0px; border-bottom-width: 2px; border-top-width: 2px; 
+    width: 60%; font-size: 12pt; border-color: #a2d545; border-style: solid; 
+    margin-bottom: 8px; margin-top: 8px; margin-left: 0.7in;    overflow: auto; padding: 6px; background: #e4f7dd;}
+
+span.key     {color: gray; font-style: italic;} /* Schluesselwert vor Text, Wert zurueck nehmen */
+span.italic     {font-style: italic;} /* Schluesselwert vor Text, Wert zurueck nehmen */
+span.wichtig{color: #BB0000; font-weight: bold;} /* Wert hervorheben */
+span.flae    {font-weight: bold;} /* Flächensumme Flurst. */
+
+/* ** T a b e l l e n ** */
+table         {font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 10pt; color: #000033;}
+table.fsd    {font-size: 9pt; margin-left: 12px;}
+table.bez    {font-size: 9pt; margin-bottom: 10px; margin-left: 3px;}
+
+/* Kennzeichen mit Rahmen, Rahmen-Farben wie 'Balken' */
+table.kennzfs    {border: 2px solid  navy;  padding: 3px; margin: 0px;}    /* Flurstueck */
+table.kennzfsh    {border: 2px dotted navy;  padding: 3px; margin: 0px;}    /* - historisch */
+table.kennzgb    {border: 2px solid  green; padding: 3px; margin: 0px;}    /* Grundbuch */
+table.kennzgbf    {border: 2px dotted green; padding: 3px; margin: 0px;}    /* - fiktiv */
+table.kennzla    {border: 2px solid  lime;  padding: 3px; margin: 0px;}    /* Lage */
+table.kennzstra    {border: 2px solid  limegreen;  padding: 3px; margin: 0px;}    /* Strasse */
+
+/* volle Breite fuer verschiedene Zwecke */
+table.fs, table.nua, table.klas, table.eig, table.outer, table.geb {width: 100%;}
+
+/* ** Tabellenfelder ** */
+td    {vertical-align: top; padding-top: 6px;}   
+td.foot      {padding: 6px; font-size: 7pt; vertical-align: middle;} 
+td.footl      {font-size: 7pt;} 
+td.footr      {font-size: 7pt; text-align: right;} 
+
+td.ll    {width: 130px;}    /* Liste Links */
+td.lr    {color: black;}    /* Liste Rechts */
+td.ph    {color: gray;}    /* Platzhalter, vorlaeufig, spaeter loschen */
+
+/* Flaechen rechtsbuendig (stellengerecht) */
+td.fla    {width: 110px; padding-right: 4px; text-align: right;}
+td.rec    {text-align: right;}
+td.key    {width:  35px; padding-right: 4px; padding-left: 4px;}
+/* Ertragsmesszahl der Bodenschaetzung
+td.emz    {width: 45px; padding-right: 4px; padding-left: 4px; text-align: right;} */
+td.kurz    {width: 26px; padding-left: 4px;}
+td.nanu    {width: 80px;}                /* Namensnummer */
+td.sond, p.sond    {font-size: 9pt; font-style: italic; background-color: white;
+        border: 1px dotted silver; padding: 6px;}    /* Sondereigentumsbeschreibung */
+
+td.nrap, p.nrap    {font-size: 9pt; font-style: italic; background-color: white;}    /* Nummer im Aufteilungsplan */
+
+td.fett    {font-weight: bold;}
+td.head    {border-bottom: 1px solid gray; font-style: italic; padding-top: 2px;}    /* Kopfzeile, Spaltenueberschrift */
+td.headlight    {border-bottom: 1px solid silver;}
+td.right {text-align:right;}
+td.dien    {font-size: 9pt; font-style: italic; color: purple; border-bottom: 1px solid silver;}
+td.ohne    {border: 0;}    /* Kopfzeile, Spaltenueberschrift */
+td.sum {border-top: 2px dotted maroon;    border-bottom:3px solid maroon;
+    border-left:0px dotted maroon;    border-right:0px dotted maroon; font-weight: bold;}    /* unter dem Strich = Summenzeile */
+td.bez    {font-weight: bold;}    /* Beziehungen */
+td.nhd    {width: 150px;}            /* Namen - linke / rechte Spalte */
+td.nam    {font-weight: bold;}
+td.gbl    {border-bottom: 1px dotted green;}    /* Name: GB-Liste */
+/* Inlay analog Template: linke Tabellenspalte - Feldname */
+td.li, td.gr {color:gray; padding-left: 8px; padding-right:8px; border-bottom: 0px; vertical-align:top;}
+/* dienendes GB in FS-Tab im Best-NW  */
+td.ndien    {font-size: 9pt; color: purple}
+td.hsnr    {width: 70px; padding-right: 4px; text-align: right;} /* Hausnummer in Straße */
+
+/* Ueberschriften */
+h1, h2, h3, h4, h5, h6 {font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;}
+h1 {    color: black;    font-size: 14pt;}
+h2 {    color: maroon;    font-size: 12pt;}
+h3 {    color: green;    font-size: 12pt;}
+h4 {    color: black;    font-size: 11pt;}
+h5 {    color: black;    font-size: 10pt;}
+h6 {    color: black;    font-size:  9pt; margin-top: 2pt; margin: 0pt}    /* FS in Best-NW */
+
+img {border: 0px; margin: 0px;} /* Icons */
+img.inline-img {vertical-align: middle; padding-bottom: 3px;}
+
+iframe.inlay {border:0px; width: 100%;} /* height: 400px; */
+
+/* Seitenfuss */
+.buttonbereich    {font-size: 7pt; text-align: right;}
+.confbereich    {font-size: 7pt; background-color: #EEEEEE; position: relative;}
+
+/* abweichender Druck */
+@media print {
+    body {width: 98%; background-color:white;}
+
+    /* Balken */
+    p.fskennz,p.fsei,p.fshis,p.gbkennz,p.nakennz,p.geb,p.lage,p.strasse,p.recht{text-align: right; color: black;}
+    p.fskennz,p.fsei{border-bottom: 2px solid navy; border-top: 2px solid navy;}
+    p.fshis        {border-bottom: 2px solid gray; border-top: 2px solid gray;}
+    p.gbkennz    {border-bottom: 2px solid green; border-top: 2px solid green;}
+    p.nakennz    {border-bottom: 2px solid maroon; border-top: 2px solid maroon;}
+    p.geb        {border-bottom: 2px solid yellow; border-top: 2px solid yellow;}
+    p.lage        {border-bottom: 2px solid lime; border-top: 2px solid lime;}
+    p.strasse    {border-bottom: 2px solid limegreen; border-top: 2px solid limegreen;}
+    p.recht        {border-bottom: 2px solid #F0F8FF; border-top: 2px solid #F0F8FF;}
+}

@@ -1,0 +1,82 @@
+{
+  "name": "viscreation/vis-ui.js",
+  "type": "component",
+  "description": "JavaScript UI generator framework based on jQuery UI  and some other elements",
+  "keywords": [ "assets", "jquery", "vis-ui"],
+  "homepage": "https://github.com/eSlider",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andriy Oblivantsev",
+      "email": "eslider@gmail.com"
+    }
+  ],
+  "require": {
+    "robloach/component-installer": "0.2.*",
+    "components/normalize.css": "3.0.*",
+    "components/font-awesome": "4.5.*",
+    "components/bootstrap": "3.*",
+    "drmonty/leaflet": "0.*",
+    "components/jquery": "1.* || 2.*",
+    "components/jqueryui": "1.*",
+    "afarkas/html5shiv": "3.*",
+    "components/underscore": "1.8.*",
+    "rogeriopradoj/respond": "1.4.*",
+    "components/jquerydialogextendjs": "*",
+    "bower-asset/datatables": "1.10.*",
+    "components/placeholdersjs": "*",
+	"medialize/jquery-context-menu": "1.*"
+  },
+  "config": {
+    "bin-dir": "bin",
+    "component-dir": "web/assets"
+  },
+  "extra": {
+    "component": {
+      "scripts": [
+        "src/js/utils/*.js",
+        "src/js/elements/*.js",
+        "src/js/jquery.form.generator.js"
+      ],
+      "styles": [
+        "src/styles/base.css"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "components/placeholdersjs",
+        "type": "component",
+        "version": "4.0.1",
+        "dist": {
+          "url": "http://github.com/jamesallardice/Placeholders.js/archive/v4.0.1.zip",
+          "type": "zip"
+        },
+        "extra": {
+          "component": {
+            "scripts": ["dist/placeholders.min.js","dist/placeholders.jquery.min.js"]
+          }
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "components/jquerydialogextendjs",
+        "type": "component",
+        "version": "2.0.4",
+        "dist": {
+          "url": "http://github.com/ROMB/jquery-dialogextend/archive/2.0.4.zip",
+          "type": "zip"
+        },
+        "extra": {
+          "component": {
+            "scripts": ["build/*.min.js"]
+          }
+        }
+      }
+    }
+  ]
+}

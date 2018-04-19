@@ -1,0 +1,25 @@
+imports:
+    - { resource: config.yml }
+
+monolog:
+    handlers:
+        main:
+            type:  rotating_file
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+            max_files: 20
+        firephp:
+            type:  firephp
+            level: info
+            
+doctrine:
+    dbal:
+        connections:
+            default:
+                logging: false
+            hro_data:
+                logging: false
+            hro_search_data:
+                logging: false
+            hro_log_data:
+                logging: false
