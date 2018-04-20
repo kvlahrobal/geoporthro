@@ -1,11 +1,12 @@
 (function($) {
-
+    
     $.widget("mapbender.mbPrintClient",  {
         options: {
             style: {
                 fillColor:     '#ffffff',
                 fillOpacity:   0.5,
-                strokeColor:   '#000000',
+                //strokeColor:   '#000000',
+                strokeColor:   'red',
                 strokeOpacity: 1.0,
                 strokeWidth:    2
             }
@@ -14,6 +15,7 @@
         layer: null,
         control: null,
         feature: null,
+        renderer: null,
         lastScale: null,
         lastRotation: null,
         width: null,
@@ -38,8 +40,9 @@
             $('input[name="rotation"]', this.element)
                 .on('keyup', $.proxy(this._updateGeometry, this));
             $('select[name="template"]', this.element)
-                .on('change', $.proxy(this._getTemplateSize, this));
+                .on('change', $.proxy(this._getTemplateSize, this)); 
         
+                   
             if (this.options.type === 'element') {
                 $(this.element).show();
                 $(this.element).on('click', '#printToggle', function(){
@@ -147,16 +150,18 @@
 
             select.val(selectValue);
             styledSelect.html('1:'+selectValue);
-
+            
             this._updateGeometry(true);
         },
+       
 
+       
         _updateGeometry: function(reset) {
             var width = this.width,
                 height = this.height,
                 scale = this._getPrintScale(),
                 rotationField = $(this.element).find('input[name="rotation"]');
-
+            
             // remove all not numbers from input
             rotationField.val(rotationField.val().replace(/[^\d]+/,''));
 
@@ -168,7 +173,7 @@
 
             if(!(!isNaN(parseFloat(scale)) && isFinite(scale) && scale > 0)) {
                 if(null !== this.lastScale) {
-                //$('input[name="scale_text"]').val(this.lastScale).change();
+                //$('input[name="scale_text"]').val(this.lastScale).change();  //nicht von TIM auskommentiert
                 }
                 return;
             }
@@ -180,7 +185,6 @@
                 }
             }
             rotation= parseInt(-rotation);
-
             this.lastScale = scale;
 
             var world_size = {
@@ -192,9 +196,16 @@
             this.map.map.olMap.getCenter() :
             this.feature.geometry.getBounds().getCenterLonLat();
 
-            if(this.feature) {
+            //alles auf null setzen
+            if(this.feature) {                
                 this.layer.removeAllFeatures();
                 this.feature = null;
+                
+                this.map.map.olMap.removeControl(this.control);
+                this.control = null;
+                
+                this.map.map.olMap.removeLayer(this.layer);
+                this.layer = null;
             }
 
             this.feature = new OpenLayers.Feature.Vector(new OpenLayers.Bounds(
@@ -235,41 +246,127 @@
                 };
             }
 
-            this.feature.geometry.rotate(rotation, new OpenLayers.Geometry.Point(center.lon, center.lat));
-            this.layer.addFeatures(this.feature);
-            this.layer.redraw();
+            this.layer = new OpenLayers.Layer.Vector("Print", {
+                styleMap: new OpenLayers.StyleMap({
+                    'default': new OpenLayers.Style({
+                            fillColor:     '#ffffff',
+                            fillOpacity:   0.5,
+                            strokeColor:   '#1879BF',
+                            strokeOpacity: 1.0,
+                            strokeWidth:    2,
+                            cursor: 'all-scroll'
+                        }),
+                    "transform": new OpenLayers.Style({
+                        display: "${getDisplay}",
+                        cursor: "grab",
+                        pointRadius: 5,
+                        fillColor: "white",
+                        fillOpacity: 1,
+                        strokeColor: "black"
+                    }, {
+                        context: {
+                            getDisplay: function(feature) {
+                                // hide the resize handle at the south-east corner
+                                return feature.attributes.role === "ne-resize" ? "none" : "none";
+                            }
+                        }
+                    }),
+                    "rotate": new OpenLayers.Style({
+                        cursor:"pointer",
+                        display: "${getDisplay}",
+                        pointRadius: 10,
+                        fillColor: "#D81920",
+                        fillOpacity: 1,
+                        strokeColor: "white"
+                    }, {
+                        context: {
+                            getDisplay: function(feature) {
+                                // only display the rotate handle at the south-east corner
+                                return feature.attributes.role === "ne-rotate" ? "" : "none";
+                            }
+                        }
+                    })
+                }),
+               // renderers: renderer
+            });
+            this.control = new OpenLayers.Control.TransformFeature(this.layer, {
+                renderIntent: "transform",
+                rotationHandleSymbolizer: "rotate"
+            });
+            
+            this.control.events.register('transform', this.feature, function(event){
+                if(parseInt(event.object.rotation) <= 0) {
+                    $('input[name="rotation"]').val(360 - (event.object.rotation + 360));
+                } else if (event.object.rotation >= 360 ) {
+                    $('input[name="rotation"]').val(360 - (event.object.rotation  - 360));
+                } else {
+                    $('input[name="rotation"]').val(360 - event.object.rotation);
+                }
+            });
+            this.map.map.olMap.addControl(this.control);
+            this.map.map.olMap.addLayer(this.layer);
+            
+            if(reset !== undefined && reset.type !== undefined) {
+		console.log(reset.type);
+                if(reset.type === 'keyup' || reset.type === 'change') {
+                    this._rotateFeature(rotation,new OpenLayers.Geometry.Point(this.feature.geometry.getCentroid().x, this.feature.geometry.getCentroid().y));
+                    this.layer.addFeatures(this.feature);
+                    this.control.setFeature(this.feature, {rotation:rotation});
+                }
+            } else {
+                this.layer.addFeatures(this.feature);
+                this.control.setFeature(this.feature, {});
+            }
         },
-
+        _rotateFeature(angle, origin) {
+            this.feature.geometry.rotate(angle, origin);
+        },
         _updateElements: function(active) {
-            var self = this;
-
+           
             if(true === active){
                 if(null === this.layer) {
                     this.layer = new OpenLayers.Layer.Vector("Print", {
                         styleMap: new OpenLayers.StyleMap({
-                            'default': $.extend({}, OpenLayers.Feature.Vector.style['default'], this.options.style)
-                        })
-                    });
+                            'default': $.extend({}, OpenLayers.Feature.Vector.style['default'], this.options.style),})});
                 }
-                if(null === this.control) {
-                    this.control = new OpenLayers.Control.DragFeature(this.layer,  {
-                        onComplete: function() {
-                            self._updateGeometry(false);
+
+                if(null === this.control) { 
+                    this.control = new OpenLayers.Control.TransformFeature(this.layer,  { 
+                        renderIntent: "transform", 
+                        rotationHandleSymbolizer: "rotate"
+                    });
+                    this.control.events.register('transform', this.feature, function(event){
+                        if(parseInt(event.object.rotation) <= 0) {
+                            $('input[name="rotation"]').val(360 - (event.object.rotation + 360));
+                        } else if (event.object.rotation >= 360 ) {
+                            $('input[name="rotation"]').val(360 - (event.object.rotation  - 360));
+                        } else {
+                            $('input[name="rotation"]').val(360 - event.object.rotation);
                         }
                     });
                 }
-                this.map.map.olMap.addLayer(this.layer);
+                
+                
                 this.map.map.olMap.addControl(this.control);
+                this.map.map.olMap.addLayer(this.layer);
+                
                 this.control.activate();
-
                 this._updateGeometry(true);
+/*
+ * Else wird ausgeführt, wenn auf Abbrechen bzw. das Close-X geklickt wird
+ */
             }else{
                 if(null !== this.control) {
                     this.control.deactivate();
                     this.map.map.olMap.removeControl(this.control);
+                    this.control = null;
                 }
                 if(null !== this.layer) {
+                    this.layer.removeAllFeatures();
                     this.map.map.olMap.removeLayer(this.layer);
+                }
+                if(null !== this.feature) {
+                    this.feature = null;
                 }
             }
         },
@@ -694,7 +791,7 @@
                 success: function(data) {
                     self.width = data.width;
                     self.height = data.height;
-                    self._updateGeometry();
+                    self._updateGeometry(); 
                 }
             });
         },
