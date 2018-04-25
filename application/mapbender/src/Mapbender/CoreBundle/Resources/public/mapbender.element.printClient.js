@@ -318,7 +318,7 @@
                 this.control.setFeature(this.feature, {});
             }
         },
-        _rotateFeature(angle, origin) {
+        _rotateFeature: function(angle, origin) {
             this.feature.geometry.rotate(angle, origin);
         },
         _updateElements: function(active) {
