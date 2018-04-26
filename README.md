@@ -1,6 +1,6 @@
 # *Geoport.HRO*
 
-An adoption of [*Mapbender*](https://mapbender.org), the spatial web mapping framework, for *Geoport.HRO*, the web map portal of the municipality of Rostock
+An adoption of [*Mapbender*](https://mapbender.org), the spatial web mapping framework, for *Geoport.HRO*, the web map portal of the municipality of Rostock – view it in production: https://www.geoport-hro.de
 
 ## Requirements
 
