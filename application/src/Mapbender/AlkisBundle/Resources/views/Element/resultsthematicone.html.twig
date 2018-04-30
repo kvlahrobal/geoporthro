@@ -22,6 +22,7 @@
              {% elseif type == 'gruenfriedhofsflaechen'%} gruenfriedhofsflaechen document
              {% elseif type == 'gruenpflegeobjekte'%} gruenpflegeobjekte document
              {% elseif type == 'ingenieurbauwerke'%} ingenieurbauwerke document
+             {% elseif type == 'kleingartenanlagen' %} kleingartenanlagen document
              {% elseif type == 'leuchten' %} leuchten document
              {% elseif type == 'lichtsignalanlagen' %} lichtsignalanlagen document
              {% elseif type == 'mietenpachten' %} mietenpachten document
@@ -56,6 +57,8 @@
                 Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Objektart {{ json.data.objektart }}
             {% elseif type == 'ingenieurbauwerke' and json.data.type == 'ingenieurbauwerke' %}
                 {{ json.data.art }}, {{ json.data.nummer_asb }}, {{ json.data.nummer }}
+            {% elseif type == 'kleingartenanlagen' and json.data.type == 'kleingartenanlagen' %}
+                {{ json.data.bezeichnung }}
             {% elseif type == 'leuchten' and json.data.type == 'leuchten' %}
                 Leuchtentragsystem: {{ json.data.tragsystem_nummer }}, {{ json.data.tragsystem_mslink }}; Leuchte: {{ json.data.nummer }}{% if json.data.nummer_zusatz is defined and json.data.bezeichnung != null%}, {{ json.data.nummer_zusatz }}{% endif %}, {{ json.data.mslink }}
             {% elseif type == 'lichtsignalanlagen' and json.data.type == 'lichtsignalanlagen' %}

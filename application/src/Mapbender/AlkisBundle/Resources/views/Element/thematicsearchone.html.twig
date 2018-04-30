@@ -22,6 +22,8 @@
             <option value="gruenpflegeobjekte"{% if loop.first %} selected="true" {% endif %}>{{ 'Grünpflegeobjekte' | trans }}</option>
           {% elseif opt == 'ingenieurbauwerke' %}
             <option value="ingenieurbauwerke"{% if loop.first %} selected="true" {% endif %}>{{ 'Ingenieurbauwerke' | trans }}</option>
+          {% elseif opt == 'kleingartenanlagen' %}
+            <option value="kleingartenanlagen"{% if loop.first %} selected="true" {% endif %}>{{ 'Kleingartenanlagen' | trans }}</option>
           {% elseif opt == 'leuchten' %}
             <option value="leuchten"{% if loop.first %} selected="true" {% endif %}>{{ 'Leuchten' | trans }}</option>
           {% elseif opt == 'lichtsignalanlagen' %}

@@ -54,6 +54,7 @@ class ThematicSearchOneAdminType extends AbstractType
                     "gruenfriedhofsflaechen" => "Grünflächen und Friedhofsbegleitflächen",
                     "gruenpflegeobjekte" => "Grünpflegeobjekte",
                     "ingenieurbauwerke" => "Ingenieurbauwerke",
+                    "kleingartenanlagen" => "Kleingartenanlagen",
                     "leuchten" => "Leuchten",
                     "lichtsignalanlagen" => "Lichtsignalanlagen",
                     "mietenpachten" => "Mieten und Pachten",

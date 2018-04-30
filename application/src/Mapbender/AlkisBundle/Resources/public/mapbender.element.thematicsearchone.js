@@ -18,6 +18,7 @@
             gruenfriedhofsflaechen: true,
             gruenpflegeobjekte: true,
             ingenieurbauwerke: true,
+            kleingartenanlagen: true,
             leuchten: true,
             lichtsignalanlagen: true,
             mietenpachten: true,
@@ -36,6 +37,7 @@
             gruenfriedhofsflaechen: '<li>→ Art [Beispiel: <span>rasen</span>]</li><li>→ Bezirk [Beispiel: <span>24</span>]</li><li>→ Objektnummer [Beispiele: <span>1118/02</span> oder <span>1118</span>]</li><li>→ Objektbezeichnung [Beispiel: <span>kriegsgräb</span>]</li><li>→ Pflegebezeichnung [Beispiel: <span>1116 wiese</span>]</li><li>→ Teil als Kombination aus Bezirk, Objektnummer und Teil (Reihenfolge egal) [Beispiel: <span>21 1118 13</span>]</li><li>→ Teil als Kombination aus Bezirk, Objektbezeichnung und Teil (Reihenfolge egal) [Beispiel: <span>21 spiellandschaft 13</span>]</li></ul>',
             gruenpflegeobjekte: '<li>→ Bezirk [Beispiel: <span>25</span>]</li><li>→ Objektnummer [Beispiele: <span>3015/02</span> oder <span>3015</span>]</li><li>→ Objektbezeichnung [Beispiel: <span>langenorter hufe/haferweg</span>]</li><li>→ Objektart [Beispiel: <span>ballspielan</span>]</li></ul><br/>Resultate können Friedhöfe, Parks und Grünanlagen, Spielplätze sowie Straßenbegleitgrün sein.',
             ingenieurbauwerke: '<li>→ Art [Beispiel: <span>Brücke</span>]</li><li>→ ASB-Nummer [Beispiele: <span>1938:523</span> oder <span>523</span>]</li><li>→ interne Bauwerksnummer [Beispiel: <span>bw 108</span>]</li></ul>',
+            kleingartenanlagen: '<li>→ Bezeichnung [Beispiel: <span>helsin</span>]</li></ul>',
             leuchten: '<li>→ Nummer des Leuchtentragsystems [Beispiel: <span>055-01-2-6</span>]</li><li>→ MSLINK des Leuchtentragsystems [Beispiel: <span>7725660</span>]</li><li>→ Nummer der Leuchte [Beispiel: <span>106-33-4-5</span>]</li><li>→ MSLINK der Leuchte [Beispiel: <span>3058105</span>]</li></ul>',
             lichtsignalanlagen: '<li>→ Nummer [Beispiel: <span>LSA 132</span>]</li><li>→ Bezeichnung [Beispiel: <span>Saarplatz/Parkstr.</span>]</li><li>→ Knoten-Nummer [Beispiel: <span>205</span>]</li></ul>',
             mietenpachten: '<li>→ Aktenzeichen [Beispiel: <span>2341l04</span>]</li><li>→ Status [Beispiel: <span>iv</span>]</li></ul><br/>Es werden je Aktenzeichen immer sowohl die Teilflächen als auch die Gesamtfläche gelistet.',
@@ -120,6 +122,9 @@
             else if (search === 'ingenieurbauwerke') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.ingenieurbauwerke));
             }
+            else if (search === 'kleingartenanlagen') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.kleingartenanlagen));
+            }
             else if (search === 'leuchten') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchten));
             }
@@ -179,6 +184,10 @@
             else if (search === 'ingenieurbauwerke') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.ingenieurbauwerke));
                 this.firstTimeSearch.ingenieurbauwerke = true;
+            }
+            else if (search === 'kleingartenanlagen') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.kleingartenanlagen));
+                this.firstTimeSearch.kleingartenanlagen = true;
             }
             else if (search === 'leuchten') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchten));
@@ -245,6 +254,10 @@
             else if (search === 'ingenieurbauwerke') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.ingenieurbauwerke));
                 this.firstTimeSearch.ingenieurbauwerke = true;
+            }
+            else if (search === 'kleingartenanlagen') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.kleingartenanlagen));
+                this.firstTimeSearch.kleingartenanlagen = true;
             }
             else if (search === 'leuchten') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchten));
@@ -533,6 +546,15 @@
                         layertreeLayerCheckbox.change();
                     }
                     this.firstTimeSearch.ingenieurbauwerke = false;
+                    break;
+                case 'kleingartenanlagen':
+                    if (this.firstTimeSearch.kleingartenanlagen === true) {
+                        var layertreeLayerContainer = $('li[data-type="simple"][data-title="Kleingartenanlagen"]');
+                        var layertreeLayerCheckbox = $('input[name="selected"]:first', layertreeLayerContainer);
+                        layertreeLayerCheckbox.prop('checked', true);
+                        layertreeLayerCheckbox.change();
+                    }
+                    this.firstTimeSearch.kleingartenanlagen = false;
                     break;
                 case 'leuchten':
                     if (this.firstTimeSearch.leuchten === true) {
