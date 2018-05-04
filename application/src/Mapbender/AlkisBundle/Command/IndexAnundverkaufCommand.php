@@ -55,7 +55,7 @@ class IndexAnundverkaufCommand extends ContainerAwareCommand
         $output->writeln('Indiziere An- und Verkauf fuer HRO-Suche nach An- und Verkauf ... ');
 
 
-        $stmt = $conn->query("SELECT count(*) AS count FROM regis.realnutzungsarten WHERE realnutzungsarten LIKE '%Ankauf%' OR realnutzungsarten LIKE '%ED%' OR realnutzungsarten LIKE '%KG%' OR realnutzungsarten LIKE '%UV%'");
+        $stmt = $conn->query("SELECT count(*) AS count FROM (SELECT gemarkung_name, gemarkung_schluessel, substring(gemarkung_schluessel from 1 for 2) AS land_schluessel, substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz, flur::int AS flur_kurz, zaehler::int AS zaehler_kurz, nenner::int AS nenner_kurz, flurstueckskennzeichen, anundverkauf_aktenzeichen, realnutzungsarten, anundverkauf_bemerkung, ST_AsText(ST_Centroid(geometrie)) AS geom, ST_AsText(geometrie) AS wktgeom FROM regis.realnutzungsarten WHERE realnutzungsarten LIKE '%Ankauf%' OR realnutzungsarten LIKE '%ED%' OR realnutzungsarten = 'KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%' OR realnutzungsarten LIKE '%UV%' UNION SELECT gemarkung_name, gemarkung_schluessel, substring(gemarkung_schluessel from 1 for 2) AS land_schluessel, substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz, flur::int AS flur_kurz, zaehler::int AS zaehler_kurz, nenner::int AS nenner_kurz, flurstueckskennzeichen, anundverkauf_aktenzeichen, realnutzungsarten, anundverkauf_bemerkung, ST_AsText(ST_Centroid(geometrie)) AS geom, ST_AsText(geometrie) AS wktgeom FROM regis.an_verkauf WHERE realnutzungsarten LIKE '%Ankauf%' OR realnutzungsarten = 'KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%') AS tabelle");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
@@ -76,8 +76,28 @@ class IndexAnundverkaufCommand extends ContainerAwareCommand
                 FROM regis.realnutzungsarten
                 WHERE realnutzungsarten LIKE '%Ankauf%'
                 OR realnutzungsarten LIKE '%ED%'
-                OR realnutzungsarten LIKE '%KG%'
+                OR realnutzungsarten = 'KG'
+                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG'
+                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%'
                 OR realnutzungsarten LIKE '%UV%'
+                UNION SELECT gemarkung_name,
+                gemarkung_schluessel,
+                substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
+                substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
+                flur::int AS flur_kurz,
+                zaehler::int AS zaehler_kurz,
+                nenner::int AS nenner_kurz,
+                flurstueckskennzeichen,
+                anundverkauf_aktenzeichen,
+                realnutzungsarten,
+                anundverkauf_bemerkung,
+                ST_AsText(ST_Centroid(geometrie)) AS geom,
+                ST_AsText(geometrie) AS wktgeom
+                FROM regis.an_verkauf
+                WHERE realnutzungsarten LIKE '%Ankauf%'
+                OR realnutzungsarten = 'KG'
+                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG'
+                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%'
                 LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
