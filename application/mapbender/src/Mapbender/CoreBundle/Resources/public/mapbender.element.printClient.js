@@ -118,6 +118,8 @@
         },
 
         close: function() {
+            console.log('CLOSE');
+            console.log();
             if(this.popup){
                 this.element.hide().appendTo($('body'));
                 this._updateElements(false);
@@ -307,8 +309,7 @@
             this.map.map.olMap.addLayer(this.layer);
             
             if(reset !== undefined && reset.type !== undefined) {
-		console.log(reset.type);
-                if(reset.type === 'keyup' || reset.type === 'change') {
+                if(reset.type === 'keyup') {
                     this._rotateFeature(rotation,new OpenLayers.Geometry.Point(this.feature.geometry.getCentroid().x, this.feature.geometry.getCentroid().y));
                     this.layer.addFeatures(this.feature);
                     this.control.setFeature(this.feature, {rotation:rotation});
@@ -318,7 +319,7 @@
                 this.control.setFeature(this.feature, {});
             }
         },
-        _rotateFeature: function(angle, origin) {
+        _rotateFeature(angle, origin) {
             this.feature.geometry.rotate(angle, origin);
         },
         _updateElements: function(active) {
@@ -358,12 +359,14 @@
             }else{
                 if(null !== this.control) {
                     this.control.deactivate();
+                    this.control.destroy();
                     this.map.map.olMap.removeControl(this.control);
                     this.control = null;
                 }
                 if(null !== this.layer) {
                     this.layer.removeAllFeatures();
                     this.map.map.olMap.removeLayer(this.layer);
+                     this.callback ? this.callback.call() : this.callback = null;
                 }
                 if(null !== this.feature) {
                     this.feature = null;

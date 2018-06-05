@@ -46,7 +46,6 @@ security:
         - { path: ^/user/login,    roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/manager,       roles: ROLE_USER }
 
-
 imag_ldap:
     client:
         host: %ldap_host%
@@ -58,18 +57,17 @@ imag_ldap:
     #    referrals_enabled: true # Optional
     #    bind_username_before: true # Optional
     #    skip_roles: true # Optional
-
+  
     user:
         base_dn: %ldap_user_base_dn%
-    #    filter: (ObjectClass=posixAccount) #Optional
+        filter: (&(objectClass=user)(groupMembership=cn=a62,ou=geoport,ou=SV,o=ADMINHRO))
         name_attribute:  %ldap_user_name_attribute%
-
+  
     role:
         base_dn: %ldap_role_base_dn%
-    ##    filter: (ou=group) #Optional
+        #filter: (ou=geoport)  #Optional
         name_attribute:  %ldap_role_name_attribute%
         user_attribute: %ldap_role_user_attribute%
         user_id: %ldap_role_user_id%
-
+  
     user_class: Mapbender\LdapIntegrationBundle\Entity\LdapUser
-

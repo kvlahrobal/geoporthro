@@ -148,7 +148,6 @@ class LdapConnection implements LdapConnectionInterface
     private function connect()
     {
         global $kernel;
-        
         if ('AppCache' == get_class($kernel)) {
             $kernel = $kernel->getKernel();
         }

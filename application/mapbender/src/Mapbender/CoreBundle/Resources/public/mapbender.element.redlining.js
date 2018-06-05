@@ -44,7 +44,6 @@
         },
         activate: function(callback){
             this.callback = callback ? callback : null;
-            
             var defaultStyle = new OpenLayers.Style($.extend({}, OpenLayers.Feature.Vector.style["default"], this.options.paintstyles));
             var styleMap = new OpenLayers.StyleMap({'default': defaultStyle}, {extendDefault: true});
             this.layer = new OpenLayers.Layer.Vector('Redlining', {styleMap: styleMap});
@@ -189,6 +188,7 @@
             this.layer.destroyFeatures([feature]);
         },
         _deactivateControl: function(){
+            console.log("deactivateControl");
             if(this.activeControl !== null) {
                 this.activeControl.deactivate();
                 this.activeControl.destroy();
@@ -235,7 +235,10 @@
             this.activeControl = new OpenLayers.Control.ModifyFeature(this.layer, {standalone: true});
             this.map.addControl(this.activeControl);
             this.activeControl.selectFeature(feature);
+            this.activeControl.moveLayerToTop();
             this.activeControl.activate();
+            console.log("AC:");
+            console.log(this.activeControl);
         },
         _zoomToFeature: function(e){
             this._deactivateControl();
