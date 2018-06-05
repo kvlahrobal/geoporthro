@@ -60,7 +60,7 @@ imag_ldap:
   
     user:
         base_dn: %ldap_user_base_dn%
-        filter: (&(objectClass=user)(groupMembership=cn=a62,ou=geoport,ou=SV,o=ADMINHRO))
+        filter: (&(objectClass=user)(|(groupMembership=cn=a62,ou=geoport,ou=SV,o=ADMINHRO)(groupMembership=cn=eigentuemerauskunft,ou=geoport,ou=SV,o=ADMINHRO)(groupMembership=cn=grundvermoegen,ou=geoport,ou=SV,o=ADMINHRO)(groupMembership=cn=gutachterausschuss,ou=geoport,ou=SV,o=ADMINHRO)(groupMembership=cn=wiro,ou=geoport,ou=SV,o=ADMINHRO)))
         name_attribute:  %ldap_user_name_attribute%
   
     role:
