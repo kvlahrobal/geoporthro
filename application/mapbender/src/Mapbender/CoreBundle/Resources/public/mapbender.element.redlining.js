@@ -188,7 +188,6 @@
             this.layer.destroyFeatures([feature]);
         },
         _deactivateControl: function(){
-            console.log("deactivateControl");
             if(this.activeControl !== null) {
                 this.activeControl.deactivate();
                 this.activeControl.destroy();
@@ -237,8 +236,6 @@
             this.activeControl.selectFeature(feature);
             this.activeControl.moveLayerToTop();
             this.activeControl.activate();
-            console.log("AC:");
-            console.log(this.activeControl);
         },
         _zoomToFeature: function(e){
             this._deactivateControl();
