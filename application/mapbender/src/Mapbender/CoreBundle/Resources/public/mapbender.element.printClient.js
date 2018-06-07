@@ -73,6 +73,14 @@
         },
 
         open: function(callback){
+            // For-Schleife überprüft ob ein Feature anvisiert/ausgewählt/markiert ist, wenn das der Fall ist, wird die Auswahl aufgehoben
+            for (i = 0; i < Mapbender.elementRegistry.listWidgets().mapbenderMbRedlining.layer.features.length; i++) {
+                var feature = Mapbender.elementRegistry.listWidgets().mapbenderMbRedlining.layer.features[i];
+                if(feature.renderIntent === "select") {
+                    Mapbender.elementRegistry.listWidgets().mapbenderMbRedlining.activeControl.unselectFeature(feature);
+                }
+            }
+            
             this.callback = callback ? callback : null;
             var self = this;
             var me = $(this.element);
@@ -157,7 +165,6 @@
 
        
         _updateGeometry: function(reset) {
-            console.log(reset);
             var width = this.width,
                 height = this.height,
                 scale = this._getPrintScale(),

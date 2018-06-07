@@ -80,6 +80,12 @@
             this.deactivate();
         },
         _open: function(){
+            // Wenn der PrintDialog zusehen ist, wird davon ausgegangen dass der PrintLayer auch noch vorhanden ist, dies verhindert den Mauszugriff zum Modifizieren, daher wird das PrintWidget geschlossen und damit der PrintLayer entfernt
+            if ($(".customPrintDialog")[0]){
+                var widget = Mapbender.elementRegistry.listWidgets().mapbenderMbPrintClient;
+                widget.close();
+            } 
+            
             var self = this;
             if(!this.popup || !this.popup.$element) {
                 this.popup = new Mapbender.Popup2({
@@ -119,6 +125,11 @@
             }
         },
         _newControl: function(e){
+            // Wenn der PrintDialog zusehen ist, wird davon ausgegangen dass der PrintLayer auch noch vorhanden ist, dies verhindert den Mauszugriff zum Modifizieren, daher wird das PrintWidget geschlossen und damit der PrintLayer entfernt
+            if ($(".customPrintDialog")[0]){
+                var widget = Mapbender.elementRegistry.listWidgets().mapbenderMbPrintClient;
+                widget.close();
+            } 
             var self = this;
             if($(e.target).hasClass('active') === true) {
                 this._deactivateControl();
@@ -229,13 +240,10 @@
             this.geomCounter--;
         },
         _modifyFeature: function(e){
-//            console.log(Mapbender);
+            // Wenn der PrintDialog zusehen ist, wird davon ausgegangen dass der PrintLayer auch noch vorhanden ist, dies verhindert den Mauszugriff zum Modifizieren, daher wird das PrintWidget geschlossen und damit der PrintLayer entfernt
             if ($(".customPrintDialog")[0]){
-//                console.log(this.options.target);
-//                var widget = $('#232').data(':mapbender_mbPrintClient');
-//                console.log(widget);
-
-                console.log(Mapbender.elementRegistry.listWidgets());
+                var widget = Mapbender.elementRegistry.listWidgets().mapbenderMbPrintClient;
+                widget.close();
             } 
             this._deactivateControl();
             var feature = this.layer.getFeatureById($(e.target).parents("tr:first").attr('data-id'));
@@ -243,14 +251,14 @@
             this.map.addControl(this.activeControl);
             this.activeControl.selectFeature(feature);
             this.activeControl.activate();
-            var zIndex = null;
-            for(i=0; i<this.map.layers.length;i++) {
-            
-                if (zIndex < this.map.layers[i].getZIndex() || zIndex === null) {
-                    zIndex = this.map.layers[i].getZIndex();
-                }
-            }
-            this.layer.setZIndex(zIndex+1);
+//            var zIndex = null;
+//            for(i=0; i<this.map.layers.length;i++) {
+//            
+//                if (zIndex < this.map.layers[i].getZIndex() || zIndex === null) {
+//                    zIndex = this.map.layers[i].getZIndex();
+//                }
+//            }
+//            this.layer.setZIndex(zIndex+1);
         },
         _zoomToFeature: function(e){
             this._deactivateControl();
