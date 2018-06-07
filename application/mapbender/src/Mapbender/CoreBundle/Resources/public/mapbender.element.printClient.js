@@ -157,6 +157,7 @@
 
        
         _updateGeometry: function(reset) {
+            console.log(reset);
             var width = this.width,
                 height = this.height,
                 scale = this._getPrintScale(),
@@ -245,50 +246,54 @@
                     y: ur_lonlat.lat - ll_lonlat.lat
                 };
             }
-
-            this.layer = new OpenLayers.Layer.Vector("Print", {
-                styleMap: new OpenLayers.StyleMap({
-                    'default': new OpenLayers.Style({
-                            fillColor:     '#ffffff',
-                            fillOpacity:   0.5,
-                            strokeColor:   '#1879BF',
-                            strokeOpacity: 1.0,
-                            strokeWidth:    2,
-                            cursor: 'all-scroll'
+            
+            if (this.layer === null) {
+                this.layer = new OpenLayers.Layer.Vector("Print", {
+                    styleMap: new OpenLayers.StyleMap({
+                        'default': new OpenLayers.Style({
+                                fillColor:     '#ffffff',
+                                fillOpacity:   0.5,
+                                strokeColor:   '#1879BF',
+                                strokeOpacity: 1.0,
+                                strokeWidth:    2,
+                                cursor: 'all-scroll'
+                            }),
+                        "transform": new OpenLayers.Style({
+                            display: "${getDisplay}",
+                            cursor: "grab",
+                            pointRadius: 5,
+                            fillColor: "white",
+                            fillOpacity: 1,
+                            strokeColor: "black"
+                        }, {
+                            context: {
+                                getDisplay: function(feature) {
+                                    // hide the resize handle at the south-east corner
+                                    return feature.attributes.role === "ne-resize" ? "none" : "none";
+                                }
+                            }
                         }),
-                    "transform": new OpenLayers.Style({
-                        display: "${getDisplay}",
-                        cursor: "grab",
-                        pointRadius: 5,
-                        fillColor: "white",
-                        fillOpacity: 1,
-                        strokeColor: "black"
-                    }, {
-                        context: {
-                            getDisplay: function(feature) {
-                                // hide the resize handle at the south-east corner
-                                return feature.attributes.role === "ne-resize" ? "none" : "none";
+                        "rotate": new OpenLayers.Style({
+                            cursor:"pointer",
+                            display: "${getDisplay}",
+                            pointRadius: 10,
+                            fillColor: "#D81920",
+                            fillOpacity: 1,
+                            strokeColor: "white"
+                        }, {
+                            context: {
+                                getDisplay: function(feature) {
+                                    // only display the rotate handle at the south-east corner
+                                    return feature.attributes.role === "ne-rotate" ? "" : "none";
+                                }
                             }
-                        }
+                        })
                     }),
-                    "rotate": new OpenLayers.Style({
-                        cursor:"pointer",
-                        display: "${getDisplay}",
-                        pointRadius: 10,
-                        fillColor: "#D81920",
-                        fillOpacity: 1,
-                        strokeColor: "white"
-                    }, {
-                        context: {
-                            getDisplay: function(feature) {
-                                // only display the rotate handle at the south-east corner
-                                return feature.attributes.role === "ne-rotate" ? "" : "none";
-                            }
-                        }
-                    })
-                }),
-               // renderers: renderer
-            });
+                   // renderers: renderer
+                });
+                this.map.map.olMap.addLayer(this.layer);
+            }
+            
             this.control = new OpenLayers.Control.TransformFeature(this.layer, {
                 renderIntent: "transform",
                 rotationHandleSymbolizer: "rotate"
@@ -304,11 +309,11 @@
                 }
             });
             this.map.map.olMap.addControl(this.control);
-            this.map.map.olMap.addLayer(this.layer);
+            
             
             if(reset !== undefined && reset.type !== undefined) {
-                //if(reset.type === 'keyup' || reset.type === 'change') {
-                if(reset.type === 'keyup') {
+                if(reset.type === 'keyup' || reset.type === 'change') {
+                //if(reset.type === 'keyup') {
                     this._rotateFeature(rotation,new OpenLayers.Geometry.Point(this.feature.geometry.getCentroid().x, this.feature.geometry.getCentroid().y));
                     this.layer.addFeatures(this.feature);
                     this.control.setFeature(this.feature, {rotation:rotation});

@@ -229,13 +229,28 @@
             this.geomCounter--;
         },
         _modifyFeature: function(e){
+//            console.log(Mapbender);
+            if ($(".customPrintDialog")[0]){
+//                console.log(this.options.target);
+//                var widget = $('#232').data(':mapbender_mbPrintClient');
+//                console.log(widget);
+
+                console.log(Mapbender.elementRegistry.listWidgets());
+            } 
             this._deactivateControl();
             var feature = this.layer.getFeatureById($(e.target).parents("tr:first").attr('data-id'));
             this.activeControl = new OpenLayers.Control.ModifyFeature(this.layer, {standalone: true});
             this.map.addControl(this.activeControl);
             this.activeControl.selectFeature(feature);
-            this.activeControl.moveLayerToTop();
             this.activeControl.activate();
+            var zIndex = null;
+            for(i=0; i<this.map.layers.length;i++) {
+            
+                if (zIndex < this.map.layers[i].getZIndex() || zIndex === null) {
+                    zIndex = this.map.layers[i].getZIndex();
+                }
+            }
+            this.layer.setZIndex(zIndex+1);
         },
         _zoomToFeature: function(e){
             this._deactivateControl();
