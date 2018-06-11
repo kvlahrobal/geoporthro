@@ -63,6 +63,12 @@ parameters:
     cookie_secure: false
     cookie_lifetime: 36000
 
+    geocodr:
+        url: https://geo.sv.rostock.de/geocodr/query?
+        key: 1234567890abcdefghijklmnopqrstuv
+        type: search
+        hits: 25
+
     solr:
         host: localhost
         port: port
