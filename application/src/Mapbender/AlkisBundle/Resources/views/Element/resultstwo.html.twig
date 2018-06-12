@@ -1,4 +1,11 @@
-    <div id="searchResultsTwo">
+    <div id="searchResultsTwo">       
+    type: {{ type }}          
+    results: {{ results }}       
+    pages: {{ pages }}         
+    currentPage: {{ currentPage }}   
+    currentResults: {{ currentResults }}
+    previousPage: {{ previousPage }}  
+    nextPage: {{ nextPage }}      
     {% if type == 'mv_addr' or type == 'mv_flur' %}
         {% include "MapbenderAlkisBundle:Element:paginggeocodr.html.twig" %}
         {% for feature in result %}
@@ -12,13 +19,13 @@
             {% elseif type == 'mv_addr' %} mv_addr document{% endif %}"
             {% if feature.geometry is defined %} data-geom="{{ feature.geometry }}"{% endif %}
             >
-            {% if type == 'mv_addr' and feature.properties._collection_ == 'adressen' %}
+            {% if type == 'mv_addr' and feature.properties.objektgruppe == 'Adresse' %}
                 {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeindeteil_name != null %}, {{ feature.properties.gemeindeteil_name }}{% endif %}, {{ feature.properties.strasse_name }} {{ feature.properties.hausnummer }}{{ feature.properties.hausnummer_zusatz }}
-            {% elseif type == 'mv_addr' and feature.properties._collection_ == 'strassen' %}
+            {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Straße' %}
                 {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeindeteil_name != null %}, {{ feature.properties.gemeindeteil_name }}{% endif %}, {{ feature.properties.strasse_name }}
-            {% elseif type == 'mv_addr' and feature.properties._collection_ == 'gemeindeteile' %}
+            {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Gemeindeteil' %}
                 {{ feature.properties.gemeinde_name }}, {{ feature.properties.gemeindeteil_name }}
-            {% elseif type == 'mv_addr' and feature.properties._collection_ == 'gemeinden' %}
+            {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Gemeinde' %}
                 {{ feature.properties.gemeinde_name }}
             {% endif %}
             </div>

@@ -9,10 +9,10 @@ use Mapbender\AlkisBundle\Component\ColognePhonetic;
 
 class BaseSearchTwo extends Element
 {
-  
-    private $globalResult;
-    private $globalResults;
-    private $globalPages;
+    // globale Variablen für Pagination
+    private $globalResult = array();
+    private $globalResults = 0;
+    private $globalPages = 0;
 
     /**
      * @inheritdoc
@@ -146,52 +146,79 @@ class BaseSearchTwo extends Element
 
     protected function search()
     {
-        $type = $this->container->get('request')->get("type", 'mv_flur');
-        $term = $this->container->get('request')->get("term", null);
+        // für beide Suchtypen benötigte Parameter einlesen
+        $type = $this->container->get('request')->get('type', 'mv_flur');
+        $term = $this->container->get('request')->get('term', null);
         
-        // geocodr-Suche
+        // Suchtyp: geocodr-Suche
         if ($type === 'mv_addr' || $type === 'mv_flur') {
-          
+
+            // Konfiguration einlesen
             $conf = $this->container->getParameter('geocodr');
             
+            // Suche durchführen mittels cURL
             $curl = curl_init();
             $term = curl_escape($curl, $term);
             $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&class=address&query='. $term;
             curl_setopt($curl, CURLOPT_URL, $url); 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            
+            // Suchresultat verarbeiten
             $json = json_decode(curl_exec($curl), true); 
             $features = $json['features'];
             $result = $features;
             curl_close($curl);
+            
+            // Zusatznamen aus Gemeindenamen entfernen
             foreach ($features as $key=>$feature) {
                 if (strpos($feature['properties']['gemeinde_name'], ',') !== false)
                     $result[$key]['properties']['gemeinde_name'] = substr($feature['properties']['gemeinde_name'], 0, strpos($feature['properties']['gemeinde_name'], ','));
             }
+            
+            // für die Pagination benötigte Parameter ermitteln
             $results = count($result);
             $hits = $conf['hits'];
             $pages = ceil($results / $hits);
-            $this->globalResult = $result;
-            $result = array_slice($result, 0, $hits);
-            $this->globalResults = $results;
-            $this->globalPages = $pages;
             $currentPage = 1;
-            $currentResults = $hits;
+            if ($results < $hits)
+              $currentResults = $results;
+            else
+              $currentResults = $hits;
             if ($pages > 1)
                 $nextPage = 2;
+            
+            // für die Pagination benötigte globale auf entsprechende lokale Variablen setzen
+            global $globalResult;
+            global $globalResults;
+            global $globalPages;
+            $globalResult = $result;
+            $globalResults = $results;
+            $globalPages = $pages;
+        
+            // ersten Teil des Suchresultats ermitteln
+            $result = array_slice($result, 0, $hits);
 
         }
-        // Solr-Suche
+        // Suchtyp: Solr-Suche
         else {
-          
+
+            // Konfiguration einlesen
             $conf = $this->container->getParameter('solr');
-            $page = $this->container->get('request')->get("page", 1);
             
+            // weiteren Parameter einlesen
+            $page = $this->container->get('request')->get('page', 1);
+            
+            // Suchclient initialisieren
             $solr = new SolrClient($conf);
+            
+            // Suche durchführen
             $solr
                 ->limit($conf['hits'])
                 ->page($page)
                 ->where('type', $type)
                 ->orderBy('label', 'asc');
+            
+            // Suchresultat verarbeiten
             $result = $solr
                 ->numericWildcard(true)
                 ->wildcardMinStrlen(0)
@@ -199,7 +226,7 @@ class BaseSearchTwo extends Element
 
         }
         
-        // Übergabe an Template
+        // Übergabe des Suchresultats sowie weiterer (für die Pagination beim Suchtyp geocodr-Suche benötigter) Parameter an Template
         $html = $this->container->get('templating')->render(
             'MapbenderAlkisBundle:Element:resultstwo.html.twig',
             array(
@@ -219,8 +246,52 @@ class BaseSearchTwo extends Element
     
     public function pagination()
     {
-        $result = $this->globalResult;
+        // Konfiguration einlesen
+        $conf = $this->container->getParameter('geocodr');
+
+        // lokale auf entsprechende globale Variablen setzen
+        global $globalResult;
+        global $globalResults;
+        global $globalPages;
+        $result = $globalResult;
+        $results = $globalResults;
+        $pages = $globalPages;
         
+        // benötigte Parameter einlesen
+        $type = $this->container->get('request')->get('type', 'mv_flur');
+        $page = $this->container->get('request')->get('page', 1);
+        
+        // aktuellen Teil des Suchresultats ermitteln
+        $hits = $conf['hits'];
+        $result = array_slice($result, ($page - 1) * $hits, $hits);
+        
+        // benötigte Parameter ermitteln
+        $currentResults = count($result);
+        if ($page > 2)
+            $previousPage = $page - 1;
+        else
+            $previousPage = 1;
+        if ($page < $pages)
+            $nextPage = $page + 1;
+        else
+            $nextPage = $pages;
+        
+        // Übergabe des aktuellen Teils des Suchresultats sowie weiterer benötigter Parameter an Template
+        $html = $this->container->get('templating')->render(
+            'MapbenderAlkisBundle:Element:resultstwo.html.twig',
+            array(
+                'result'         => $result,
+                'type'           => $type,
+                'results'        => $results,
+                'pages'          => $pages,
+                'currentPage'    => $page,
+                'currentResults' => $currentResults,
+                'previousPage'   => $previousPage,
+                'nextPage'       => $nextPage
+            )
+        );
+
+        return new Response($html, 200, array('Content-Type' => 'text/html'));
     }
     
     public function addPhonetic($string)

@@ -190,6 +190,7 @@
                 type: 'POST',
                 data: {
                     page: page,
+                    type: $("#" + $(self.element).attr('id') + " select").val(),
                 },
                 dataType: 'text',
                 contetnType: 'text/html',
