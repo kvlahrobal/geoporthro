@@ -759,9 +759,12 @@
                             if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
                         }
                         var type = xhr.getResponseHeader('Content-Type');
-                        var blob = typeof File === 'function'
-                            ? new File([this.response], filename, { type: type })
-                            : new Blob([this.response], { type: type });
+                        var blob = new Blob([this.response], { type: type });
+                        if (!/Edge/.test(navigator.userAgent)) {
+                            if (typeof File === "function") {
+                                blob = new File([blob], filename, { type: type });
+                            }
+                        }
                         if (typeof window.navigator.msSaveOrOpenBlob !== 'undefined') {
                             window.navigator.msSaveOrOpenBlob(blob, filename);
                         } else {
