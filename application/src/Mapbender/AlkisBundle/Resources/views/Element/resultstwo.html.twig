@@ -1,4 +1,4 @@
-    <div id="searchResultsTwo">     
+    <div id="searchResultsTwo">
     {% if type == 'mv_addr' or type == 'mv_flur' %}
         {% include "MapbenderAlkisBundle:Element:paginggeocodr.html.twig" %}
         {% for feature in result %}
@@ -31,45 +31,5 @@
         {% endfor %}
         {% include "MapbenderAlkisBundle:Element:paginggeocodr.html.twig" %}
     {% else %}
-        {% if result.documents is defined %}
-            {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
-            {% for doc in result.documents %}
-                {% set json = doc.json|json_decode %}
-                {% if loop.index is odd %}
-                    <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="clickable
-                {% else %}
-                    <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="even clickable
-                {% endif %}
-                    {% if type == 'mv_flur'%} mv_flur document
-                    {% elseif type == 'mv_addr' %} mv_addr document{% endif %}"
-                    {% if json.x is defined %} data-x="{{ json.x }}" data-y="{{ json.y }}" {% endif %}
-                    {% if json.geom is defined %}data-geom="{{ json.geom }}"{% endif %}
-        
-                    >
-                    {% if type == 'mv_flur' and json.data.type == 'mv_gemarkung' %}
-                        {{ json.data.gemeinde_name }},
-                        {{ json.data.gemarkung_name }}
-                        ({{ json.data.gemarkung_schluessel_kurz }})
-                    {% elseif type == 'mv_flur' and json.data.type == 'mv_flur' %}
-                        {{ json.data.gemeinde_name }},
-                        {{ json.data.gemarkung_name }}
-                        ({{ json.data.gemarkung_schluessel_kurz }}), Flur {{ json.data.flur }}
-                    {% elseif type == 'mv_flur' and json.data.type == 'mv_flurstueck' %}
-                        {{ json.data.gemeinde_name }},
-                        {{ json.data.gemarkung_name }}
-                        ({{ json.data.gemarkung_schluessel_kurz }}), Flur {{ json.data.flur }}, {{ json.data.zaehler }}{% if json.data.nenner %}/{{ json.data.nenner }}{% endif %}
-                    {% elseif type == 'mv_addr' and json.data.type == 'mv_addr' %}
-                        {{ json.data.gemeinde_name }}, {{ json.data.strasse_name }} {{ json.data.hausnummer }}{{ json.data.hausnummer_zusatz }}
-                    {% elseif type == 'mv_addr' and json.data.type == 'mv_gemeinde' %}
-                        {{ json.data.gemeinde_name }}
-                    {% elseif type == 'mv_addr' and json.data.type == 'mv_strasse' %}
-                        {{ json.data.gemeinde_name }}, {{ json.data.strasse_name }}
-                  {% elseif type == 'mv_addr' and json.data.type == 'mv_gemeindeteil' %}
-                        {{ json.data.gemeinde_name }}, {{ json.data.gemeindeteil_name }}
-                    {% endif %}
-                </div>
-            {% endfor %}
-            {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
-        {% endif %}
     {% endif %}
 </div>
