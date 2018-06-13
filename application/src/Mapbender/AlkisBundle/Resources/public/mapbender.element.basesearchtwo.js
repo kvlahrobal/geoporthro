@@ -146,11 +146,7 @@
         _changePage: function (e) {
             var self = this;
             $('#page-two', this.element).val($(e.target).data('page'));
-            var search = $('#search-select-two').val();
-            if (search === 'mv_addr' || search === 'mv_flur')
-                self._pagination($(e.target).data('page'));
-            else
-                self._find();
+            self._find();
         },
         _findOnKeyup: function (e) {
             var self = this;
@@ -173,23 +169,6 @@
                 data: {
                     term: $('#search-two', self.element).val(),
                     page: $('#page-two', self.element).val(),
-                    type: $("#" + $(self.element).attr('id') + " select").val(),
-                },
-                dataType: 'text',
-                contetnType: 'text/html',
-                context: this,
-                success: this._findSuccess,
-                error: this._findError
-            });
-            return false;
-        },
-        _pagination: function (page) {
-            var self = this;
-            $.ajax({
-                url: Mapbender.configuration.application.urls.element + '/' + this.element.attr('id') + '/pagination',
-                type: 'POST',
-                data: {
-                    page: page,
                     type: $("#" + $(self.element).attr('id') + " select").val(),
                 },
                 dataType: 'text',

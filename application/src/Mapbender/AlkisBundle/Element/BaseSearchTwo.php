@@ -9,10 +9,6 @@ use Mapbender\AlkisBundle\Component\ColognePhonetic;
 
 class BaseSearchTwo extends Element
 {
-    // globale Variablen für Pagination
-    private $globalResult = array();
-    private $globalResults = 0;
-    private $globalPages = 0;
 
     /**
      * @inheritdoc
@@ -127,8 +123,6 @@ class BaseSearchTwo extends Element
         switch ($action) {
             case 'search':
                 return $this->search();
-            case 'pagination':
-                return $this->pagination();
             default:
                 throw new NotFoundHttpException('No such action');
         }
@@ -149,17 +143,23 @@ class BaseSearchTwo extends Element
         // für beide Suchtypen benötigte Parameter einlesen
         $type = $this->container->get('request')->get('type', 'mv_flur');
         $term = $this->container->get('request')->get('term', null);
+        $page = $this->container->get('request')->get('page', 1);
         
         // Suchtyp: geocodr-Suche
         if ($type === 'mv_addr' || $type === 'mv_flur') {
-
             // Konfiguration einlesen
             $conf = $this->container->getParameter('geocodr');
+            
+            // Suchklasse auswerten
+            if ($type === 'mv_flur')
+                $searchclass = 'parcel';
+            else
+                $searchclass = 'address';
             
             // Suche durchführen mittels cURL
             $curl = curl_init();
             $term = curl_escape($curl, $term);
-            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&class=address&query='. $term;
+            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&class=' . $searchclass . '&query='. $term;
             curl_setopt($curl, CURLOPT_URL, $url); 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             
@@ -169,44 +169,47 @@ class BaseSearchTwo extends Element
             $result = $features;
             curl_close($curl);
             
-            // Zusatznamen aus Gemeindenamen entfernen
+            // Bereinigungsarbeiten
             foreach ($features as $key=>$feature) {
+                // Zusatznamen aus Gemeindenamen entfernen
                 if (strpos($feature['properties']['gemeinde_name'], ',') !== false)
                     $result[$key]['properties']['gemeinde_name'] = substr($feature['properties']['gemeinde_name'], 0, strpos($feature['properties']['gemeinde_name'], ','));
+                // nur Suchklasse mv_flur: führende 13 bei Gemarkungs- und führende 0 bei Flurnummern sowie Zählern und Nennern entfernen
+                if ($type === 'mv_flur') {
+                    $result[$key]['properties']['gemarkung_schluessel'] = substr($feature['properties']['gemarkung_schluessel'], 2);
+                    if ($feature['properties']['objektgruppe'] === 'Flur') {
+                        $result[$key]['properties']['flur'] = ltrim($feature['properties']['flur'], '0');
+                    } elseif ($feature['properties']['objektgruppe'] === 'Flurstück') {
+                        $result[$key]['properties']['flur'] = ltrim($feature['properties']['flur'], '0');
+                        $result[$key]['properties']['zaehler'] = ltrim($feature['properties']['zaehler'], '0');
+                        $result[$key]['properties']['nenner'] = ltrim($feature['properties']['nenner'], '0');
+                    }
+                }
             }
             
-            // für die Pagination benötigte Parameter ermitteln
+            // für die Pagination und die Ermittlung des aktuellen Teils des Suchresultats benötigte Parameter ermitteln
             $results = count($result);
             $hits = $conf['hits'];
             $pages = ceil($results / $hits);
-            $currentPage = 1;
-            if ($results < $hits)
-              $currentResults = $results;
-            else
-              $currentResults = $hits;
-            if ($pages > 1)
-                $nextPage = 2;
             
-            // für die Pagination benötigte globale auf entsprechende lokale Variablen setzen
-            global $globalResult;
-            global $globalResults;
-            global $globalPages;
-            $globalResult = $result;
-            $globalResults = $results;
-            $globalPages = $pages;
-        
-            // ersten Teil des Suchresultats ermitteln
-            $result = array_slice($result, 0, $hits);
-
+            // aktuellen Teil des Suchresultats ermitteln
+            $result = array_slice($result, ($page - 1) * $hits, $hits);
+            
+            // weitere für die Pagination benötigte Parameter ermitteln
+            $currentResults = count($result);
+            if ($page > 2)
+                $previousPage = $page - 1;
+            else
+                $previousPage = 1;
+            if ($page < $pages)
+                $nextPage = $page + 1;
+            else
+                $nextPage = $pages;
         }
         // Suchtyp: Solr-Suche
         else {
-
             // Konfiguration einlesen
             $conf = $this->container->getParameter('solr');
-            
-            // weiteren Parameter einlesen
-            $page = $this->container->get('request')->get('page', 1);
             
             // Suchclient initialisieren
             $solr = new SolrClient($conf);
@@ -223,60 +226,9 @@ class BaseSearchTwo extends Element
                 ->numericWildcard(true)
                 ->wildcardMinStrlen(0)
                 ->find(null, $this->addPhonetic($term));
-
         }
         
         // Übergabe des Suchresultats sowie weiterer (für die Pagination beim Suchtyp geocodr-Suche benötigter) Parameter an Template
-        $html = $this->container->get('templating')->render(
-            'MapbenderAlkisBundle:Element:resultstwo.html.twig',
-            array(
-                'result'         => $result,
-                'type'           => $type,
-                'results'        => $results,
-                'pages'          => $pages,
-                'currentPage'    => $currentPage,
-                'currentResults' => $currentResults,
-                'previousPage'   => $previousPage,
-                'nextPage'       => $nextPage
-            )
-        );
-
-        return new Response($html, 200, array('Content-Type' => 'text/html'));
-    }
-    
-    public function pagination()
-    {
-        // Konfiguration einlesen
-        $conf = $this->container->getParameter('geocodr');
-
-        // lokale auf entsprechende globale Variablen setzen
-        global $globalResult;
-        global $globalResults;
-        global $globalPages;
-        $result = $globalResult;
-        $results = $globalResults;
-        $pages = $globalPages;
-        
-        // benötigte Parameter einlesen
-        $type = $this->container->get('request')->get('type', 'mv_flur');
-        $page = $this->container->get('request')->get('page', 1);
-        
-        // aktuellen Teil des Suchresultats ermitteln
-        $hits = $conf['hits'];
-        $result = array_slice($result, ($page - 1) * $hits, $hits);
-        
-        // benötigte Parameter ermitteln
-        $currentResults = count($result);
-        if ($page > 2)
-            $previousPage = $page - 1;
-        else
-            $previousPage = 1;
-        if ($page < $pages)
-            $nextPage = $page + 1;
-        else
-            $nextPage = $pages;
-        
-        // Übergabe des aktuellen Teils des Suchresultats sowie weiterer benötigter Parameter an Template
         $html = $this->container->get('templating')->render(
             'MapbenderAlkisBundle:Element:resultstwo.html.twig',
             array(

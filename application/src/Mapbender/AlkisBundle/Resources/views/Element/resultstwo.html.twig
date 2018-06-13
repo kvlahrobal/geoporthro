@@ -1,11 +1,4 @@
-    <div id="searchResultsTwo">       
-    type: {{ type }}          
-    results: {{ results }}       
-    pages: {{ pages }}         
-    currentPage: {{ currentPage }}   
-    currentResults: {{ currentResults }}
-    previousPage: {{ previousPage }}  
-    nextPage: {{ nextPage }}      
+    <div id="searchResultsTwo">     
     {% if type == 'mv_addr' or type == 'mv_flur' %}
         {% include "MapbenderAlkisBundle:Element:paginggeocodr.html.twig" %}
         {% for feature in result %}
@@ -21,12 +14,18 @@
             >
             {% if type == 'mv_addr' and feature.properties.objektgruppe == 'Adresse' %}
                 {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeindeteil_name != null %}, {{ feature.properties.gemeindeteil_name }}{% endif %}, {{ feature.properties.strasse_name }} {{ feature.properties.hausnummer }}{{ feature.properties.hausnummer_zusatz }}
-            {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Stra�e' %}
+            {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Straße' %}
                 {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeindeteil_name != null %}, {{ feature.properties.gemeindeteil_name }}{% endif %}, {{ feature.properties.strasse_name }}
             {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Gemeindeteil' %}
                 {{ feature.properties.gemeinde_name }}, {{ feature.properties.gemeindeteil_name }}
             {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Gemeinde' %}
                 {{ feature.properties.gemeinde_name }}
+            {% elseif type == 'mv_flur' and feature.properties.objektgruppe == 'Gemarkung' %}
+                {{ feature.properties.gemeinde_name }}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }})
+            {% elseif type == 'mv_flur' and feature.properties.objektgruppe == 'Flur' %}
+                {{ feature.properties.gemeinde_name }}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}
+            {% elseif type == 'mv_flur' and feature.properties.objektgruppe == 'Flurstück' %}
+                {{ feature.properties.gemeinde_name }}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}, {{ feature.properties.zaehler }}{% if feature.properties.nenner != '' %}/{{ feature.properties.nenner }}{% endif %}
             {% endif %}
             </div>
         {% endfor %}
