@@ -140,113 +140,64 @@ class BaseSearchOne extends Element
 
     protected function search()
     {
-        // für beide Suchtypen benötigte Parameter einlesen
-        $type = $this->container->get('request')->get('type', 'flur');
-        $term = $this->container->get('request')->get('term', null);
-        $page = $this->container->get('request')->get('page', 1);
+        $conf = $this->container->getParameter('solr');
+        $term = $this->container->get('request')->get("term", null);
+        $page = $this->container->get('request')->get("page", 1);
+        $type = $this->container->get('request')->get("type", 'flur');
+        $solr = new SolrClient($conf);
+
+        // Suche
+        $solr
+            ->limit($conf['hits'])
+            ->page($page)
+            ->where('type', $type);
         
-        // Suchtyp: geocodr-Suche
-        if ($type === 'addr' || $type === 'flur') {
-            // Konfiguration einlesen
-            $conf = $this->container->getParameter('geocodr');
-            
-            // Suchklasse auswerten
-            if ($type === 'flur')
-                $searchclass = 'parcel';
-            else
-                $searchclass = 'address';
-            
-            // Suche durchführen mittels cURL
-            $curl = curl_init();
-            // nur Suchklasse addr: Suchbegriff um 'rostock' erweitern
-            if ($type === 'addr')
-              $term = curl_escape($curl, 'rostock ' . $term);
-            else
-              $term = curl_escape($curl, $term);
-            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&class=' . $searchclass . '&query='. $term;
-            curl_setopt($curl, CURLOPT_URL, $url); 
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            
-            // Suchresultat verarbeiten
-            $json = json_decode(curl_exec($curl), true); 
-            $features = $json['features'];
-            $result = $features;
-            curl_close($curl);
-            
-            // nur Suchklasse flur: Bereinigungsarbeiten
-            if ($type === 'flur') {
-                foreach ($features as $key=>$feature) {
-                    // führende 13 bei Gemarkungs- und führende 0 bei Flurnummern sowie Zählern und Nennern entfernen
-                    $result[$key]['properties']['gemarkung_schluessel'] = substr($feature['properties']['gemarkung_schluessel'], 2);
-                    if ($feature['properties']['objektgruppe'] === 'Flur') {
-                        $result[$key]['properties']['flur'] = ltrim($feature['properties']['flur'], '0');
-                    } elseif ($feature['properties']['objektgruppe'] === 'Flurstück') {
-                        $result[$key]['properties']['flur'] = ltrim($feature['properties']['flur'], '0');
-                        $result[$key]['properties']['zaehler'] = ltrim($feature['properties']['zaehler'], '0');
-                        $result[$key]['properties']['nenner'] = ltrim($feature['properties']['nenner'], '0');
-                    }
-                }
-            }
-            
-            // für die Pagination und die Ermittlung des aktuellen Teils des Suchresultats benötigte Parameter ermitteln
-            $results = count($result);
-            $hits = $conf['hits'];
-            $pages = ceil($results / $hits);
-            
-            // aktuellen Teil des Suchresultats ermitteln
-            $result = array_slice($result, ($page - 1) * $hits, $hits);
-            
-            // weitere für die Pagination benötigte Parameter ermitteln
-            $currentResults = count($result);
-            if ($page > 2)
-                $previousPage = $page - 1;
-            else
-                $previousPage = 1;
-            if ($page < $pages)
-                $nextPage = $page + 1;
-            else
-                $nextPage = $pages;
+        // Sortierung
+        //if ($type !== 'addr' || ($type === 'addr' && preg_match('/(traße|trasse|tr|tr\.)$/', $term))) {
+        if ($type !== 'addr') {
+            $solr->orderBy('score desc, label', 'asc');
+        } else {
+            $solr->orderBy('label', 'asc');
         }
-        // Suchtyp: Solr-Suche
-        else {
-            // Konfiguration einlesen
-            $conf = $this->container->getParameter('solr');
-            
-            // Suchclient initialisieren
-            $solr = new SolrClient($conf);
-            
-            // Suche durchführen
-            $solr
-                ->limit($conf['hits'])
-                ->page($page)
-                ->where('type', $type)
-                ->orderBy('label', 'asc');
-            
-            // Suchresultat verarbeiten
+        
+        // tatsächliche Suche
+        if ($type === 'addr') {
             $result = $solr
                 ->numericWildcard(true)
                 ->wildcardMinStrlen(0)
+                // ohne Phonetik
+                ->find(null, $this->withoutPhonetic($term, false, true, false));
+        } else if ($type === 'flur') {
+            $result = $solr
+                ->numericWildcard(true)
+                ->wildcardMinStrlen(0)
+                // ohne Phonetik
+                ->find(null, $this->withoutPhonetic($term, true, false, true));
+        } else {
+            $result = $solr
+                ->numericWildcard(true)
+                ->wildcardMinStrlen(0)
+                // mit Phonetik
                 ->find(null, $this->addPhonetic($term));
         }
-        
-        // Übergabe des Suchresultats sowie weiterer (für die Pagination beim Suchtyp geocodr-Suche benötigter) Parameter an Template
+            
+        // Übergabe an Template
         $html = $this->container->get('templating')->render(
             'MapbenderAlkisBundle:Element:results.html.twig',
             array(
-                'result'         => $result,
-                'type'           => $type,
-                'results'        => $results,
-                'pages'          => $pages,
-                'currentPage'    => $page,
-                'currentResults' => $currentResults,
-                'previousPage'   => $previousPage,
-                'nextPage'       => $nextPage
+                'result' => $result,
+                'type'   => $type
             )
         );
 
         return new Response($html, 200, array('Content-Type' => 'text/html'));
     }
-    
+
+    public function prepairStreet($string)
+    {
+        return trim(preg_replace("/(straße|strasse|str|str\.)/i", "", $string));
+    }
+
     public function addPhonetic($string)
     {
         $result   = "";
@@ -268,6 +219,36 @@ class BaseSearchOne extends Element
                 $result .= ")";
             } else {
                 $result .= " AND (" . $val. '^2' . " OR " . $val . "*^1)";
+            }
+        }
+
+        return substr(trim($result), 3);
+    }
+
+    public function withoutPhonetic($string, $prepairStreet = false, $eszett = false, $prepairFlur = false)
+    {
+        $result = "";
+        if ($prepairStreet === true) {
+            $string = $this->prepairStreet($string);
+        }
+        if ($eszett === true) {
+            $string = preg_replace("/traße?$/i", "trasse", $string);
+        }
+        if ($prepairFlur === true) {
+            if ((stripos($string, 'flur') !== false) && (stripos($string, 'flur') > 0)) {
+                $string = preg_replace("/flur/i", "", $string);
+            }
+        }
+
+        $array = array_filter(
+            explode(" ", preg_replace("/[^a-zäöüßÄÖÜ0-9]/i", " ", $string))
+        );
+
+        foreach ($array as $val) {
+            if (preg_match("/^[a-zäöüßÄÖÜ]+$/i", $val)) {
+                $result .= " AND (" . $val. "^2" . " OR " . $val . "*^15)";
+            } else {
+                $result .= " AND (" . $val. "^2" . " OR " . $val . "*^1)";
             }
         }
 

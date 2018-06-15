@@ -169,8 +169,25 @@ class BaseSearchTwo extends Element
             $result = $features;
             curl_close($curl);
             
+            // für die Pagination und die Ermittlung des aktuellen Teils des Suchresultats benötigte Parameter ermitteln
+            $results = count($result);
+            $hits = $conf['hits'];
+            $pages = ceil($results / $hits);
+            
+            // aktuellen Teil des Suchresultats ermitteln
+            $result = array_slice($result, ($page - 1) * $hits, $hits);
+            $features = $result;
+            
             // Bereinigungsarbeiten
             foreach ($features as $key=>$feature) {
+                // x- und y-Wert punkthafter Geometrien abgreifen und separat ablegen
+                if ($feature['geometry']['type'] === 'Point') {
+                    $result[$key]['x'] = $feature['geometry']['coordinates'][0];
+                    $result[$key]['y'] = $feature['geometry']['coordinates'][1];
+                // nicht-punkthafte Geometrien in WKT umwandeln
+                } else {
+                    $result[$key]['wkt'] = strtoupper($feature['geometry']['type']) . '(' . $this->extract($feature['geometry']['coordinates'], $feature['geometry']['type']) . ')';
+                }
                 // Zusatznamen aus Gemeindenamen entfernen
                 if (strpos($feature['properties']['gemeinde_name'], ',') !== false)
                     $result[$key]['properties']['gemeinde_name'] = substr($feature['properties']['gemeinde_name'], 0, strpos($feature['properties']['gemeinde_name'], ','));
@@ -186,14 +203,6 @@ class BaseSearchTwo extends Element
                     }
                 }
             }
-            
-            // für die Pagination und die Ermittlung des aktuellen Teils des Suchresultats benötigte Parameter ermitteln
-            $results = count($result);
-            $hits = $conf['hits'];
-            $pages = ceil($results / $hits);
-            
-            // aktuellen Teil des Suchresultats ermitteln
-            $result = array_slice($result, ($page - 1) * $hits, $hits);
             
             // weitere für die Pagination benötigte Parameter ermitteln
             $currentResults = count($result);
@@ -244,6 +253,30 @@ class BaseSearchTwo extends Element
         );
 
         return new Response($html, 200, array('Content-Type' => 'text/html'));
+    }
+    
+    public function extract($geometry, $type)
+    {
+        $array = array();
+        switch (strtolower($type)) {
+            case 'point':
+                return $geometry[0] . ' ' . $geometry[1];
+            case 'multipoint':
+            case 'linestring':
+                foreach ($geometry as $geom) {
+                    $array[] = $this->extract($geom, 'point');
+                }
+                return implode(',', $array);
+            case 'multilinestring':
+            case 'polygon':
+            case 'multipolygon':
+                foreach ($geometry as $geom) {
+                    $array[] = '(' . $this->extract($geom, 'linestring') . ')';
+                }
+                return implode(',', $array);
+            default:
+              return null;
+        }
     }
     
     public function addPhonetic($string)
