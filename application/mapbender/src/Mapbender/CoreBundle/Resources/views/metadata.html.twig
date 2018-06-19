@@ -84,40 +84,33 @@
                     {% for item in section.items %}
                         {% for key,val in item %}
                             {% set vt=prefix~section.title~'.'~key %}
-                            {% if vt == 'mb.wms.metadata.section.common.originUrl' %}
-                                <div class="labelText">WMS</div>
+                            <div class="labelText">{{ vt | trans}}</div>
+                            {% if vt == 'mb.wms.metadata.section.common.georssUrl' or vt == 'mb.wms.metadata.section.common.dlsUrl' or vt == 'mb.wms.metadata.section.common.vsUrl' or vt == 'mb.wms.metadata.section.common.sosUrl' or vt == 'mb.wms.metadata.section.common.tmsUrl' or vt == 'mb.wms.metadata.section.common.wcsUrl' or vt == 'mb.wms.metadata.section.common.wfsUrl' or vt == 'mb.wms.metadata.section.common.wmsUrl' or vt == 'mb.wms.metadata.section.common.wmscUrl' or vt == 'mb.wms.metadata.section.common.wmtsUrl' or vt == 'mb.wms.metadata.section.common.opendataUrl' or vt == 'mb.wms.metadata.section.common.metadataUrl' %}
                                 <div class="metaText"><a href="{{val}}" target="_blank">{{val}}</a></div>
                             {% else %}
-                                <div class="labelText">{{ vt | trans}}</div>
-                                {% if vt == 'mb.wms.metadata.section.common.wcsUrl' or vt == 'mb.wms.metadata.section.common.wfsUrl' %}
-                                    <div class="metaText"><a href="{{val}}" target="_blank">{{val}}</a></div>
-                                {% elseif vt == 'mb.wms.metadata.section.common.ckanId' %}
-                                    <div class="metaText"><a href="https://www.opendata-hro.de/dataset/{{val}}" target="_blank">https://www.opendata-hro.de/dataset/{{val}}</a></div>
-                                {% else %}
-                                    <div class="metaText">
-                                        {% if '~' in val %}
-                                            {% set val_splitted = val|split('~') %}
-                                            {% for key,value in val_splitted %}
-                                                {{ value }}
-                                                {% if not loop.last %}
-                                                    <br/>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% elseif '@' in val and ',' in val %}
-                                            {% set val_splitted = val|split(',') %}
-                                            {% for key,value in val_splitted %}
-                                                <a href="mailto:{{ value }}">{{ value }}</a>
-                                                {% if not loop.last %}
-                                                    <br/>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% elseif '@' in val %}
-                                            <a href="mailto:{{ val }}">{{ val }}</a>
-                                        {% else %}
-                                            {{ val|replace({'Hansestadt Rostock': "Hanse- und Universitätsstadt Rostock"}) }}
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
+                                <div class="metaText">
+                                    {% if '~' in val %}
+                                        {% set val_splitted = val|split('~') %}
+                                        {% for key,value in val_splitted %}
+                                            {{ value }}
+                                            {% if not loop.last %}
+                                                <br/>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elseif '@' in val and ',' in val %}
+                                        {% set val_splitted = val|split(',') %}
+                                        {% for key,value in val_splitted %}
+                                            <a href="mailto:{{ value }}">{{ value }}</a>
+                                            {% if not loop.last %}
+                                                <br/>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elseif '@' in val %}
+                                        <a href="mailto:{{ val }}">{{ val }}</a>
+                                    {% else %}
+                                        {{ val|replace({'Hansestadt Rostock': "Hanse- und Universitätsstadt Rostock"}) }}
+                                    {% endif %}
+                                </div>
                             {% endif %}
                             <div class="clearContainer"></div>
                         {% endfor %}

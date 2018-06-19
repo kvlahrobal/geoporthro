@@ -31,7 +31,6 @@ class WmsMetadata extends SourceMetadata
     private function prepareData($itemName)
     {
         $src = $this->instance->getSource();
-        $title = SourceMetadata::getNotNull($src->getTitle());
         
         # eigene WMS
         if (strpos(SourceMetadata::getNotNull($src->getOriginUrl()), "geo.sv.rostock.de") !== false) {
@@ -45,11 +44,35 @@ class WmsMetadata extends SourceMetadata
                 # URL unverändert übernehmen
                 $originUrl = SourceMetadata::getNotNull($src->getOriginUrl());
             }
-            # WCS- und WFS-URL definieren
-            $wcsUrl = substr($originUrl, 0, strpos($originUrl, "wms")) . "wcs";
-            $wcsUrlHeaders = @get_headers($wcsUrl . "?service=WCS&version=2.0.0&request=GetCapabilities");
-            $wfsUrl = substr($originUrl, 0, strpos($originUrl, "wms")) . "wfs";
-            $wfsUrlHeaders = @get_headers($wfsUrl . "?service=WFS&version=1.1.0&request=GetCapabilities");
+            # Verbindung zur Datenbank von Geolotse.HRO aufbauen
+            $connection = pg_connect("host=dbnode10.sv.rostock.de dbname=geolotse user=admin password=hro62.15;:_");
+            # verbundene URLs holen
+            pg_prepare("", "SELECT \"group\" AS typ, link FROM links WHERE category = 'geoservice' AND parent_id in (SELECT parent_id FROM links WHERE link = '$originUrl') ORDER BY 1");
+            $result = pg_execute("", array());
+            $urls = array();
+            while ($row = pg_fetch_assoc($result)) {
+                $urls[] = array('typ' => $row['typ'], 'link' => $row['link']);
+            }
+            # weitere verbundene URLs holen
+            pg_prepare("", "SELECT DISTINCT s.target AS typ, s.link FROM sublinks s, links_sublinks ls, links l WHERE s.target IN ('metadata', 'opendata') AND s.id = ls.sublink_id AND (ls.link_id = l.id OR ls.link_id = l.parent_id) AND l.link = '$originUrl' ORDER BY 1, 2");
+            $result = pg_execute("", array());
+            $subUrls = array();
+            while ($row = pg_fetch_assoc($result)) {
+                $subUrls[] = array('typ' => $row['typ'], 'link' => $row['link']);
+            }
+            # Beschreibung holen
+            pg_prepare("", "SELECT description FROM links WHERE link = '$originUrl' LIMIT 1");
+            $result = pg_execute("", array());
+            while ($row = pg_fetch_assoc($result)) {
+                $description = $row['description'];
+            }
+            # Titel holen
+            pg_prepare("", "SELECT title FROM links WHERE link = '$originUrl' LIMIT 1");
+            $result = pg_execute("", array());
+            while ($row = pg_fetch_assoc($result)) {
+                $title = $row['title'];
+            }
+            pg_close($connection);
         }
         # andere WMS
         else {
@@ -73,30 +96,52 @@ class WmsMetadata extends SourceMetadata
             }
         }
         
-        # Metadatenbank
-        $title = str_replace("Hansestadt Rostock", "Hanse- und Universitätsstadt Rostock", $title);
-        $connection = pg_connect("host=dbnode10.sv.rostock.de dbname=geodaten user=lesen password=selen");
-        pg_prepare("", "SELECT ckan_datensatz_id AS ckan_id FROM metadatenpflege.metadaten WHERE mapfile_layer = '$name' OR mapfile_name = regexp_replace(substring('$name', '\..*\.'), '\.', '', 'g') OR datenquelle ~ regexp_replace(substring('$name', '\..*\.'), '\.', '', 'g') OR titel_lang = '$title' OR 'ALKIS-' || regexp_replace(titel_lang, ' aus dem Amtlichen Liegenschaftskatasterinformationssystem \(ALKIS\)', '') = '$title' OR 'ALKIS' || regexp_replace(titel_lang, '^Amtliches Liegenschaftskatasterinformationssystem \(ALKIS\)', '') = '$title' LIMIT 1");
-        $result = pg_execute("", array());
-        pg_close($connection);
-        while ($row = pg_fetch_assoc($result)) {
-            $ckanId = $row["ckan_id"];
-        }
-        
         if ($this->getUseCommon()) {
             $source_items = array();
-            $source_items[] = array("title" => $title);
-            $source_items[] = array("originUrl" => $originUrl);
-            if ($wcsUrlHeaders && $wcsUrlHeaders[0] == 'HTTP/1.1 200 OK') {
-                $source_items[] = array("wcsUrl" => $wcsUrl);
+            if ($title)
+                $source_items[] = array("title" => $title);
+            else
+                $source_items[] = array("title" => SourceMetadata::getNotNull($src->getTitle()));
+            if ($description)
+                $source_items[] = array("description" => $description);
+            else
+                $source_items[] = array("description" => SourceMetadata::getNotNull($src->getDescription()));
+            if ($urls) {
+                foreach ($urls as $url) {
+                    if ($url['typ'] === 'GeoRSS') {
+                        $source_items[] = array("georssUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'INSPIRE Download Service') {
+                        $source_items[] = array("dlsUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'INSPIRE View Service') {
+                        $source_items[] = array("vsUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'SOS') {
+                        $source_items[] = array("sosUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'TMS') {
+                        $source_items[] = array("tmsUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'WCS') {
+                        $source_items[] = array("wcsUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'WFS') {
+                        $source_items[] = array("wfsUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'WMS') {
+                        $source_items[] = array("wmsUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'WMS-C') {
+                        $source_items[] = array("wmscUrl" => $url['link']);
+                    } elseif ($url['typ'] === 'WMTS') {
+                        $source_items[] = array("wmtsUrl" => $url['link']);
+                    }
+                }
+            } else {
+                $source_items[] = array("wmsUrl" => $originUrl);
             }
-            if ($wfsUrlHeaders && $wfsUrlHeaders[0] == 'HTTP/1.1 200 OK') {
-                $source_items[] = array("wfsUrl" => $wfsUrl);
+            if ($subUrls) {
+                foreach ($subUrls as $subUrl) {
+                    if ($subUrl['typ'] === 'opendata') {
+                        $source_items[] = array("opendataUrl" => $subUrl['link']);
+                    } elseif ($subUrl['typ'] === 'metadata') {
+                        $source_items[] = array("metadataUrl" => $subUrl['link']);
+                    }
+                }
             }
-            if ($ckanId) {
-                $source_items[] = array("ckanId" => $ckanId);
-            }
-            $source_items[] = array("description" => SourceMetadata::getNotNull($src->getDescription()));
             $this->addMetadataSection(SourceMetadata::$SECTION_COMMON, $source_items);
         }
         

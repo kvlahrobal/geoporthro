@@ -528,7 +528,7 @@
       </trans-unit>
       <trans-unit id="3fc45286dbed3669423eea7520e5278f" resname="mb.wms.metadata.section.common">
         <source>mb.wms.metadata.section.common</source>
-        <target>Allgemeine Angaben zum Kartenthema</target>
+        <target>Allgemeine Angaben und Links auf Ressourcen zum Kartenthema</target>
       </trans-unit>
       <trans-unit id="c92e0e2df5db11fd510a0cd23bd2a1c5" resname="mb.wms.metadata.section.common.title">
         <source>mb.wms.metadata.section.common.title</source>
@@ -542,9 +542,25 @@
         <source>mb.wms.metadata.section.common.version</source>
         <target>Version</target>
       </trans-unit>
-      <trans-unit id="fbab2e3980dd2f1b8cf6ff8fbe06f380" resname="mb.wms.metadata.section.common.originUrl">
-        <source>mb.wms.metadata.section.common.originUrl</source>
-        <target>WMS</target>
+      <trans-unit id="6ae90c9974c047a5b63a5e0e32fc39d2" resname="mb.wms.metadata.section.common.georssUrl">
+        <source>mb.wms.metadata.section.common.georssUrl</source>
+        <target>GeoRSS</target>
+      </trans-unit>
+      <trans-unit id="eb38ecd37f3f4af8b0aebf8ae802a5c1" resname="mb.wms.metadata.section.common.dlsUrl">
+        <source>mb.wms.metadata.section.common.dlsUrl</source>
+        <target>INSPIRE Download Service</target>
+      </trans-unit>
+      <trans-unit id="3b16b1b582734884be49208567da6a04" resname="mb.wms.metadata.section.common.vsUrl">
+        <source>mb.wms.metadata.section.common.vsUrl</source>
+        <target>INSPIRE View Service</target>
+      </trans-unit>
+      <trans-unit id="311f7811bd6d4592862fe8da79d811bf" resname="mb.wms.metadata.section.common.sosUrl">
+        <source>mb.wms.metadata.section.common.sosUrl</source>
+        <target>SOS</target>
+      </trans-unit>
+      <trans-unit id="89f74e41594142679deaa7ed9fb5d91a" resname="mb.wms.metadata.section.common.tmsUrl">
+        <source>mb.wms.metadata.section.common.tmsUrl</source>
+        <target>TMS</target>
       </trans-unit>
       <trans-unit id="fe815720105611e6a8370800200c9a66" resname="mb.wms.metadata.section.common.wcsUrl">
         <source>mb.wms.metadata.section.common.wcsUrl</source>
@@ -554,9 +570,25 @@
         <source>mb.wms.metadata.section.common.wfsUrl</source>
         <target>WFS</target>
       </trans-unit>
-      <trans-unit id="6dbcf890105e11e6a8370800200c9a66" resname="mb.wms.metadata.section.common.ckanId">
-        <source>mb.wms.metadata.section.common.ckanId</source>
+      <trans-unit id="fbab2e3980dd2f1b8cf6ff8fbe06f380" resname="mb.wms.metadata.section.common.wmsUrl">
+        <source>mb.wms.metadata.section.common.wmsUrl</source>
+        <target>WMS</target>
+      </trans-unit>
+      <trans-unit id="6ffa9fb592264c6ca040aebaaa4f6896" resname="mb.wms.metadata.section.common.wmscUrl">
+        <source>mb.wms.metadata.section.common.wmscUrl</source>
+        <target>WMS-C</target>
+      </trans-unit>
+      <trans-unit id="ca85bb6420394baf8605f607422e2ea5" resname="mb.wms.metadata.section.common.wmtsUrl">
+        <source>mb.wms.metadata.section.common.wmtsUrl</source>
+        <target>WMTS</target>
+      </trans-unit>
+      <trans-unit id="6dbcf890105e11e6a8370800200c9a66" resname="mb.wms.metadata.section.common.opendataUrl">
+        <source>mb.wms.metadata.section.common.opendataUrl</source>
         <target>OpenData.HRO</target>
+      </trans-unit>
+      <trans-unit id="e5e7eccfe5d546a7ac8d1c4c6f83d683" resname="mb.wms.metadata.section.common.metadataUrl">
+        <source>mb.wms.metadata.section.common.metadataUrl</source>
+        <target>GeoMIS.MV</target>
       </trans-unit>
       <trans-unit id="b41a13ce28a88496252ebe893e380f3b" resname="mb.wms.metadata.section.common.description">
         <source>mb.wms.metadata.section.common.description</source>
