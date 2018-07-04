@@ -1,40 +1,47 @@
-<div id="searchResults">
-    {% if result.documents is defined %}
-        {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
-        {% for doc in result.documents %}
-            {% set json = doc.json|json_decode %}
-            <div title="{% if type == 'grund' %}ALKIS-Auskunft zu Grundbuchblatt erhalten{% elseif type == 'eigen' %}ALKIS-Auskunft zu Eigentümer erhalten{% else %}Karte auf Objekt zoomen und Objekt in Karte markieren{% endif %}" class="{% if loop.index is odd %}clickable{% else %}even clickable{% endif %}{% if type == 'flur'%} flur document{% elseif type == 'grund'%} grund{% elseif type == 'eigen'%} eigen{% elseif type == 'addr' %} addr document{% elseif type == 'schiffe' %} schiffe document{% endif %}"{% if json.x is defined and json.y is defined %} data-x="{{ json.x }}" data-y="{{ json.y }}"{% endif %}{% if json.geom is defined %} data-geom="{{ json.geom }}"{% endif %}{% if json.gml_id is defined %} data-gmlid="{{ json.gml_id }}"{% endif %}>
-                {% if type == 'flur' and json.data.type == 'gemarkung' %}
-                    {{ json.data.gemarkung_name }} ({{ json.data.gemarkung_schluessel_kurz }})
-                {% elseif type == 'flur' and json.data.type == 'flur' %}
-                    {{ json.data.gemarkung_name }} ({{ json.data.gemarkung_schluessel_kurz }}), Flur {{ json.data.flur }}
-                {% elseif type == 'flur' and json.data.type == 'flurstueck' %}
-                    {% if json.data.historisch is defined and json.data.historisch != null%}
-                        {{ json.data.gemarkung_name }} ({{ json.data.gemarkung_schluessel_kurz }}), Flur {{ json.data.flur }}, {{ json.data.zaehler }}{% if json.data.nenner %}/{{ json.data.nenner }}{% endif %} <i>(historisch{% if json.data.historisch_seit is defined and json.data.historisch_seit != null%} seit {{ json.data.historisch_seit }}{% endif %})</i>
-                    {% else %}
-                        {{ json.data.gemarkung_name }} ({{ json.data.gemarkung_schluessel_kurz }}), Flur {{ json.data.flur }}, {{ json.data.zaehler }}{% if json.data.nenner %}/{{ json.data.nenner }}{% endif %}
-                    {% endif %}
-                {% elseif type == 'grund' %}
+    <div id="searchResults">
+    {% if type == 'addr' or type == 'flur' %}
+        {% include "MapbenderAlkisBundle:Element:paginggeocodr.html.twig" %}
+        {% for feature in result %}
+            <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="{% if loop.index is odd %}clickable{% else %}even clickable{% endif %}{% if type == 'flur'%} flur document{% elseif type == 'addr' %} addr document{% endif %}"{% if feature.x is defined and feature.y is defined %} data-x="{{ feature.x }}" data-y="{{ feature.y }}"{% elseif feature.wkt is defined %} data-geom="{{ feature.wkt }}"{% endif %}>
+                {{ feature.properties._title_ }}
+            </div>
+        {% endfor %}
+        {% include "MapbenderAlkisBundle:Element:paginggeocodr.html.twig" %}
+    {% else %}
+        {% if result.documents is defined %}
+            {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
+            {% for doc in result.documents %}
+                {% set json = doc.json|json_decode %}
+                {% if type == 'grund' %}
+                    <div title="ALKIS-Auskunft zu Grundbuchblatt erhalten"
+                {% elseif type == 'eigen' %}
+                    <div title="ALKIS-Auskunft zu Eigentümer erhalten"
+                {% else %}
+                    <div title="Karte auf Objekt zoomen und Objekt in Karte markieren"
+                {% endif %}
+                {% if loop.index is odd %}
+                    class="clickable
+                {% else %}
+                    class="even clickable
+                {% endif %}
+                {% if type == 'grund'%} grund
+                {% elseif type == 'eigen'%} eigen 
+                {% elseif type == 'schiffe' %} schiffe document{% endif %}"
+                {% if json.x is defined %} data-x="{{ json.x }}" data-y="{{ json.y }}" {% endif %}
+                {% if json.geom is defined %}data-geom="{{ json.geom }}"{% endif %}
+                {% if json.gml_id is defined %}data-gmlid="{{ json.gml_id }}"{% endif %}
+                >
+                {% if type == 'grund' %}
                     {{ json.bezirkname}} ({{json.bezirk}}), {{json.grundbuchblatt}}
                 {% elseif type == 'eigen' %}
-                    {{json.nachname}}{% if json.vorname is defined and json.vorname != null%}, {{json.vorname}}{% endif %}{% if json.geburtsdatum is defined and json.geburtsdatum != null%} ({{json.geburtsdatum | date('d.m.Y')}}){% endif %}
-                {% elseif type == 'addr' and json.data.type == 'addr' %}
-                    {% if json.data.historisch is defined and json.data.historisch != null%}
-                        {{ json.data.strasse_name }} {{ json.data.hausnummer }}{{ json.data.hausnummer_zusatz }} <i>(historisch{% if json.data.historisch_seit is defined and json.data.historisch_seit != null%} seit {{ json.data.historisch_seit }}{% endif %})</i>
-                    {% else %}
-                        {{ json.data.strasse_name }} {{ json.data.hausnummer }}{{ json.data.hausnummer_zusatz }}
-                    {% endif %}
-                {% elseif type == 'addr' and json.data.type == 'gemeinde' %}
-                    {{ json.data.gemeinde_name }}
-                {% elseif type == 'addr' and json.data.type == 'strasse' %}
-                    {{ json.data.strasse_name }}
-                {% elseif type == 'addr' and json.data.type == 'gemeindeteil' %}
-                    {{ json.data.gemeindeteil_name }}
+                    {{json.nachname}}{% if json.vorname is defined and json.vorname != null%}, {{json.vorname}}{% endif %}
+                    {% if json.geburtsdatum is defined and json.geburtsdatum != null%} ({{json.geburtsdatum | date('d.m.Y')}}){% endif %}
                 {% elseif type == 'schiffe' and json.data.type == 'schiffe' %}
                     {{ json.data.bezeichnung }} ({{ json.data.typ }}, {{ json.data.baujahr }}), {{ json.data.liegeplatz_bezeichnung_lang }}
                 {% endif %}
-            </div>
-        {% endfor %}
-        {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
+                </div>
+            {% endfor %}
+            {% include "MapbenderAlkisBundle:Element:paging.html.twig" %}
+        {% endif %}
     {% endif %}
 </div>
