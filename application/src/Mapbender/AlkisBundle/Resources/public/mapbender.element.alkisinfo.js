@@ -47,9 +47,6 @@
                 url: Mapbender.configuration.application.urls.element + '/' + this.element.attr('id') + '/search',
                 type: 'POST',
                 data: {
-                    term: '',
-                    srs: '',
-                    geom: '',
                     gmlid: gmlId
                 },
                 dataType: 'text',
@@ -65,9 +62,6 @@
                 url: Mapbender.configuration.application.urls.element + '/' + this.element.attr('id') + '/search',
                 type: 'POST',
                 data: {
-                    term: '',
-                    srs: '',
-                    geom: '',
                     gmlid: gmlId
                 },
                 dataType: 'text',
@@ -82,10 +76,9 @@
             var tip = JSON.parse(result.documents[0].json);
 
             tip.gmlid = tip.gml_id;// ? tip.gml_id : 'DEMVAL03Z0000eil';
-            tip.gkz = tip.gkz ? tip.gkz : '';
              
             var iframe = this._getIframeDeclaration(Mapbender.Util.UUID(),
-            this.options.infourleigen + '?gkz=' + tip.gkz + '&gmlid=' + tip.gmlid);
+            this.options.infourleigen + '?gmlid=' + tip.gmlid);
             this._getContext().html(iframe);
             $('#' + this.options.target).addClass('mb-alkis-info-active');
         },
@@ -94,10 +87,9 @@
             var tip = JSON.parse(result.documents[0].json);
 
             tip.gmlid = tip.gml_id;// ? tip.gml_id : 'DEMVAL03Z0000eil';
-            tip.gkz = tip.gkz ? tip.gkz : '';
              
             var iframe = this._getIframeDeclaration(Mapbender.Util.UUID(),
-            this.options.infourlgrund + '?gkz=' + tip.gkz + '&gmlid=' + tip.gmlid);
+            this.options.infourlgrund + '?gmlid=' + tip.gmlid);
             this._getContext().html(iframe);
             $('#' + this.options.target).addClass('mb-alkis-info-active');
         },
@@ -127,10 +119,8 @@
                 url: Mapbender.configuration.application.urls.element + '/' + this.element.attr('id') + '/search',
                 type: 'POST',
                 data: {
-                    term: '',
-                    srs: self.spatialSearchSrsProj.projCode,
-                    geom: pointWgs84.toString(),
-                    gmlid: ''
+                    x: lonlat.lon,
+                    y: lonlat.lat
                 },
                 dataType: 'text',
                 context: self,
@@ -140,30 +130,10 @@
             return false;
         },
         _findSuccess: function(response, textStatus, jqXHR) {
-
             var result = JSON.parse(response);
-            if (result.documents) {
-
-                for (var i = 0; i < result.documents.length; i++) {
-                    var tip = JSON.parse(result.documents[i].json);
-                    var geom = OpenLayers.Geometry.fromWKT(tip.geom);
-                    var mapProj = this.target.getModel().getCurrentProj();
-                    var clickPoint = this.clickPoint.clone();
-                    if (tip.data.type === "flurstueck" && tip.data.historisch !== "historisch") {
-                        if (this.dataSrsProj.projCode !== mapProj.projCode) {
-                            geom = geom.transform(this.dataSrsProj, mapProj);
-                            clickPoint = clickPoint.transform(this.dataSrsProj, mapProj);
-                        }
-                        if (geom.containsPoint(clickPoint)) {
-                            tip.gmlid = tip.gml_id;// ? tip.gml_id : 'DEMVAL03Z0000eil';
-                            tip.gkz = tip.gkz ? tip.gkz : '';
-                            var iframe = this._getIframeDeclaration(Mapbender.Util.UUID(),
-                                this.options.infourl + '?gkz=' + tip.gkz + '&gmlid=' + tip.gmlid);
-                            this._getContext().html(iframe);
-                            break;
-                        }
-                    }
-                }
+            if (result) {
+                var iframe = this._getIframeDeclaration(Mapbender.Util.UUID(), this.options.infourl + '?gmlid=' + result.properties.id_fachsystem);
+                this._getContext().html(iframe);
             } else {
                 Mapbender.info('ALKIS-Auskunft: kein Abfrageresultat');
             }

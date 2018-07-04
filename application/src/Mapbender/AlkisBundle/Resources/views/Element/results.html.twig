@@ -2,7 +2,7 @@
     {% if type == 'addr' or type == 'flur' %}
         {% include "MapbenderAlkisBundle:Element:paginggeocodr.html.twig" %}
         {% for feature in result %}
-            <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="{% if loop.index is odd %}clickable{% else %}even clickable{% endif %}{% if type == 'flur'%} flur document{% elseif type == 'addr' %} addr document{% endif %}"{% if feature.x is defined and feature.y is defined %} data-x="{{ feature.x }}" data-y="{{ feature.y }}"{% elseif feature.wkt is defined %} data-geom="{{ feature.wkt }}"{% endif %}>
+            <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="{% if loop.index is odd %}clickable{% else %}even clickable{% endif %}{% if type == 'flur'%} flur document{% elseif type == 'addr' %} addr document{% endif %}"{% if feature.properties.id_fachsystem is defined %} data-gml_id="{{ feature.properties.id_fachsystem }}"{% endif %}{% if feature.x is defined and feature.y is defined %} data-x="{{ feature.x }}" data-y="{{ feature.y }}"{% elseif feature.wkt is defined %} data-geom="{{ feature.wkt }}"{% endif %}>
                 {{ feature.properties._title_ }}
             </div>
         {% endfor %}
