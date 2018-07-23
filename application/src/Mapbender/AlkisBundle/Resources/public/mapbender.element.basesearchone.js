@@ -39,7 +39,6 @@
                 return;
             }
             if (!Mapbender.checkTarget("AlkisInfo", this.options.alkisinfo)) {
-                console.log('AlkisInfo');
                 return;
             }
             Mapbender.elementRegistry.onElementReady(this.options.target, $.proxy(self._setup, self));
@@ -180,9 +179,7 @@
             $('#' + this.options.alkisinfo).mbAlkisInfo(func, param);
         },
         _showEigenInfo: function (e) {
-            console.log('1');
             var self = this;
-            console.log($(e.currentTarget));
             var gmlId = $(e.currentTarget).attr('data-gmlid');
             self._alkisinfo('activateEigenSearchInfo', gmlId);
         },

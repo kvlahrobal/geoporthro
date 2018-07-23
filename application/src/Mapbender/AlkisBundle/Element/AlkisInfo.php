@@ -198,7 +198,7 @@ class AlkisInfo extends Element
             // Suche durchführen mittels cURL
             $curl = curl_init();
             $term = curl_escape($curl, $term);
-            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=reverse&class=parcel_hro&in_epsg=25833&query='. $x . ',' . $y;
+            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=reverse&class=parcel_hro&radius=0&in_epsg=25833&query='. $x . ',' . $y;
             curl_setopt($curl, CURLOPT_URL, $url); 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             

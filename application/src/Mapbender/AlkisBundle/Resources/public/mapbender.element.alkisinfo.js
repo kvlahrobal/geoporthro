@@ -1,5 +1,4 @@
 (function($) {
-
     $.widget("mapbender.mbAlkisInfo", {
         options: {
             dataSrs: 'EPSG:25833',
