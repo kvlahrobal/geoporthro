@@ -159,7 +159,7 @@ class BaseSearchTwo extends Element
             // Suche durchführen mittels cURL
             $curl = curl_init();
             $term = curl_escape($curl, $term);
-            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&class=' . $searchclass . '&query='. $term;
+            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&limit=' . $conf['limit'] . '&class=' . $searchclass . '&query=' . $term;
             curl_setopt($curl, CURLOPT_URL, $url); 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             
