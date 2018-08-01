@@ -12,11 +12,11 @@
                 {% elseif type == 'mv_addr' and feature.properties.objektgruppe == 'Gemeinde' %}
                     <i class="fa fa-circle" title="Gemeinde"></i> {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeinde_name_suchzusatz != null %} <small>{{ feature.properties.gemeinde_name_suchzusatz }}</small>{% endif %}
                 {% elseif type == 'mv_flur' and feature.properties.objektgruppe == 'Gemarkung' %}
-                    {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeinde_name_suchzusatz != null %} <small>{{ feature.properties.gemeinde_name_suchzusatz }}</small>{% endif %}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }})
+                    <i class="fa fa-circle" title="Gemarkung"></i> {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeinde_name_suchzusatz != null %} <small>{{ feature.properties.gemeinde_name_suchzusatz }}</small>{% endif %}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }})
                 {% elseif type == 'mv_flur' and feature.properties.objektgruppe == 'Flur' %}
-                    {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeinde_name_suchzusatz != null %} <small>{{ feature.properties.gemeinde_name_suchzusatz }}</small>{% endif %}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}
+                    <i class="fa fa-circle-o" title="Flur"></i> {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeinde_name_suchzusatz != null %} <small>{{ feature.properties.gemeinde_name_suchzusatz }}</small>{% endif %}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}
                 {% elseif type == 'mv_flur' and feature.properties.objektgruppe == 'Flurstück' %}
-                    {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeinde_name_suchzusatz != null %} <small>{{ feature.properties.gemeinde_name_suchzusatz }}</small>{% endif %}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}, {{ feature.properties.zaehler }}{% if feature.properties.nenner != '' %}/{{ feature.properties.nenner }}{% endif %}
+                    <i class="fa fa-stop-circle" title="Flurstück"></i> {{ feature.properties.gemeinde_name }}{% if feature.properties.gemeinde_name_suchzusatz != null %} <small>{{ feature.properties.gemeinde_name_suchzusatz }}</small>{% endif %}, {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}, {{ feature.properties.zaehler }}{% if feature.properties.nenner != '' %}/{{ feature.properties.nenner }}{% endif %}
                 {% endif %}
             </div>
         {% endfor %}

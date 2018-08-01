@@ -4,11 +4,17 @@
         {% for feature in result %}
             <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="{% if loop.index is odd %}clickable{% else %}even clickable{% endif %}{% if type == 'flur'%} flur document{% elseif type == 'addr' %} addr document{% endif %}"{% if feature.properties.id_fachsystem is defined %} data-gml_id="{{ feature.properties.id_fachsystem }}"{% endif %}{% if feature.x is defined and feature.y is defined %} data-x="{{ feature.x }}" data-y="{{ feature.y }}"{% elseif feature.wkt is defined %} data-geom="{{ feature.wkt }}"{% endif %}>
                 {% if type == 'addr' and feature.properties.objektgruppe == 'Adresse HRO' %}
-                    <i class="fa fa-home" title="Adresse"></i> {{ feature.properties.gemeindeteil_name }}, {{ feature.properties.strasse_name }} {{ feature.properties.hausnummer }}{{ feature.properties.hausnummer_zusatz }}
+                    {% if feature.properties.gueltigkeit_bis != null %}<i class="fa fa-history" title="historische Adresse"></i>{% else %}<i class="fa fa-home" title="Adresse"></i>{% endif %} {{ feature.properties._title_ }}
                 {% elseif type == 'addr' and feature.properties.objektgruppe == 'Straße HRO' %}
-                    <i class="fa fa-road" title="Straße"></i> {{ feature.properties.gemeindeteil_name }}, {{ feature.properties.strasse_name }}
+                    <i class="fa fa-road" title="Straße"></i> {{ feature.properties._title_ }}
                 {% elseif type == 'addr' and feature.properties.objektgruppe == 'Gemeindeteil HRO' %}
-                    <i class="fa fa-circle-o" title="Ortsteil"></i> {{ feature.properties.gemeindeteil_name }}
+                    <i class="fa fa-circle-o" title="Ortsteil"></i> {{ feature.properties._title_ }}
+                {% elseif type == 'flur' and feature.properties.objektgruppe == 'Gemarkung HRO' %}
+                    <i class="fa fa-circle" title="Gemarkung"></i> {{ feature.properties._title_ }}
+                {% elseif type == 'flur' and feature.properties.objektgruppe == 'Flur HRO' %}
+                    <i class="fa fa-circle-o" title="Flur"></i> {{ feature.properties._title_ }}
+                {% elseif type == 'flur' and feature.properties.objektgruppe == 'Flurstück HRO' %}
+                    {% if feature.properties.gueltigkeit_bis != null %}<i class="fa fa-history" title="historisches Flurstück"></i>{% else %}<i class="fa fa-stop-circle" title="Flurstück"></i>{% endif %} {{ feature.properties._title_ }}
                 {% else %}
                     {{ feature.properties._title_ }}
                 {% endif %}
