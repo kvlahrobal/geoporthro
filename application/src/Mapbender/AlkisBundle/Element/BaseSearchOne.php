@@ -266,9 +266,13 @@ class BaseSearchOne extends Element
                 return implode(',', $array);
             case 'multilinestring':
             case 'polygon':
-            case 'multipolygon':
                 foreach ($geometry as $geom) {
                     $array[] = '(' . $this->extract($geom, 'linestring') . ')';
+                }
+                return implode(',', $array);
+            case 'multipolygon':
+                foreach ($geometry as $geom) {
+                    $array[] = '(' . $this->extract($geom, 'polygon') . ')';
                 }
                 return implode(',', $array);
             default:

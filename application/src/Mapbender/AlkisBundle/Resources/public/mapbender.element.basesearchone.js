@@ -9,9 +9,9 @@
         },
         hilfetexte: {
             allgemein: 'Die Suche startet automatisch während der Eingabe. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
-            addr: '<li>→ Gemeindeteilname [Beispiele: <span>schmarl</span> oder <span>brinckmans</span>]</li><li>→ Straßenname [Beispiele: <span>wagner</span> oder <span>holbei</span>]</li><li>→ Adresse (Straße mit Hausnummer und eventuellem Hausnummernzusatz) [Beispiele: <span>riga 19</span> oder <span>löns 14a</span>]</li></ul><br/>Resultate können Gemeindeteile, Straßen und Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz) sein.',
+            addr: '<li>→ Ortsteilname [Beispiele: <span>schmarl</span> oder <span>brinckmans</span>]</li><li>→ Straßenname [Beispiele: <span>wagner</span> oder <span>holbei</span>]</li><li>→ Adresse (Straße mit Hausnummer und eventuellem Hausnummernzusatz) [Beispiele: <span>riga 19</span> oder <span>löns 14a</span>]</li></ul><br/>Resultate können Ortsteile, Straßen, Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz) und historische Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz sowie Angabe des Datums, an dem die Adresse historisch wurde) sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
             eigen: '<li>→ Vorname [Beispiel: <span>jürg</span>]</li><li>→ Nachname [Beispiel: <span>schmi</span>]</li><li>→ Kombination aus Vor- und Nachname (Reihenfolge egal) [Beispiel: <span>schmi jürg</span>]</li><li>→ Bezeichnung (bei Firmen, Organisationen etc.) [Beispiel: <span>carit</span>]</li></ul>',
-            flur: '<li>→ Gemarkungsschlüssel [Beispiel: <span>2218</span>]</li><li>→ Gemarkungsname [Beispiel: <span>kasseb</span>]</li><li>→ Flur als Kombination aus Gemarkungsschlüssel und Flurnummer [Beispiel: <span>2222 3</span>]</li><li>→ Flur als Kombination aus Gemarkungsname und Flurnummer [Beispiel: <span>evershagen 3</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Flurnummer, Zähler und Nenner [Beispiele: <span>2232 1 461</span> oder <span>2232 1 160/2</span> oder <span>krummen 1 461</span> oder <span>krummen 1 160/2</span>]</li></ul><br/>Resultate können Gemarkungen, Fluren und Flurstücke sein.',
+            flur: '<li>→ Gemarkungsschlüssel [Beispiel: <span>2218</span>]</li><li>→ Gemarkungsname [Beispiel: <span>kasseb</span>]</li><li>→ Flur als Kombination aus Gemarkungsschlüssel und Flurnummer [Beispiel: <span>2222 3</span>]</li><li>→ Flur als Kombination aus Gemarkungsname und Flurnummer [Beispiel: <span>evershagen 3</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Flurnummer, Zähler und Nenner [Beispiele: <span>2232 1 461</span> oder <span>2232 1 160/2</span> oder <span>krummen 1 461</span> oder <span>krummen 1 160/2</span>]</li></ul><br/>Resultate können Gemarkungen, Fluren und Flurstücke sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
             grund: '<li>→ Grundbuchbezirksname [Beispiel: <span>rosto</span>]</li><li>→ Grundbuchbezirksnummer [Beispiel: <span>2250</span>]</li><li>→ Grundbuchblattnummer [Beispiel: <span>18305</span>]</li><li>→ Kombination aus Grundbuchbezirks- und Grundbuchblattnummer (Reihenfolge egal) [Beispiel: <span>2250 18305</span>]</li></ul>',
             schiffe: '<li>→ Bezeichnung [Beispiele: <span>jantje</span> oder <span>PHOEN</span>]</li><li>→ Typ [Beispiele: <span>kutter</span> oder <span>Yacht</span>]</li><li>→ vollständiges Baujahr [Beispiel: <span>1980</span>]</li><li>→ Liegeplatz (Kurzbezeichnung) [Beispiele: <span>WMD</span> oder <span>rsc</span>]</li><li>→ Liegeplatz (Langbezeichnung) [Beispiel: <span>warnemü</span>]</li></ul>'
         },
@@ -72,6 +72,8 @@
                 $('#clear-search', this.element).on('click', $.proxy(self._clearSearch, self));
                 $(document).on('click', ' .clickable', $.proxy(self._closeMobilePane, self));
                 $(document).on('click', "#" + this.element.attr('id') + ' .document', $.proxy(self._zoom, self));
+                $(document).on('click', "#" + this.element.attr('id') + ' .document > i', $.proxy(self._zoom, self));
+                $(document).on('click', "#" + this.element.attr('id') + ' .document > small', $.proxy(self._zoom, self));
                 $(document).on('click', "#" + this.element.attr('id') + ' div[data-page]', $.proxy(self._changePage, self));
                 $(document).on('change', "#" + this.element.attr('id') + " select", $.proxy(self._changeSearchType, self));
                 $(document).on('click', "#" + this.element.attr('id') + ' .eigen', $.proxy(self._showEigenInfo, self));
@@ -82,9 +84,15 @@
                 $('#removeResults', this.element).on('click', $.proxy(self._resetSearch, self));
                 $('#clear-search', this.element).on('click', $.proxy(self._clearSearch, self));
                 $(document).on('click', "#" + this.element.attr('id') + ' .document', $.proxy(self._zoom, self));
+                $(document).on('click', "#" + this.element.attr('id') + ' .document > i', $.proxy(self._zoom, self));
+                $(document).on('click', "#" + this.element.attr('id') + ' .document > small', $.proxy(self._zoom, self));
                 $(document).on('click', "#" + this.element.attr('id') + ' .document', $.proxy(self._highlightOn, self));
                 $(document).on('mouseover', "#" + this.element.attr('id') + ' .document', $.proxy(self._highlightOn, self));
+                $(document).on('mouseover', "#" + this.element.attr('id') + ' .document > i', $.proxy(self._highlightOn, self));
+                $(document).on('mouseover', "#" + this.element.attr('id') + ' .document > small', $.proxy(self._highlightOn, self));
                 $(document).on('mouseout', "#" + this.element.attr('id') + ' .document', $.proxy(self._highlightOff, self));
+                $(document).on('mouseout', "#" + this.element.attr('id') + ' .document > i', $.proxy(self._highlightOff, self));
+                $(document).on('mouseout', "#" + this.element.attr('id') + ' .document > small', $.proxy(self._highlightOff, self));
                 $(document).on('click', "#" + this.element.attr('id') + ' div[data-page]', $.proxy(self._changePage, self));
                 $(document).on('change', "#" + this.element.attr('id') + " select", $.proxy(self._changeSearchType, self));
                 $(document).on('click', "#" + this.element.attr('id') + ' .eigen', $.proxy(self._showEigenInfo, self));
@@ -239,10 +247,14 @@
                 geom = OpenLayers.Geometry.fromWKT($(e.target).data('geom'));
             } else if ($(e.target).data('x') && $(e.target).data('y')) {
                 geom = new OpenLayers.Geometry.Point(parseFloat($(e.target).data('x')), parseFloat($(e.target).data('y')));
+            } else if ($(e.target).parent().data('geom')) {
+                geom = OpenLayers.Geometry.fromWKT($(e.target).parent().data('geom'));
+            } else if ($(e.target).parent().data('x') && $(e.target).parent().data('y')) {
+                geom = new OpenLayers.Geometry.Point(parseFloat($(e.target).parent().data('x')), parseFloat($(e.target).parent().data('y')));
             } else {
                 return;
             }
-
+            
             if (this.dataSrsProj.projCode !== mapProj.projCode) {
                 geom = geom.transform(this.dataSrsProj, mapProj);
             }
@@ -298,6 +310,10 @@
                 geom = OpenLayers.Geometry.fromWKT($(e.target).data('geom'));
             } else if ($(e.target).data('x') && $(e.target).data('y')) {
                 geom = new OpenLayers.Geometry.Point(parseFloat($(e.target).data('x')), parseFloat($(e.target).data('y')));
+            } else if ($(e.target).parent().data('geom')) {
+                geom = OpenLayers.Geometry.fromWKT($(e.target).parent().data('geom'));
+            } else if ($(e.target).parent().data('x') && $(e.target).parent().data('y')) {
+                geom = new OpenLayers.Geometry.Point(parseFloat($(e.target).parent().data('x')), parseFloat($(e.target).parent().data('y')));
             } else {
                 return;
             }
