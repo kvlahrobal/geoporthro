@@ -10,11 +10,11 @@
                 {% elseif type == 'addr' and feature.properties.objektgruppe == 'Gemeindeteil HRO' %}
                     <i class="fa fa-circle-o" title="Ortsteil"></i> {{ feature.properties._title_ }}
                 {% elseif type == 'flur' and feature.properties.objektgruppe == 'Gemarkung HRO' %}
-                    <i class="fa fa-circle" title="Gemarkung"></i> {{ feature.properties._title_ }}
+                    <i class="fa fa-circle" title="Gemarkung"></i> {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }})
                 {% elseif type == 'flur' and feature.properties.objektgruppe == 'Flur HRO' %}
-                    <i class="fa fa-circle-o" title="Flur"></i> {{ feature.properties._title_ }}
+                    <i class="fa fa-circle-o" title="Flur"></i> {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}
                 {% elseif type == 'flur' and feature.properties.objektgruppe == 'Flurstück HRO' %}
-                    {% if feature.properties.gueltigkeit_bis != null %}<i class="fa fa-history" title="historisches Flurstück"></i> {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}, {{ feature.properties.zaehler }}{% if feature.properties.nenner != '' %}/{{ feature.properties.nenner }}{% endif %} <small>– historisch seit {{ feature.properties._title_|slice(-11, 10) }}</small>{% else %}<i class="fa fa-stop-circle" title="Flurstück"></i> {{ feature.properties._title_ }}{% endif %}
+                    {% if feature.properties.gueltigkeit_bis != null %}<i class="fa fa-history" title="historisches Flurstück"></i> {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}, {{ feature.properties.zaehler }}{% if feature.properties.nenner != '' %}/{{ feature.properties.nenner }}{% endif %} <small>– historisch seit {{ feature.properties._title_|slice(-11, 10) }}</small>{% else %}<i class="fa fa-stop-circle" title="Flurstück"></i> {{ feature.properties.gemarkung_name }} ({{ feature.properties.gemarkung_schluessel }}), Flur {{ feature.properties.flur }}, {{ feature.properties.zaehler }}{% if feature.properties.nenner != '' %}/{{ feature.properties.nenner }}{% endif %}{% endif %}
                 {% else %}
                     {{ feature.properties._title_ }}
                 {% endif %}
