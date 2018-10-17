@@ -55,46 +55,30 @@ class IndexMietenpachtenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Mietenpachten fuer HRO-Mietenpachtensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.mieten_pachten WHERE aktenzeichen IN (SELECT aktenzeichen FROM regis.mieten_pachten GROUP BY aktenzeichen HAVING count(aktenzeichen) > 1)');
+        $stmt = $conn->query('SELECT count(*) AS count FROM regis.mieten_pachten_neu');
         $result = $stmt->fetch();
         $count = intval($result['count']);
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.mieten_pachten WHERE aktenzeichen IN (SELECT aktenzeichen FROM regis.mieten_pachten GROUP BY aktenzeichen HAVING count(aktenzeichen) = 1)');
-        $result = $stmt->fetch();
-        $count = $count + intval($result['count']);
-        $stmt = $conn->query('SELECT count(*) AS count FROM (SELECT aktenzeichen FROM regis.mieten_pachten GROUP BY aktenzeichen HAVING count(aktenzeichen) > 1) AS tabelle');
+        $stmt = $conn->query('SELECT count(*) AS count FROM (SELECT aktenzeichen FROM regis.mieten_pachten_neu GROUP BY aktenzeichen, vertragsflaeche) AS tabelle');
         $result = $stmt->fetch();
         $count = $count + intval($result['count']);
 
         while ($offset < $count) {
             $stmt = $conn->query("
                 SELECT
-                 't' AS flaeche_text,
                  aktenzeichen,
-                 status,
-                 ' (' || status || ')' AS status_text,
+                 to_char(round(flaeche_im_flurstueck, 2), 'FM99G999G990D99') AS flaeche,
+                 flurstueckskennzeichen,
                  ST_AsText(ST_Centroid(geometrie)) AS geom,
                  ST_AsText(geometrie) AS wktgeom
-                  FROM regis.mieten_pachten
-                   WHERE aktenzeichen IN (SELECT aktenzeichen FROM regis.mieten_pachten GROUP BY aktenzeichen HAVING count(aktenzeichen) > 1)
+                  FROM regis.mieten_pachten_neu
                 UNION SELECT
-                 NULL AS flaeche_text,
                  aktenzeichen,
-                 status,
-                 ' (' || status || ')' AS status_text,
-                 ST_AsText(ST_Centroid(geometrie)) AS geom,
-                 ST_AsText(geometrie) AS wktgeom
-                  FROM regis.mieten_pachten
-                   WHERE aktenzeichen IN (SELECT aktenzeichen FROM regis.mieten_pachten GROUP BY aktenzeichen HAVING count(aktenzeichen) = 1)
-                UNION SELECT
-                 'g' AS flaeche_text,
-                 aktenzeichen,
-                 NULL AS status,
-                 NULL AS status_text,
+                 to_char(round(vertragsflaeche, 2), 'FM99G999G990D99') AS flaeche,
+                 NULL AS flurstueckskennzeichen,
                  ST_AsText(ST_Centroid(ST_Union(ST_MakeValid(geometrie)))) AS geom,
                  ST_AsText(ST_Union(ST_MakeValid(geometrie))) AS wktgeom
-                  FROM regis.mieten_pachten
-                   GROUP BY aktenzeichen
-                    HAVING count(aktenzeichen) > 1
+                  FROM regis.mieten_pachten_neu
+                   GROUP BY aktenzeichen, vertragsflaeche
                      ORDER BY geom
                       LIMIT " . $limit . " OFFSET " . $offset);
 
@@ -105,22 +89,22 @@ class IndexMietenpachtenCommand extends ContainerAwareCommand
                 $doc->id = $type . '_' . ++$id;
                 $doc->text = $this->concat(
                     $row['aktenzeichen'],
-                    $row['status']
+                    $row['flurstueckskennzeichen']
                 );
                 
                 $doc->phonetic = $this->addPhonetic($this->concat(
                     $row['aktenzeichen'],
-                    $row['status']
+                    $row['flurstueckskennzeichen']
                 ));
 
-                $doc->label = "1".$row['aktenzeichen'].$row['status'];
+                $doc->label = "1".$row['aktenzeichen'].$row['flurstueckskennzeichen'];
 
                 $doc->json = json_encode(array(
                     'data'   => array(
-                        'type'                  => $type,
-                        'aktenzeichen'          => $row['aktenzeichen'],
-                        'status'                => $row['status_text'],
-                        'flaeche'               => $row['flaeche_text']
+                        'type'                    => $type,
+                        'aktenzeichen'            => $row['aktenzeichen'],
+                        'flurstueckskennzeichen'  => $row['flurstueckskennzeichen'],
+                        'flaeche'                 => $row['flaeche']
                     ),
                     'x'      => $x,
                     'y'      => $y,

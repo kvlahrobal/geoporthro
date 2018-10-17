@@ -40,7 +40,7 @@
             kleingartenanlagen: '<li>→ Bezeichnung [Beispiel: <span>helsin</span>]</li></ul>',
             leuchten: '<li>→ Nummer des Leuchtentragsystems [Beispiel: <span>055-01-2-6</span>]</li><li>→ MSLINK des Leuchtentragsystems [Beispiel: <span>7725660</span>]</li><li>→ Nummer der Leuchte [Beispiel: <span>106-33-4-5</span>]</li><li>→ MSLINK der Leuchte [Beispiel: <span>3058105</span>]</li></ul>',
             lichtsignalanlagen: '<li>→ Nummer [Beispiel: <span>LSA 132</span>]</li><li>→ Bezeichnung [Beispiel: <span>Saarplatz/Parkstr.</span>]</li><li>→ Knoten-Nummer [Beispiel: <span>205</span>]</li></ul>',
-            mietenpachten: '<li>→ Aktenzeichen [Beispiel: <span>2341l04</span>]</li><li>→ Status [Beispiel: <span>iv</span>]</li></ul><br/>Es werden je Aktenzeichen immer sowohl die Teilflächen als auch die Gesamtfläche gelistet.',
+            mietenpachten: '<li>→ Aktenzeichen [Beispiel: <span>2341l04</span>]</li></ul><br/>Es werden je Aktenzeichen immer sowohl die Teilflächen als auch die Gesamtfläche gelistet.',
             spielgeraete: '<li>→ Bezirk [Beispiel: <span>19</span>]</li><li>→ Objektnummer [Beispiele: <span>1100/02</span> oder <span>1100</span>]</li><li>→ Objektbezeichnung [Beispiel: <span>park am fi</span>]</li><li>→ Objektart [Beispiel: <span>ballspielan</span>]</li><li>→ Pflegeeinheit [Beispiel: <span>8313</span>]</li><li>→ Nummer als Kombination aus Bezirk, Objektnummer und Nummer (Reihenfolge egal) [Beispiel: <span>19 1100 10</span>]</li><li>→ Nummer als Kombination aus Bezirk, Objektbezeichnung und Nummer (Reihenfolge egal) [Beispiel: <span>19 wallanlagen 10</span>]</li></ul>',
             wirtschaftseinheiten_wiro: '<li>→ Nummer [Beispiel: <span>6433</span>]</li></ul>'
         },
