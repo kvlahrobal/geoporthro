@@ -209,7 +209,7 @@ if ($ltyp <> "p") { // Pseudonummer linkt nur Gebäude
 	echo "\n\n<a name='fs'></a><h2><img src='ico/Flurstueck.ico' width='16' height='16' alt=''> Flurstücke…</h2>\n";
     echo "\n<p>…mit dieser Lagebezeichnung</p>";
     $sql="SELECT g.gemarkungsnummer, g.bezeichnung, ";
-	$sql.="f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.nenner, f.amtlicheflaeche, st_area(f.wkb_geometry) AS fsgeomflae ";
+	$sql.="f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.nenner, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
 	$sql.="FROM aaa_ogr.ax_flurstueck f ";
     $sql.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkung_land=g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer ";
     $sql.="WHERE g.endet IS NULL AND f.endet IS NULL AND ($1 = ANY(f.weistauf) OR $1 = ANY(f.zeigtauf))";

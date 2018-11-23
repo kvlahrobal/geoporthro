@@ -116,10 +116,10 @@ echo "\n\n<a name='fs'></a><h2><img src='ico/Flurstueck.ico' width='16' height='
 echo "\n<p>…an dieser Straße</p>";
 // ax_Flurstueck >weistAuf> ax_LagebezeichnungMitHausnummer  > = Hauptgebaeude 
 // ax_Flurstueck >zeigtAuf> ax_LagebezeichnungOhneHausnummer > = Strasse
-$sql="SELECT '' AS lgml, '' AS hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, st_area(f.wkb_geometry) AS fsgeomflae ";
+$sql="SELECT '' AS lgml, '' AS hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
 $sql.="FROM aaa_ogr.ax_flurstueck f, aaa_ogr.ax_gemarkung g, aaa_ogr.ax_lagebezeichnungkatalogeintrag s, aaa_ogr.ax_lagebezeichnungohnehausnummer lo ";
 $sql.="WHERE s.gml_id = $1 AND f.endet IS NULL AND g.endet IS NULL AND s.endet IS NULL AND lo.endet IS NULL AND f.gemarkung_land = g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer AND lo.gml_id = ANY(f.zeigtauf) AND (lo.land = s.land AND lo.regierungsbezirk = s.regierungsbezirk AND lo.kreis = s.kreis AND lo.gemeinde = s.gemeinde AND lo.lage = s.lage) ";
-$sql.="UNION SELECT lm.gml_id AS lgml, lm.hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, st_area(f.wkb_geometry) AS fsgeomflae ";
+$sql.="UNION SELECT lm.gml_id AS lgml, lm.hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
 $sql.="FROM aaa_ogr.ax_flurstueck f, aaa_ogr.ax_gemarkung g, aaa_ogr.ax_lagebezeichnungkatalogeintrag s, aaa_ogr.ax_lagebezeichnungmithausnummer lm ";
 $sql.="WHERE s.gml_id = $1 AND f.endet IS NULL AND g.endet IS NULL AND s.endet IS NULL AND lm.endet IS NULL AND f.gemarkung_land = g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer AND lm.gml_id = ANY(f.weistauf) AND (lm.land = s.land AND lm.regierungsbezirk = s.regierungsbezirk AND lm.kreis = s.kreis AND lm.gemeinde = s.gemeinde AND lm.lage = s.lage)";
 $sql.="ORDER BY gemarkungsnummer, flurnummer, zaehler_sort, nenner_sort;";

@@ -104,7 +104,7 @@ echo "\n<hr class='thick'>";
 echo "\n<h2><img src='ico/Flurstueck.ico' width='16' height='16' alt=''> betroffene Flurstücke…</h2>\n";
 echo "\n<p>…(ermittelt durch Verschneidung der Geometrien; nach Größe absteigend sortiert)</p>";
 
-$sql ="SELECT f.gml_id, f.gemarkungsnummer, f.flurnummer, f.zaehler, f.nenner, f.amtlicheflaeche, st_area(f.wkb_geometry) AS fsgeomflae, ";
+$sql ="SELECT f.gml_id, f.gemarkungsnummer, f.flurnummer, f.zaehler, f.nenner, f.amtlicheflaeche, f.realflaeche AS fsgeomflae, ";
 $sql.="round(st_area(ST_Intersection(r.wkb_geometry,f.wkb_geometry))::numeric,1) AS schnittflae ";
 $sql.="FROM aaa_ogr.ax_flurstueck f, aaa_ogr.ax_bauraumoderbodenordnungsrecht r  ";
 $sql.="WHERE r.gml_id= $1 AND r.endet IS NULL AND f.endet IS NULL "; 

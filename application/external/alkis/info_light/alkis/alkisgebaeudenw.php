@@ -29,7 +29,7 @@ $con = pg_connect("host=".$dbhost." port=" .$dbport." dbname=".$dbname." user=".
 if (!$con) echo "<p class='err'>Fehler beim Verbinden der DB</p>\n";
 
 // Flurstueck
-$sqlf ="SELECT f.name, f.gemarkung_land AS land, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.amtlicheflaeche, st_area(f.wkb_geometry) AS fsgeomflae, f.zeitpunktderentstehung, g.gemarkungsnummer, g.bezeichnung ";
+$sqlf ="SELECT f.name, f.gemarkung_land AS land, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.amtlicheflaeche, f.realflaeche AS fsgeomflae, f.zeitpunktderentstehung, g.gemarkungsnummer, g.bezeichnung ";
 $sqlf.="FROM aaa_ogr.ax_flurstueck f ";
 $sqlf.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkungsnummer = g.gemarkungsnummer ";
 $sqlf.="WHERE f.endet IS NULL AND g.endet IS NULL AND f.gml_id = $1;";

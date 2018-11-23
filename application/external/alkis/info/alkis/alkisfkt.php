@@ -76,7 +76,7 @@ function bnw_fsdaten($con, $lfdnr, $gml_bs, $ba, $anteil, $bvnraus) {
 	global $gkz, $idanzeige, $showkey;
 	// F L U R S T U E C K
 	$sql="SELECT g.gemarkungsnummer, g.bezeichnung, ";
-	$sql.="f.gml_id, f.flurnummer, f.zaehler, f.nenner, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, st_area(f.wkb_geometry) AS fsgeomflae ";
+	$sql.="f.gml_id, f.flurnummer, f.zaehler, f.nenner, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
 	$sql.="FROM aaa_ogr.ax_flurstueck f ";
     $sql.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkung_land=g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer ";
     $sql.="WHERE g.endet IS NULL AND f.endet IS NULL AND f.istgebucht = $1";

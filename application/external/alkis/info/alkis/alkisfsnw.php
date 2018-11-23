@@ -82,7 +82,7 @@ if ($gmlid == "" AND $fskennz != "") {
 }
 
 // F L U R S T U E C K
-$sql ="SELECT array_remove(f.art, 'urn:adv:fachdatenverbindung:AA_Antrag') AS art, f.name, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, st_area(f.wkb_geometry) AS fsgeomflae, f.zeitpunktderentstehung, f.stelle, f.kennungschluessel, f.angabenzumabschnittflurstueck, f.flaechedesabschnitts, ";
+$sql ="SELECT array_remove(f.art, 'urn:adv:fachdatenverbindung:AA_Antrag') AS art, f.name, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, f.realflaeche AS fsgeomflae, f.zeitpunktderentstehung, f.stelle, f.kennungschluessel, f.angabenzumabschnittflurstueck, f.flaechedesabschnitts, ";
 $sql.="g.gemarkungsnummer, g.bezeichnung ";
 $sql.="FROM aaa_ogr.ax_flurstueck f ";
 $sql.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkungsnummer = g.gemarkungsnummer ";
@@ -404,7 +404,7 @@ while($row = pg_fetch_array($res)) {
 		$absflaebuch = $schnittflaeche * $the_Xfactor; // angleichen geometrisch an amtliche Fläche
 		$schnittflaeche = number_format($schnittflaeche,1,",",".") . " m&#178;"; // geometrisch
 		$absflaebuch = number_format($absflaebuch,0,",",".") . " m&#178;"; // Abschnitt an Buchfläche angeglichen
-		echo "\n\t<td class='fla' title='geometrisch berechnet: ".$schnittflaeche."'>".$absflaebuch."</td>";
+		echo "\n\t<td class='fla'>".$absflaebuch."</td>";
 
 		echo "\n\t<td class='lr'>";
             if ($showkey) {
