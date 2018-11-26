@@ -90,7 +90,9 @@ while($rowg = pg_fetch_array($resg)) { // Als Schleife, kann aber nur EIN Haus s
 	$dach=$rowg["bdach"];
 	$hho=$rowg["objekthoehe"];
 	$gfl=$rowg["geschossflaeche"];
+  $gfld=($gfl < 1 ? rtrim(number_format($gfl,2,",","."),"0") : number_format($gfl,0,",",".")); // Display-Format dazu
 	$grf=$rowg["grundflaeche"];
+  $grfd=($grf < 1 ? rtrim(number_format($grf,2,",","."),"0") : number_format($grf,0,",",".")); // Display-Format dazu
 	$ura=$rowg["umbauterraum"];
 	$bja=$rowg["baujahr"];
 	$daa=$rowg["dachart"];
@@ -290,7 +292,7 @@ while($rowg = pg_fetch_array($resg)) { // Als Schleife, kann aber nur EIN Haus s
 			echo "\n\t<td title='Gesamtgeschossfläche des Gebäudes'>Geschossfläche</td>";
 			echo "\n\t<td>";
 			if ($gfl != "") {
-				echo $gfl." m&#178;";
+				echo $gfld." m²";
 			}
 			echo "</td>";
 		echo "\n</tr>";
@@ -301,7 +303,7 @@ while($rowg = pg_fetch_array($resg)) { // Als Schleife, kann aber nur EIN Haus s
 			echo "\n\t<td title='Grundfläche des Gebäudes'>Grundfläche</td>";
 			echo "\n\t<td>";
 			if ($grf != "") {
-				echo $grf." m&#178;";
+				echo $grfd." m²";
 			}
 		echo "\n</tr>";
 	}

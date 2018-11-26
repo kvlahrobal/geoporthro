@@ -92,8 +92,8 @@ if ($row = pg_fetch_array($res)) {
 
 		echo "\n<tr>";
 			echo "\n\t<td><b>Fläche</b></td>";
-			$flae=number_format($row["flae"],0,",",".")." m&#178;";
-			echo "\n\t<td>".$flae."</td>";
+			$flae=number_format($row["flae"],0,",",".");
+			echo "\n\t<td>".$flae." m²</td>";
 		echo "\n</tr>";
 
 	echo "\n</table>";
@@ -104,7 +104,7 @@ echo "\n<hr class='thick'>";
 echo "\n<h2><img src='ico/Flurstueck.ico' width='16' height='16' alt=''> betroffene Flurstücke…</h2>\n";
 echo "\n<p>…(ermittelt durch Verschneidung der Geometrien; nach Größe absteigend sortiert)</p>";
 
-$sql ="SELECT f.gml_id, f.gemarkungsnummer, f.flurnummer, f.zaehler, f.nenner, f.amtlicheflaeche, f.realflaeche AS fsgeomflae, ";
+$sql ="SELECT f.gml_id, f.gemarkungsnummer, f.flurnummer, f.zaehler, f.nenner, f.amtlicheflaeche, f.realflaeche AS realflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet, ST_Area(f.wkb_geometry) AS geomflaeche, ";
 $sql.="round(st_area(ST_Intersection(r.wkb_geometry,f.wkb_geometry))::numeric,1) AS schnittflae ";
 $sql.="FROM aaa_ogr.ax_flurstueck f, aaa_ogr.ax_bauraumoderbodenordnungsrecht r  ";
 $sql.="WHERE r.gml_id= $1 AND r.endet IS NULL AND f.endet IS NULL "; 
@@ -143,13 +143,17 @@ echo "\n<table class='fs'>";
 				echo "/".$nen;
 			}
 			echo "</span></td>";
-            $fsbuchflae=$row["amtlicheflaeche"]; // amtliche Fl. aus DB-Feld
-            $fsgeomflae=$row["fsgeomflae"]; // aus Geometrie ermittelte Fläche
-            $fsbuchflaed=number_format($fsbuchflae,0,",",".") . " m&#178;"; // Display-Format dazu
-            $fsgeomflaed=number_format($fsgeomflae,0,",",".") . " m&#178;";
-            $schnittflae=number_format($row["schnittflae"],0,",",".") . " m&#178;";
-			echo "\n\t<td class='fla'><span title='geometrisch berechnet'>".$schnittflae."</span></td>"; 
-			echo "\n\t<td class='fla'><span title='geometrisch berechnet: ".$fsgeomflaed."'>".$fsbuchflaed."</span></td>";
+            $amtlicheflaeche=$row["amtlicheflaeche"]; // amtliche Fläche
+            $amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
+            $realflaeche=$row["realflaeche"]; // reale Fläche
+            $realflaeche_geodaetisch_gerundet=$row["realflaeche_geodaetisch_gerundet"]; // geodätisch gerundeter Wert der realen Fläche
+            $realflaeche_geodaetisch_gerundetd=($realflaeche_geodaetisch_gerundet < 1 ? rtrim(number_format($realflaeche_geodaetisch_gerundet,2,",","."),"0") : number_format($realflaeche_geodaetisch_gerundet,0,",",".")); // Display-Format dazu
+            $geomflaeche=$row["geomflaeche"]; // aus Geometrie ermittelte Fläche
+            $the_Xfactor=$amtlicheflaeche / $geomflaeche; // Verhältnis zwischen aus Geometrie ermittelter und amtlicher Fläche
+            $absflaebuch = $row["schnittflae"] * $the_Xfactor; // verhältnismäßiges Angleichen der Schnittfläche an die amtliche Fläche
+            $absflaebuchd=($absflaebuch < 1 ? rtrim(number_format($absflaebuch,2,",","."),"0") : number_format($absflaebuch,0,",",".")); // Display-Format dazu
+			echo "\n\t<td class='fla'><span>".$absflaebuchd." m²</span></td>"; 
+			echo "\n\t<td class='fla'><span title='geometrisch berechnet, reduziert und geodätisch gerundet: ".$realflaeche_geodaetisch_gerundetd." m²'>".$amtlicheflaeched." m²</span></td>";
 			echo "\n\t<td class='nwlink noprint'>";
 				echo "\n\t\t<a target='_blank' href='alkisfsnw.php?gkz=".$gkz."&amp;gmlid=".$row["gml_id"];
 					echo "' title='Flurstücksnachweis'>Flurstück ";

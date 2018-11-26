@@ -209,7 +209,7 @@ if ($ltyp <> "p") { // Pseudonummer linkt nur Gebäude
 	echo "\n\n<a name='fs'></a><h2><img src='ico/Flurstueck.ico' width='16' height='16' alt=''> Flurstücke…</h2>\n";
     echo "\n<p>…mit dieser Lagebezeichnung</p>";
     $sql="SELECT g.gemarkungsnummer, g.bezeichnung, ";
-	$sql.="f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.nenner, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
+	$sql.="f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.nenner, f.amtlicheflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet ";
 	$sql.="FROM aaa_ogr.ax_flurstueck f ";
     $sql.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkung_land=g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer ";
     $sql.="WHERE g.endet IS NULL AND f.endet IS NULL AND ($1 = ANY(f.weistauf) OR $1 = ANY(f.zeigtauf))";
@@ -234,12 +234,11 @@ if ($ltyp <> "p") { // Pseudonummer linkt nur Gebäude
 	while($rowf = pg_fetch_array($resf)) {
 		$flur=$rowf["flurnummer"];
 		$fskenn=$rowf["zaehler"]; // Bruchnummer
-        $fsbuchflae=$rowf["amtlicheflaeche"]; // amtliche Fl. aus DB-Feld
-	$fsgeomflae=$rowf["fsgeomflae"]; // aus Geometrie ermittelte Fläche
-	$fsbuchflaed=number_format($fsbuchflae,0,",",".") . " m&#178;"; // Display-Format dazu
-	$fsgeomflaed=number_format($fsgeomflae,0,",",".") . " m&#178;";
+    $amtlicheflaeche=$rowf["amtlicheflaeche"]; // amtliche Fläche
+    $amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
+    $realflaeche_geodaetisch_gerundet=$rowf["realflaeche_geodaetisch_gerundet"]; // geodätisch gerundeter Wert der realen Fläche
+    $realflaeche_geodaetisch_gerundetd=($realflaeche_geodaetisch_gerundet < 1 ? rtrim(number_format($realflaeche_geodaetisch_gerundet,2,",","."),"0") : number_format($realflaeche_geodaetisch_gerundet,0,",",".")); // Display-Format dazu
 		if ($rowf["nenner"] != "") {$fskenn.="/".$rowf["nenner"];}
-		$flae=number_format($rowf["amtlicheflaeche"],0,",",".") . " m&#178;";
 		echo "\n<tr>";
 			echo "\n\t<td>";
 			if ($showkey) {echo "<span class='key' title='Gemarkungsschlüssel'>".$rowf["land"].$rowf["gemarkungsnummer"]."</span> ";}
@@ -248,7 +247,7 @@ if ($ltyp <> "p") { // Pseudonummer linkt nur Gebäude
 			echo "\n\t<td><span title='Flurstücksnummer in der Notation: Zähler/Nenner' class='wichtig'>".$fskenn."</span>";
 				if ($idanzeige) {linkgml($gkz, $rowf["gml_id"], "Flurstück");}
 			echo "</td>";
-			echo "\n\t<td class='fla'><span title='geometrisch berechnet: ".$fsgeomflaed."'>".$fsbuchflaed."</span></td>";
+			echo "\n\t<td class='fla'><span title='geometrisch berechnet, reduziert und geodätisch gerundet: ".$realflaeche_geodaetisch_gerundetd." m²'>".$amtlicheflaeched." m²</span></td>";
 			echo "\n\t<td>\n\t\t<p class='nwlink noprint'>";
 				echo "\n\t\t<a href='alkisfsnw.php?gkz=".$gkz."&amp;gmlid=".$rowf["gml_id"];
 					if ($idanzeige) {echo "&amp;id=j";}
@@ -292,13 +291,14 @@ if ($ltyp <> "o") { // OhneHsNr linkt nur Flurst.
 	while($row = pg_fetch_array($res)) {
 		$ggml=$row["gml_id"];
 		$gfla=$row["flaeche"];
+    $gflad=($gfla < 1 ? rtrim(number_format($gfla,2,",","."),"0") : number_format($gfla,0,",",".")); // Display-Format dazu
 		echo "\n\t<tr>";
 
 			echo "<td>";
 				if ($idanzeige) {linkgml($gkz, $ggml, "Gebäude");}
 				// +++ Hausnummer / Adresse ???
 			echo $row["name"]."</td>";
-			echo "<td class='fla'>".$gfla." m&#178;</td>";
+			echo "<td class='fla'>".$gflad." m²</td>";
 			echo "<td>";
 			if ($showkey) {echo "<span class='key' title='Schlüssel der Funktion'>".$row["gebaeudefunktion"]."</span> ";}
 			echo $row["bezeichner"]."</td>";

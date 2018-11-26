@@ -29,7 +29,7 @@ $con = pg_connect("host=".$dbhost." port=" .$dbport." dbname=".$dbname." user=".
 if (!$con) echo "<p class='err'>Fehler beim Verbinden der DB</p>\n";
 
 // Flurstueck
-$sqlf ="SELECT f.name, f.gemarkung_land AS land, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.amtlicheflaeche, f.realflaeche AS fsgeomflae, f.zeitpunktderentstehung, g.gemarkungsnummer, g.bezeichnung ";
+$sqlf ="SELECT f.name, f.gemarkung_land AS land, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.amtlicheflaeche, f.realflaeche AS realflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet, ST_Area(f.wkb_geometry) AS geomflaeche, f.zeitpunktderentstehung, g.gemarkungsnummer, g.bezeichnung ";
 $sqlf.="FROM aaa_ogr.ax_flurstueck f ";
 $sqlf.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkungsnummer = g.gemarkungsnummer ";
 $sqlf.="WHERE f.endet IS NULL AND g.endet IS NULL AND f.gml_id = $1;";
@@ -49,10 +49,12 @@ if ($rowf = pg_fetch_array($resf)) {
 	$flurnummer=$rowf["flurnummer"];
 	$flstnummer=$rowf["zaehler"];
 	$nenner=$rowf["nenner"];
-    $fsbuchflae=$rowf["amtlicheflaeche"]; // amtliche Fl. aus DB-Feld
-	$fsgeomflae=$rowf["fsgeomflae"]; // aus Geometrie ermittelte Fläche
-	$fsbuchflaed=number_format($fsbuchflae,0,",",".") . " m&#178;"; // Display-Format dazu
-	$fsgeomflaed=number_format($fsgeomflae,0,",",".") . " m&#178;";
+  $amtlicheflaeche=$rowf["amtlicheflaeche"]; // amtliche Fläche
+	$amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
+	$realflaeche=$rowf["realflaeche"]; // reale Fläche
+	$realflaeche_geodaetisch_gerundet=$rowf["realflaeche_geodaetisch_gerundet"]; // geodätisch gerundeter Wert der realen Fläche
+	$realflaeche_geodaetisch_gerundetd=($realflaeche_geodaetisch_gerundet < 1 ? rtrim(number_format($realflaeche_geodaetisch_gerundet,2,",","."),"0") : number_format($realflaeche_geodaetisch_gerundet,0,",",".")); // Display-Format dazu
+	$geomflaeche=$rowf["geomflaeche"]; // aus Geometrie ermittelte Fläche
 	if ($nenner > 0) { // BruchNr
 		$flstnummer.="/".$nenner;
 	}
@@ -84,14 +86,14 @@ echo "\n\t<p class='nwlink noprint'>";
 	echo "\n\t\t<a href='alkisfsnw.php?gkz=".$gkz."&amp;gmlid=".$gmlid;
 	if ($idanzeige) {echo "&amp;id=j";}
 	if ($showkey)   {echo "&amp;showkey=j";}
-	echo " title='Flurstücksnachweis'>Flurstück <img src='ico/Flurstueck_Link.ico' width='16' height='16' alt=''></a>";
+	echo "' title='Flurstücksnachweis'>Flurstück <img src='ico/Flurstueck_Link.ico' width='16' height='16' alt=''></a>";
 echo "\n\t</p>";
 if ($idanzeige) {linkgml($gkz, $gmlid, "Flurstück"); }
 echo "\n\t</td>\n</tr>\n</table>";
 // Ende Seitenkopf
 
 // Flurstuecksflaeche
-echo "\n<p class='fsd' title='amtliche Fläche (Buchfläche) des Flurstücks'>Fläche: <span title='geometrisch berechnet: ".$fsgeomflaed."' class='flae'>".$fsbuchflaed."</span></p>\n";
+echo "\n<p class='fsd' title='amtliche Fläche (Buchfläche) des Flurstücks'>Fläche: <span title='geometrisch berechnet, reduziert und geodätisch gerundet: ".$realflaeche_geodaetisch_gerundetd." m²' class='flae'>".$amtlicheflaeched." m²</span></p>\n";
 
 pg_free_result($resf);
 
@@ -132,11 +134,15 @@ echo "\n<table class='geb'>";
 		echo "\n\t<td class='head nwlink' title='Verknüpfungen zu den vollständigen Gebäudedaten'>Haus</td>";
 	echo "\n</tr>";
 	// T-Body
+  $the_Xfactor=$amtlicheflaeche / $geomflaeche; // Verhältnis zwischen aus Geometrie ermittelter und amtlicher Fläche
 	while($rowg = pg_fetch_array($resg)) {
 		$gebnr = $gebnr + 1;
 // ++ ToDo: Die Zeilen abwechselnd verschieden einfärben, Angrenzend anders einfärben 
 		$ggml=$rowg["gml_id"];
-		$gebflsum = $gebflsum + $rowg["schnittflae"];
+    $schnittflae = $rowg["schnittflae"] * $the_Xfactor; // verhältnismäßiges Angleichen der Schnittfläche an die amtliche Fläche
+    $schnittflaed=($schnittflae < 1 ? rtrim(number_format($schnittflae,2,",","."),"0") : number_format($schnittflae,0,",",".")); // Display-Format dazu
+		$gebflsum = $gebflsum + $schnittflae;
+    $gebflsumd=($gebflsum < 1 ? rtrim(number_format($gebflsum,2,",","."),"0") : number_format($gebflsum,0,",",".")); // Display-Format dazu
 		$skey=$rowg["lage"]; // Strassenschluessel		
 		$gnam=$rowg["name"];
 		$gzus=$rowg["zustand"];
@@ -148,15 +154,16 @@ echo "\n<table class='geb'>";
 			echo "\n\t</td>";
 
 			if ($rowg["drin"] == "t") { // 3 komplett enthalten
-				echo "\n\t<td class='fla'>".$rowg["schnittflae"]." m&#178;</td>"; 
+				echo "\n\t<td class='fla'>".$schnittflaed." m²</td>"; 
 				echo "\n\t<td>&nbsp;</td>";
 			} else {
 	       	if ($rowg["schnittflae"] == "0.00") { // angrenzend
 					echo "\n\t<td class='fla'>&nbsp;</td>";
 					echo "\n\t<td>angrenzend</td>";
 				} else { // Teile enthalten
-					echo "\n\t<td class='fla'>".$rowg["schnittflae"]." m&#178;</td>";
-					echo "\n\t<td>(von ".$rowg["gebflae"]." m&#178;)</td>";
+					echo "\n\t<td class='fla'>".$schnittflaed." m²</td>";
+          $gebflae=($rowg["gebflae"] < 1 ? rtrim(number_format($rowg["gebflae"],2,",","."),"0") : number_format($rowg["gebflae"],0,",",".")); // Display-Format dazu
+					echo "\n\t<td>(von ".$gebflae." m²)</td>";
 				}
 			}
 			echo "\n\t<td>";
@@ -237,7 +244,7 @@ echo "\n<table class='geb'>";
 	} else {
 		echo "\n<tr>";
 			echo "\n\t<td><b>Summe</b></td>"; // 1
-            echo "\n\t<td class='fla sum'>".number_format($gebflsum,0,",",".")." m&#178;</td>";
+            echo "\n\t<td class='fla sum'>".$gebflsumd." m²</td>";
 			echo "\n\t<td>&nbsp;</td>"; // 3
 			echo "\n\t<td>&nbsp;</td>"; // 4
 			echo "\n\t<td>&nbsp;</td>"; // 5
@@ -245,8 +252,9 @@ echo "\n<table class='geb'>";
 			echo "\n\t<td>&nbsp;</td>"; // 7
 		echo "\n</tr>";
 	echo "\n</table>";
-	$unbebaut = number_format(($fsbuchflae - $gebflsum),0,",",".") . " m&#178;";
-	echo "\n<p>amtliche Fläche (Buchfläche) des Flurstücks abzüglich Gebäudegrundfläche(n): <b>".$unbebaut."</b></p><br>";
+	$unbebaut = $amtlicheflaeche - $gebflsum;
+  $unbebautd=($unbebaut < 1 ? rtrim(number_format($unbebaut,2,",","."),"0") : number_format($unbebaut,0,",",".")); // Display-Format dazu
+	echo "\n<p>amtliche Fläche (Buchfläche) des Flurstücks abzüglich Gebäudegrundfläche(n): <b>".$unbebautd." m²</b></p><br>";
 }
 pg_free_result($resg);
 ?>

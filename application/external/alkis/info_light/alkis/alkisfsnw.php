@@ -82,7 +82,7 @@ if ($gmlid == "" AND $fskennz != "") {
 }
 
 // F L U R S T U E C K
-$sql ="SELECT array_remove(f.art, 'urn:adv:fachdatenverbindung:AA_Antrag') AS art, f.name, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, f.realflaeche AS fsgeomflae, f.zeitpunktderentstehung, f.stelle, f.kennungschluessel, f.angabenzumabschnittflurstueck, f.flaechedesabschnitts, ";
+$sql ="SELECT array_remove(f.art, 'urn:adv:fachdatenverbindung:AA_Antrag') AS art, f.name, f.flurnummer, f.zaehler, f.nenner, f.flurstueckskennzeichen, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, f.realflaeche AS realflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet, ST_Area(f.wkb_geometry) AS geomflaeche, f.zeitpunktderentstehung, f.stelle, f.kennungschluessel, f.angabenzumabschnittflurstueck, f.flaechedesabschnitts, ";
 $sql.="g.gemarkungsnummer, g.bezeichnung ";
 $sql.="FROM aaa_ogr.ax_flurstueck f ";
 $sql.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkungsnummer = g.gemarkungsnummer ";
@@ -107,10 +107,12 @@ if ($row = pg_fetch_array($res)) {
 	$flstnummer=$row["zaehler"];
 	$nenner=$row["nenner"];
 	if ($nenner > 0) {$flstnummer.="/".$nenner;} // BruchNr
-	$fsbuchflae=$row["amtlicheflaeche"]; // amtliche Fl. aus DB-Feld
-	$fsgeomflae=$row["fsgeomflae"]; // aus Geometrie ermittelte Fläche
-	$fsbuchflaed=number_format($fsbuchflae,0,",",".") . " m&#178;"; // Display-Format dazu
-	$fsgeomflaed=number_format($fsgeomflae,0,",",".") . " m&#178;";
+	$amtlicheflaeche=$row["amtlicheflaeche"]; // amtliche Fläche
+	$amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
+	$realflaeche=$row["realflaeche"]; // reale Fläche
+	$realflaeche_geodaetisch_gerundet=$row["realflaeche_geodaetisch_gerundet"]; // geodätisch gerundeter Wert der realen Fläche
+	$realflaeche_geodaetisch_gerundetd=($realflaeche_geodaetisch_gerundet < 1 ? rtrim(number_format($realflaeche_geodaetisch_gerundet,2,",","."),"0") : number_format($realflaeche_geodaetisch_gerundet,0,",",".")); // Display-Format dazu
+	$geomflaeche=$row["geomflaeche"]; // aus Geometrie ermittelte Fläche
 	if (!empty($row["zeitpunktderentstehung"]))
         $entstehung_datum = strftime('%d.%m.%Y', strtotime($row["zeitpunktderentstehung"]));
     else
@@ -384,7 +386,7 @@ if (!$res) {
 	echo "<p class='err'>Fehler bei Suche tats. Nutzung</p>\n";
 	if ($debug > 2) {echo "<p class='dbg'>SQL=<br>".$sql."<br>$1 = gml_id = '".$gmlid."'</p>";}
 }
-$the_Xfactor=$fsbuchflae / $fsgeomflae; // geom. ermittelte Fläche auf amtl. Buchfläche angleichen
+$the_Xfactor=$amtlicheflaeche / $geomflaeche; // Verhältnis zwischen aus Geometrie ermittelter und amtlicher Fläche
 $j=0;
 while($row = pg_fetch_array($res)) {
 	$nutz_id=$row["nutz_id"];
@@ -401,10 +403,9 @@ while($row = pg_fetch_array($res)) {
 		} else {
 			echo "<td>&nbsp;</td>";
 		}
-		$absflaebuch = $schnittflaeche * $the_Xfactor; // angleichen geometrisch an amtliche Fläche
-		$schnittflaeche = number_format($schnittflaeche,1,",",".") . " m&#178;"; // geometrisch
-		$absflaebuch = number_format($absflaebuch,0,",",".") . " m&#178;"; // Abschnitt an Buchfläche angeglichen
-		echo "\n\t<td class='fla'>".$absflaebuch."</td>";
+		$absflaebuch = $schnittflaeche * $the_Xfactor; // verhältnismäßiges Angleichen der Schnittfläche an die amtliche Fläche
+    $absflaebuchd=($absflaebuch < 1 ? rtrim(number_format($absflaebuch,2,",","."),"0") : number_format($absflaebuch,0,",",".")); // Display-Format dazu
+		echo "\n\t<td class='fla'>".$absflaebuchd." m²</td>";
 
 		echo "\n\t<td class='lr'>";
             if ($showkey) {
@@ -433,7 +434,7 @@ pg_free_result($res);
 echo "\n<tr>"; // Summenzeile
 	echo "\n\t<td class='ll' title='amtliche Fläche (Buchfläche) des Flurstücks'><b>Fläche</b></td>";
 	echo "\n\t<td class='fla sum'>";
-	echo "<span title='geometrisch berechnet: ".$fsgeomflaed."' class='flae'>".$fsbuchflaed."</span></td>";
+	echo "<span title='geometrisch berechnet, reduziert und geodätisch gerundet: ".$realflaeche_geodaetisch_gerundetd." m²' class='flae'>".$amtlicheflaeched." m²</span></td>";
 
 	// Flaeche und Link auf Gebäude-Auswertung
 	echo "\n\t<td>&nbsp;</td>\n\t<td>";
@@ -452,7 +453,7 @@ if ($flaechedesabschnitts_array[0] != '') {
     echo "<td class='ll' title='gesetzliche Klassifizierung'><b>gesetzl. Klass.</b></td>";
     echo "\n\t<td class='fla'>";
     foreach($flaechedesabschnitts_array AS $val) { // Zeile f. jedes Element des Array
-        echo number_format(trim($val, '"'),0,",",".")." m&#178;"."<br>";
+        echo number_format(trim($val, '"'),0,",",".")." m²"."<br>";
     }
     echo "</td>";
     echo "\n\t<td class='lr'>";

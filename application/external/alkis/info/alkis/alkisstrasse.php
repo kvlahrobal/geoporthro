@@ -116,10 +116,10 @@ echo "\n\n<a name='fs'></a><h2><img src='ico/Flurstueck.ico' width='16' height='
 echo "\n<p>…an dieser Straße</p>";
 // ax_Flurstueck >weistAuf> ax_LagebezeichnungMitHausnummer  > = Hauptgebaeude 
 // ax_Flurstueck >zeigtAuf> ax_LagebezeichnungOhneHausnummer > = Strasse
-$sql="SELECT '' AS lgml, '' AS hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
+$sql="SELECT '' AS lgml, '' AS hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet ";
 $sql.="FROM aaa_ogr.ax_flurstueck f, aaa_ogr.ax_gemarkung g, aaa_ogr.ax_lagebezeichnungkatalogeintrag s, aaa_ogr.ax_lagebezeichnungohnehausnummer lo ";
 $sql.="WHERE s.gml_id = $1 AND f.endet IS NULL AND g.endet IS NULL AND s.endet IS NULL AND lo.endet IS NULL AND f.gemarkung_land = g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer AND lo.gml_id = ANY(f.zeigtauf) AND (lo.land = s.land AND lo.regierungsbezirk = s.regierungsbezirk AND lo.kreis = s.kreis AND lo.gemeinde = s.gemeinde AND lo.lage = s.lage) ";
-$sql.="UNION SELECT lm.gml_id AS lgml, lm.hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
+$sql.="UNION SELECT lm.gml_id AS lgml, lm.hausnummer, g.gemarkungsnummer, g.bezeichnung, f.gml_id, f.flurnummer, f.gemarkung_land AS land, f.zaehler, f.zaehler::int AS zaehler_sort, f.nenner, f.nenner::int AS nenner_sort, f.amtlicheflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet ";
 $sql.="FROM aaa_ogr.ax_flurstueck f, aaa_ogr.ax_gemarkung g, aaa_ogr.ax_lagebezeichnungkatalogeintrag s, aaa_ogr.ax_lagebezeichnungmithausnummer lm ";
 $sql.="WHERE s.gml_id = $1 AND f.endet IS NULL AND g.endet IS NULL AND s.endet IS NULL AND lm.endet IS NULL AND f.gemarkung_land = g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer AND lm.gml_id = ANY(f.weistauf) AND (lm.land = s.land AND lm.regierungsbezirk = s.regierungsbezirk AND lm.kreis = s.kreis AND lm.gemeinde = s.gemeinde AND lm.lage = s.lage)";
 $sql.="ORDER BY gemarkungsnummer, flurnummer, zaehler_sort, nenner_sort;";
@@ -145,10 +145,10 @@ while($rowf = pg_fetch_array($resf)) {
 	$flur=$rowf["flurnummer"];
 	$fskenn=$rowf["zaehler"]; // Bruchnummer
 	if ($rowf["nenner"] != "") {$fskenn.="/".$rowf["nenner"];}
-    $fsbuchflae=$rowf["amtlicheflaeche"]; // amtliche Fl. aus DB-Feld
-	$fsgeomflae=$rowf["fsgeomflae"]; // aus Geometrie ermittelte Fläche
-	$fsbuchflaed=number_format($fsbuchflae,0,",",".") . " m&#178;"; // Display-Format dazu
-	$fsgeomflaed=number_format($fsgeomflae,0,",",".") . " m&#178;";
+  $amtlicheflaeche=$rowf["amtlicheflaeche"]; // amtliche Fläche
+  $amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
+  $realflaeche_geodaetisch_gerundet=$rowf["realflaeche_geodaetisch_gerundet"]; // geodätisch gerundeter Wert der realen Fläche
+  $realflaeche_geodaetisch_gerundetd=($realflaeche_geodaetisch_gerundet < 1 ? rtrim(number_format($realflaeche_geodaetisch_gerundet,2,",","."),"0") : number_format($realflaeche_geodaetisch_gerundet,0,",",".")); // Display-Format dazu
 	$lgml=$rowf["lgml"]; // ID von "Lage Mit" oder leer
 
 	echo "\n<tr>";
@@ -159,7 +159,7 @@ while($rowf = pg_fetch_array($resf)) {
 		echo "\n\t<td><span title='Flurstücksnummer in der Notation: Zähler/Nenner' class='wichtig'>".$fskenn."</span>";
 		if ($idanzeige) {linkgml($gkz, $rowf["gml_id"], "Flurstück");}
 		echo "</td>";
-		echo "\n\t<td class='fla'><span title='geometrisch berechnet: ".$fsgeomflaed."'>".$fsbuchflaed."</span></td>";
+	  echo "\n\t<td class='fla'><span title='geometrisch berechnet, reduziert und geodätisch gerundet: ".$realflaeche_geodaetisch_gerundetd." m²'>".$amtlicheflaeched." m²</span></td>";
 		echo "\n\t<td class='hsnr'><span title='Hausnummer aus der Lagebezeichnung des Flurstücks'>".$rowf["hausnummer"]."</span></td>";
 		echo "\n\t<td>\n\t\t<p class='nwlink noprint'>";
 

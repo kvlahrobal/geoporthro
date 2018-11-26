@@ -76,7 +76,7 @@ function bnw_fsdaten($con, $lfdnr, $gml_bs, $ba, $anteil, $bvnraus) {
 	global $gkz, $idanzeige, $showkey;
 	// F L U R S T U E C K
 	$sql="SELECT g.gemarkungsnummer, g.bezeichnung, ";
-	$sql.="f.gml_id, f.flurnummer, f.zaehler, f.nenner, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, f.realflaeche AS fsgeomflae ";
+	$sql.="f.gml_id, f.flurnummer, f.zaehler, f.nenner, f.gemarkung_land AS land, f.regierungsbezirk, f.kreis, f.gemeinde, f.amtlicheflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet ";
 	$sql.="FROM aaa_ogr.ax_flurstueck f ";
     $sql.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkung_land=g.schluessel_land AND f.gemarkungsnummer = g.gemarkungsnummer ";
     $sql.="WHERE g.endet IS NULL AND f.endet IS NULL AND f.istgebucht = $1";
@@ -106,10 +106,10 @@ function bnw_fsdaten($con, $lfdnr, $gml_bs, $ba, $anteil, $bvnraus) {
 			$fskenn.="/".$rowf["nenner"];
 		}
 
-		$fsbuchflae=$rowf["amtlicheflaeche"]; // amtliche Fl. aus DB-Feld
-        $fsgeomflae=$rowf["fsgeomflae"]; // aus Geometrie ermittelte Fläche
-        $fsbuchflaed=number_format($fsbuchflae,0,",",".") . " m&#178;"; // Display-Format dazu
-        $fsgeomflaed=number_format($fsgeomflae,0,",",".") . " m&#178;";
+		$amtlicheflaeche=$rowf["amtlicheflaeche"]; // amtliche Fläche
+    $amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
+    $realflaeche_geodaetisch_gerundet=$rowf["realflaeche_geodaetisch_gerundet"]; // geodätisch gerundeter Wert der realen Fläche
+    $realflaeche_geodaetisch_gerundetd=($realflaeche_geodaetisch_gerundet < 1 ? rtrim(number_format($realflaeche_geodaetisch_gerundet,2,",","."),"0") : number_format($realflaeche_geodaetisch_gerundet,0,",",".")); // Display-Format dazu
 
 		echo "\n<tr>"; // eine Zeile je Flurstueck
 			// Sp. 1-3 der Tab. aus Buchungsstelle, nicht aus FS
@@ -141,7 +141,7 @@ function bnw_fsdaten($con, $lfdnr, $gml_bs, $ba, $anteil, $bvnraus) {
 			echo "\n\t<td class='right'><span title='Flurstücksnummer in der Notation: Zähler/Nenner' class='wichtig'>".$fskenn."</span>";
 				if ($idanzeige) {linkgml($gkz, $rowf["gml_id"], "Flurstück");}
 			echo "</td>";
-			echo "\n\t<td class='fla' title='geometrisch berechnet: ".$fsgeomflaed."' class='flae'>".$fsbuchflaed."</td>";
+			echo "\n\t<td class='fla' title='geometrisch berechnet, reduziert und geodätisch gerundet: ".$realflaeche_geodaetisch_gerundetd." m²' class='flae'>".$amtlicheflaeched." m²</td>";
 
 			echo "\n\t<td><p class='nwlink noprint'>";
 				echo "<a href='alkisfsnw.php?gkz=".$gkz."&amp;gmlid=".$rowf["gml_id"]."&amp;eig=n";

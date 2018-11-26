@@ -164,7 +164,8 @@ if ($parmtyp != "") { // einer der beiden erlaubten Fälle
 		$flstnummer=$zaehler;
 		if ($nenner > 0) {$flstnummer.="/".$nenner;} // BruchNr
 		$fskenn=$rowu["flurstueckskennzeichen"];
-		$flae=number_format($rowu["amtlicheflaeche"],0,",",".") . " m&#178;";
+    $amtlicheflaeche=$rowu["amtlicheflaeche"]; // amtliche Fläche
+    $amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
 		$name=$rowu["name"]; // in DB ein Array
 		$arrn=explode(",", trim($name, "{}") ); // PHP-Array
         $fortfuehrungsbelegnummer=$rowu["name"]; // Fortführungsbelegnummer(n)
@@ -253,7 +254,7 @@ echo "<table class='outer'>";
 	// Spalte 1: F l u r s t ü c k
 	echo "\n<tr>\n\t<td>";
 		echo "<img src='ico/".$ico."' width='16' height='16' alt=''> ".$wert;
-		echo "<br><span title='amtliche Fläche (Buchfläche) des Flurstücks'>Fläche</span> <span class='flae'>".$flae."</span>";
+		echo "<br><span title='amtliche Fläche (Buchfläche) des Flurstücks'>Fläche</span> <span class='flae'>".$amtlicheflaeched." m²</span>";
 	echo "</td>";
 
 	// Spalte 2: V o r g ä n g e r

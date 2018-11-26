@@ -50,8 +50,8 @@ if ($row = pg_fetch_array($res)) {
 	$flstnummer=$row["zaehler"];
 	$nenner=$row["nenner"];
 	if ($nenner > 0) $flstnummer.="/".$nenner; // BruchNr
-	$flae=$row["amtlicheflaeche"];
-	$flae=number_format($flae,0,",",".") . " m&#178;";
+  $amtlicheflaeche=$row["amtlicheflaeche"]; // amtliche Fläche
+	$amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
 } else {
 	echo "<p class='err'>Kein Treffer fuer gml_id=".$gmlid."</p>";
 }
@@ -150,7 +150,7 @@ while($row = pg_fetch_array($res)) {
 echo "\n</tr>\n</table>\n";
 
 // Flurstuecksflaeche
-echo "\n<p class='fsd'>Flurstücksfläche: <b>".$flae."</b></p>\n";
+echo "\n<p class='fsd'>Flurstücksfläche: <b>".$amtlicheflaeched." m²</b></p>\n";
 
 // *** G R U N D B U C H ***
 echo "\n<h2><img src='ico/Grundbuch_zu.ico' width='16' height='16' alt=''> Grundbuch</h2>";

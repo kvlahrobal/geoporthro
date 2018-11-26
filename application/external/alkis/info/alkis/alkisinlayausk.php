@@ -33,7 +33,7 @@ $con = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=".$
 if (!$con) {echo "<br>Fehler beim Verbinden der DB.\n<br>";}
 
 // *** F L U R S T U E C K ***
-$sql ="SELECT f.flurnummer, f.gemarkung_land AS land, f.flurstueckskennzeichen, f.zaehler, f.nenner, f.amtlicheflaeche, f.realflaeche AS fsgeomflae, g.gemarkungsnummer, g.bezeichnung ";
+$sql ="SELECT f.flurnummer, f.gemarkung_land AS land, f.flurstueckskennzeichen, f.zaehler, f.nenner, f.amtlicheflaeche, CASE WHEN round(f.realflaeche::numeric, 2)::text ~ '50$' AND round(f.realflaeche::numeric, 2) >= 1 THEN CASE WHEN (trunc(f.realflaeche)::int % 2) = 0 THEN trunc(f.realflaeche) ELSE round(round(f.realflaeche::numeric, 2)::numeric) END WHEN round(f.realflaeche::numeric, 2) < 1 THEN round(f.realflaeche::numeric, 2) ELSE round(f.realflaeche::numeric) END AS realflaeche_geodaetisch_gerundet, g.gemarkungsnummer, g.bezeichnung ";
 $sql.="FROM aaa_ogr.ax_flurstueck f ";
 $sql.="LEFT JOIN aaa_ogr.ax_gemarkung g ON f.gemarkungsnummer = g.gemarkungsnummer ";
 $sql.="WHERE f.endet IS NULL AND g.endet IS NULL AND f.gml_id = $1;";
@@ -55,10 +55,10 @@ if ($row = pg_fetch_array($res)) {
 	$flstnummer=$row["zaehler"];
 	$nenner=$row["nenner"];
 	if ($nenner > 0) $flstnummer.="/".$nenner; // BruchNr
-    $fsbuchflae=$row["amtlicheflaeche"]; // amtliche Fl. aus DB-Feld
-	$fsgeomflae=$row["fsgeomflae"]; // aus Geometrie ermittelte Fläche
-	$fsbuchflaed=number_format($fsbuchflae,0,",",".") . " m&#178;"; // Display-Format dazu
-	$fsgeomflaed=number_format($fsgeomflae,0,",",".") . " m&#178;";
+	$amtlicheflaeche=$row["amtlicheflaeche"]; // amtliche Fläche
+	$amtlicheflaeched=($amtlicheflaeche < 1 ? rtrim(number_format($amtlicheflaeche,2,",","."),"0") : number_format($amtlicheflaeche,0,",",".")); // Display-Format dazu
+	$realflaeche_geodaetisch_gerundet=$row["realflaeche_geodaetisch_gerundet"]; // geodätisch gerundeter Wert der realen Fläche
+	$realflaeche_geodaetisch_gerundetd=($realflaeche_geodaetisch_gerundet < 1 ? rtrim(number_format($realflaeche_geodaetisch_gerundet,2,",","."),"0") : number_format($realflaeche_geodaetisch_gerundet,0,",",".")); // Display-Format dazu
 } else {
 	echo "<p class='err'>Kein Treffer fuer gml_id=".$gmlid."</p>";
 }
@@ -182,7 +182,7 @@ if ($j == 0) { // keine HsNr gefunden
 echo "\n</table>\n";
 
 // Flurstuecksflaeche
-echo "\n<p class='fsd' title='amtliche Fläche (Buchfläche) des Flurstücks'>Fläche: <span title='geometrisch berechnet: ".$fsgeomflaed."' class='flae'>".$fsbuchflaed."</span></p>\n";
+echo "\n<p class='fsd' title='amtliche Fläche (Buchfläche) des Flurstücks'>Fläche: <span title='geometrisch berechnet, reduziert und geodätisch gerundet: ".$realflaeche_geodaetisch_gerundetd." m²' class='flae'>".$amtlicheflaeched." m²</span></p>\n";
 
 echo "\n<hr class='thick'>";
 
