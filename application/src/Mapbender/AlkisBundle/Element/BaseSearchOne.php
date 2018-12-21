@@ -151,10 +151,14 @@ class BaseSearchOne extends Element
             $conf = $this->container->getParameter('geocodr');
             
             // Suchklasse auswerten
-            if ($type === 'flur')
+            if ($type === 'flur') {
                 $searchclass = 'parcel_hro';
-            else
+                // Suchwort manipulieren, damit auch Suche nach ALKIS-Flurstückskennzeichen mit schließenden Unterstrichen funktioniert
+                if (substr($term, strlen($term) - 2, strlen($term)) === '__')
+                    $term = str_replace('_', '', $term);
+            } else {
                 $searchclass = 'address_hro';
+            }
             
             // Suche durchführen mittels cURL
             $curl = curl_init();

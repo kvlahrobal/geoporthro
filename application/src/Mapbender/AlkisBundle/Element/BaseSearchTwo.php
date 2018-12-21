@@ -151,10 +151,14 @@ class BaseSearchTwo extends Element
             $conf = $this->container->getParameter('geocodr');
             
             // Suchklasse auswerten
-            if ($type === 'mv_flur')
+            if ($type === 'mv_flur') {
                 $searchclass = 'parcel';
-            else
+                // Suchwort manipulieren, damit auch Suche nach ALKIS-Flurstückskennzeichen mit schließenden Unterstrichen funktioniert
+                if (substr($term, strlen($term) - 2, strlen($term)) === '__')
+                    $term = str_replace('_', '', $term);
+            } else {
                 $searchclass = 'address';
+            }
             
             // Suche durchführen mittels cURL
             $curl = curl_init();
