@@ -117,11 +117,16 @@ if ($row = pg_fetch_array($res)) {
 		$j++;
 		if ($multiadress == "j" OR $j == 1) {
 			$gmla=$rowa["gml_id"];
-			$plz=$rowa["plz"];
+			$plz=$rowa["plz"]; // integer
+      $land=htmlentities($rowa["bestimmungsland"], ENT_QUOTES, "UTF-8");
+      if($plz == 0) {
+        $plz="";
+      } else if($land == "DEUTSCHLAND" or $land == "") {
+        $plz=str_pad($plz, 5, "0", STR_PAD_LEFT);
+      }
 			$ort=htmlentities($rowa["ort_post"], ENT_QUOTES, "UTF-8");
 			$str=htmlentities($rowa["strasse"], ENT_QUOTES, "UTF-8");
 			$hsnr=$rowa["hausnummer"];
-			$land=htmlentities($rowa["bestimmungsland"], ENT_QUOTES, "UTF-8");
             $aanlass_bezeichnung=$rowa["anlass_bezeichnung"];
             $aanlass_schluessel=$rowa["anlass_schluessel"];
             $adatum=$rowa["datum"];

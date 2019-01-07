@@ -291,15 +291,15 @@ function eigentuemer($con, $gmlid, $mitadresse, $lnkclass) {
 				while($rowa = pg_fetch_array($resa)) {
 					$gmla=$rowa["gml_id"];
 					$plz=$rowa["plz"]; // integer
+					$land=htmlentities($rowa["bestimmungsland"], ENT_QUOTES, "UTF-8");
 					if($plz == 0) {
 						$plz="";
-					} else {
+					} else if($land == "DEUTSCHLAND" or $land == "") {
 						$plz=str_pad($plz, 5, "0", STR_PAD_LEFT);
 					}
 					$ort=htmlentities($rowa["ort_post"], ENT_QUOTES, "UTF-8");
 					$str=htmlentities($rowa["strasse"], ENT_QUOTES, "UTF-8");
 					$hsnr=$rowa["hausnummer"];
-					$land=htmlentities($rowa["bestimmungsland"], ENT_QUOTES, "UTF-8");
 
 					echo "\n<tr>\n\t<td>&nbsp;</td>"; // Spalte 1
 					echo "\n\t<td><p class='gadr'>"; //Spalte 2
