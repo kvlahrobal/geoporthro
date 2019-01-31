@@ -208,7 +208,7 @@ echo "\n<table class='geb'>";
 				$snam=htmlentities($rowl["bezeichnung"], ENT_QUOTES, "UTF-8"); // -Name
 				$hsnr=$rowl["hausnummer"];
 				$hlfd=$rowl["laufendenummer"];
-				$gmllag=$rowl["beziehung_zu"];
+				$gmllag=$rowl["gml_id"];
 				if ($ltyp == "p") {
 					$lagetitl="Lagebezeichnung Nebengebäude";
 					$lagetxt="Nebengebäude Nr. ".$hlfd;

@@ -136,7 +136,7 @@ while($rowg = pg_fetch_array($resg)) { // Als Schleife, kann aber nur EIN Haus s
 		$snam=htmlentities($rowl["bezeichnung"], ENT_QUOTES, "UTF-8"); // -Name
 		$hsnr=$rowl["hausnummer"];
 		$hlfd=$rowl["laufendenummer"];
-		$gmllag=$rowl["beziehung_zu"];
+		$gmllag=$rowl["gml_id"];
 
 			if ($zhsnr == 1) {
 				echo "\n<tr>\n\t<td title='Adresse des Gebäudes'>Adresse</td>";
