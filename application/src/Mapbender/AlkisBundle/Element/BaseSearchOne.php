@@ -159,18 +159,21 @@ class BaseSearchOne extends Element
             } else {
                 $searchclass = 'address_hro';
                 // Suchwort manipulieren, damit auch Suche nach Apostrophen funktioniert
+                $term = strtolower($term);
                 if (strpos($term, "′") !== false)
                     $term = str_replace("′", "’", $term);
                 elseif (strpos($term, "´") !== false)
                     $term = str_replace("´", "’", $term);
                 elseif (strpos($term, "`") !== false)
                     $term = str_replace("`", "’", $term);
-                elseif (strpos($term, "’") !== false)
-                    $term = str_replace("’", "’", $term);
                 elseif (strpos($term, "‘") !== false)
                     $term = str_replace("‘", "’", $term);
                 elseif (strpos($term, "'") !== false)
                     $term = str_replace("'", "’", $term);
+                if (strpos($term, "upn ") === 0)
+                    $term = str_replace("upn ", "up’n ", $term);
+                elseif (strpos($term, "up n ") === 0)
+                    $term = str_replace("up n ", "up’n ", $term);
             }
             
             // Suche durchführen mittels cURL

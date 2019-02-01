@@ -159,18 +159,59 @@ class BaseSearchTwo extends Element
             } else {
                 $searchclass = 'address';
                 // Suchwort manipulieren, damit auch Suche nach Apostrophen funktioniert
+                $term = strtolower($term);
                 if (strpos($term, "′") !== false)
                     $term = str_replace("′", "’", $term);
                 elseif (strpos($term, "´") !== false)
                     $term = str_replace("´", "’", $term);
                 elseif (strpos($term, "`") !== false)
                     $term = str_replace("`", "’", $term);
-                elseif (strpos($term, "’") !== false)
-                    $term = str_replace("’", "’", $term);
                 elseif (strpos($term, "‘") !== false)
                     $term = str_replace("‘", "’", $term);
                 elseif (strpos($term, "'") !== false)
                     $term = str_replace("'", "’", $term);
+                if (strpos($term, "upm ") === 0)
+                    $term = str_replace("upm ", "up’m ", $term);
+                elseif (strpos($term, "up m ") === 0)
+                    $term = str_replace("up m ", "up’m ", $term);
+                elseif (strpos($term, "upn ") === 0)
+                    $term = str_replace("upn ", "up’n ", $term);
+                elseif (strpos($term, "up n ") === 0)
+                    $term = str_replace("up n ", "up’n ", $term);
+                elseif (strpos($term, "taun k") === 0)
+                    $term = str_replace("taun k", "tau’n k", $term);
+                elseif (strpos($term, "taun l") === 0)
+                    $term = str_replace("taun l", "tau’n l", $term);
+                elseif (strpos($term, "tau n ") === 0)
+                    $term = str_replace("tau n ", "tau’n ", $term);
+                elseif (strpos($term, "nahn ") === 0)
+                    $term = str_replace("nahn ", "nah’n ", $term);
+                elseif (strpos($term, "nah n ") === 0)
+                    $term = str_replace("nah n ", "nah’n ", $term);
+                elseif (strpos($term, "inn ") === 0)
+                    $term = str_replace("inn ", "in’n ", $term);
+                elseif (strpos($term, "in n ") === 0)
+                    $term = str_replace("in n ", "in’n ", $term);
+                elseif (strpos($term, "hinnru") === 0)
+                    $term = str_replace("hinnru", "hin’nru", $term);
+                elseif (strpos($term, "hin nru") === 0)
+                    $term = str_replace("hin nru", "hin’nru", $term);
+                elseif (strpos($term, "eicksch") === 0)
+                    $term = str_replace("eicksch", "eick’sch", $term);
+                elseif (strpos($term, "eick sch") === 0)
+                    $term = str_replace("eick sch", "eick’sch", $term);
+                elseif (strpos($term, "ann k") === 0)
+                    $term = str_replace("ann k", "an’n k", $term);
+                elseif (strpos($term, "ann p") === 0)
+                    $term = str_replace("ann p", "an’n p", $term);
+                elseif (strpos($term, "ann w") === 0)
+                    $term = str_replace("ann w", "an’n w", $term);
+                elseif (strpos($term, "an n ") === 0)
+                    $term = str_replace("an n ", "an’n ", $term);
+                elseif (strpos($term, " runn ") !== false)
+                    $term = str_replace(" runn ", " run’n ", $term);
+                elseif (strpos($term, " run n ") !== false)
+                    $term = str_replace(" run n ", " run’n ", $term);
             }
             
             // Suche durchführen mittels cURL
