@@ -862,7 +862,18 @@ echo "\n<table class='outer'>";
         echo "</td>";
         echo "\n\t\t<td class='" . (!empty($fortfuehrung_daten_antragsnummern || isset($fortfuehrung_alb_belegnummer)) ? "headlight" : "") . "'>";
             if ($entstehung_riss != "unbekannt") {
-                echo "<a title='Riss öffnen (via HTTP)' href='https://geo.sv.rostock.de/risse/" . substr($entstehung_riss, 0, 4) . "/PDFA/" . $entstehung_riss . "-101.pdf' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/world.png' /></a> <a title='Riss öffnen (via Netzlaufwerk)' href='file:///K:/GDS/Risse/" . substr($entstehung_riss, 0, 4) . "/PDFA/" . $entstehung_riss . "-101.pdf' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/folder.png' /></a> " . $entstehung_riss . "<br>";
+                $gemarkungsnummer = substr($entstehung_riss, 0, 4);
+                // alle vorhandenen PDF zum Riss ermitteln anhand der Indizes der Risse-PDF
+                $curl = curl_init();
+                $url = "https://geo.sv.rostock.de/risse/" . $gemarkungsnummer . "/PDFA/index";
+                curl_setopt($curl, CURLOPT_URL, $url); 
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                $curl_output = curl_exec($curl); 
+                curl_close($curl);
+                foreach (preg_split("/((\r?\n)|(\r\n?))/", $curl_output) as $datei) {
+                    if (strpos($datei, $entstehung_riss) !== false)
+                        echo "<a title='Riss öffnen (via HTTP)' href='https://geo.sv.rostock.de/risse/" . $gemarkungsnummer . "/PDFA/" . $datei . "' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/world.png' /></a> <a title='Riss öffnen (via Netzlaufwerk)' href='file:///K:/GDS/Risse/" . $gemarkungsnummer . "/PDFA/" . $datei . "' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/folder.png' /></a> " . str_replace(".pdf", "", $datei) . "<br>";
+                }
             } else {
                 echo $entstehung_riss;
             }
@@ -905,7 +916,19 @@ echo "\n<table class='outer'>";
                     echo "</td>";
                     echo "\n\t\t<td>";
                         if ($fortfuehrung_datum_antragsnummer[3] != "kein Riss verknüpft") {
-                            echo "<a title='Riss öffnen (via HTTP)' href='https://geo.sv.rostock.de/risse/" . substr($fortfuehrung_datum_antragsnummer[3], 0, 4) . "/PDFA/" . $fortfuehrung_datum_antragsnummer[3] . "-101.pdf' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/world.png' /></a> <a title='Riss öffnen (via Netzlaufwerk)' href='file:///K:/GDS/Risse/" . substr($fortfuehrung_datum_antragsnummer[3], 0, 4) . "/PDFA/" . $fortfuehrung_datum_antragsnummer[3] . "-101.pdf' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/folder.png' /></a> " . $fortfuehrung_datum_antragsnummer[3] . "<br>";
+                            $rissnummer = $fortfuehrung_datum_antragsnummer[3];
+                            $gemarkungsnummer = substr($rissnummer, 0, 4);
+                            // alle vorhandenen PDF zum Riss ermitteln anhand der Indizes der Risse-PDF
+                            $curl = curl_init();
+                            $url = "https://geo.sv.rostock.de/risse/" . $gemarkungsnummer . "/PDFA/index";
+                            curl_setopt($curl, CURLOPT_URL, $url); 
+                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                            $curl_output = curl_exec($curl); 
+                            curl_close($curl);
+                            foreach (preg_split("/((\r?\n)|(\r\n?))/", $curl_output) as $datei) {
+                                if (strpos($datei, $rissnummer) !== false)
+                                    echo "<a title='Riss öffnen (via HTTP)' href='https://geo.sv.rostock.de/risse/" . $gemarkungsnummer . "/PDFA/" . $datei . "' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/world.png' /></a> <a title='Riss öffnen (via Netzlaufwerk)' href='file:///K:/GDS/Risse/" . $gemarkungsnummer . "/PDFA/" . $datei . "' target='_blank'><img class='inline-img' src='https://geo.sv.rostock.de/download/graphiken/folder.png' /></a> " . str_replace(".pdf", "", $datei) . "<br>";
+                            }
                         } else {
                             echo $fortfuehrung_datum_antragsnummer[3];
                         }
