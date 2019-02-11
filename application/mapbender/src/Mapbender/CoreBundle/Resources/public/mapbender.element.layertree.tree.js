@@ -185,17 +185,27 @@
         },
         _clearFilterInput: function(e) {
             $('#filter-input').val('');
-            $("#list-root li").show();
+            $("#list-root li").removeClass("filterSurvivor").show();
         },
         _filterInput: function(e) {
             var value = $('#filter-input').val().toLowerCase();
-            $("#list-root li").each(function() {
-                if ($(this).text().toLowerCase().search(value) > -1) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
+            if (value.length > 2) {
+                $("#list-root li").each(function() {
+                    if ($(this).data("title").toLowerCase().search(value) > -1) {
+                        $(this).addClass("filterSurvivor").show();
+                    } else {
+                        $(this).removeClass("filterSurvivor").hide();
+                    }
+                });
+                $("#list-root li.filterSurvivor").each(function() {
+                    $(this).parents("li.leave").each(function() {
+                        $(this).addClass("filterSurvivor").show();
+                    });
+                    $(this).find("li:hidden").each(function() {
+                        $(this).addClass("filterSurvivor").show();
+                    });
+                });
+            }
         },
         _removeEvents: function() {
             var self = this;
@@ -500,6 +510,11 @@
                     }
                 } else {
                     li.find('ul:first').remove();
+                }
+            }
+            if (li.find('ul.layers').length === 1) {
+                if (li.find('ul.layers > li').length === 1 && li.find('ul.layers > li').data('type') === 'simple' && li.find('ul.layers > li').data('title') === li.data('title')) {
+                    li.removeClass('showLeaves').find('.iconFolder').removeClass('iconFolderActive').removeClass('iconFolder');
                 }
             }
             return li;
@@ -958,6 +973,10 @@
                     if (newState) {
                         // visuelle Markierung des Ordnersymbols aller übergeordneten Themen/Ordner hinzufügen
                         $layerEl.parents('li[data-type]').find('.iconFolder:first').addClass('folderWithActiveLayer');
+                        // falls selbst ohne Ordnersymbol...
+                        if ($layerEl.parents('li[data-type="root"]:first').find('.iconFolder').length === 0)
+                            // visuelle Markierung des selectAll-Häkchens hinzufügen
+                            $layerEl.parents('li[data-type="root"]:first').find('.selectAll:first').addClass('folderWithActiveLayer');
                     }
                     // ansonsten...
                     else {
@@ -968,6 +987,7 @@
                         $layerEl.parents('li[data-type]').each(function(index, element) {
                             if ($(element).find('.iconCheckboxActive').length == 0) {
                                 $(element).find('.iconFolder:first').removeClass('folderWithActiveLayer');
+                                $(element).find('.selectAll:first').removeClass('folderWithActiveLayer');
                             }
                         });
                     }
