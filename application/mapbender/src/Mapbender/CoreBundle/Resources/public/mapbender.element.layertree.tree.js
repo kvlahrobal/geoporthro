@@ -515,6 +515,7 @@
             if (li.find('ul.layers').length === 1) {
                 if (li.find('ul.layers > li').length === 1 && li.find('ul.layers > li').data('type') === 'simple' && li.find('ul.layers > li').data('title') === li.data('title')) {
                     li.removeClass('showLeaves').find('.iconFolder').removeClass('iconFolderActive').removeClass('iconFolder');
+                    li.find('.iconOk').addClass('iconOkMarginLeft');
                 }
             }
             return li;
