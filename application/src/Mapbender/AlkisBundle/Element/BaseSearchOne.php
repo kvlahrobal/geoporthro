@@ -176,10 +176,14 @@ class BaseSearchOne extends Element
                     $term = str_replace("up n ", "up’n ", $term);
             }
             
+            // Offset ermitteln
+            $hits = $conf['hits'];
+            $offset = ($page - 1) * $hits;
+            
             // Suche durchführen mittels cURL
             $curl = curl_init();
             $term = curl_escape($curl, $term);
-            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&limit=' . $conf['limit'] . '&class=' . $searchclass . '&query=' . $term;
+            $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&class=' . $searchclass . '&offset=' . $offset . '&limit=' . $hits . '&query=' . $term;
             curl_setopt($curl, CURLOPT_URL, $url); 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             
@@ -189,14 +193,10 @@ class BaseSearchOne extends Element
             $result = $features;
             curl_close($curl);
             
-            // für die Pagination und die Ermittlung des aktuellen Teils des Suchresultats benötigte Parameter ermitteln
-            $results = count($result);
-            $hits = $conf['hits'];
+            // für die Pagination benötigte Parameter ermitteln
+            $results = $json['properties']['features_total'];
+            $currentResults = $json['properties']['features_returned'];
             $pages = ceil($results / $hits);
-            
-            // aktuellen Teil des Suchresultats ermitteln
-            $result = array_slice($result, ($page - 1) * $hits, $hits);
-            $features = $result;
             
             // Bereinigungsarbeiten
             foreach ($features as $key=>$feature) {
@@ -222,7 +222,6 @@ class BaseSearchOne extends Element
             }
             
             // weitere für die Pagination benötigte Parameter ermitteln
-            $currentResults = count($result);
             if ($page > 2)
                 $previousPage = $page - 1;
             else

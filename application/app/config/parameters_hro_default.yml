@@ -67,7 +67,6 @@ parameters:
         url: https://geo.sv.rostock.de/geocodr/query?
         key: 1234567890abcdefghijklmnopqrstuv
         type: search
-        limit: 500
         hits: 25
 
     solr:
