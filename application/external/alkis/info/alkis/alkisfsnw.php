@@ -1160,6 +1160,98 @@ while($rows = pg_fetch_array($ress)) {
 	}
 	$an=0; // Stelle an Stelle
 	while($rowan = pg_fetch_array($resan)) {
+		$gmlsx=$rowan["s_gml"];
+		$beznam=$rowan["bezeichnung"];
+		$blattkeyan=$rowan["blattart"]; // Schluessel von Blattart
+		$blattartan=blattart($blattkeyan);
+		echo "\n<table class='outer'>";
+		echo "\n<tr>"; // 1 row only
+			echo "\n<td>"; // outer linke Spalte
+				// Rahmen mit Kennzeichen GB
+				if ($blattkeyan == 1000) {
+					echo "\n\t<table class='kennzgb'>";
+				} else {
+					echo "\n\t<table class='kennzgbf'>"; // dotted
+				}
+					echo "\n\t<tr>";
+						echo "\n\t\t<td class='head'>Bezirk</td>";
+						echo "\n\t\t<td class='head'>Blatt</td>";
+						echo "\n\t\t<td class='head'>BVNR</td>";
+						echo "\n\t\t<td class='head'>Buchungsart</td>";
+					echo "\n\t</tr>";
+					echo "\n\t<tr>";
+						echo "\n\t\t<td title='Grundbuchbezirk'>";
+						if ($showkey) {echo "<span class='key' title='Grundbuchbezirksschlüssel'>".$land.$rowan["bezirk"]."</span><br>";}
+						echo $beznam."</td>";
+
+						echo "\n\t\t<td title='Grundbuchblattnummer'><span class='wichtig'>".ltrim($rowan["blatt"], "0")."</span></td>";
+
+						echo "\n\t\t<td title='Bestandsverzeichnisnummer (laufende Nummer)'>".$rowan["lfd"]."</td>";
+
+						echo "\n\t\t<td title='Buchungsart'>";
+							if ($showkey) {echo "<span class='key' title='Buchungsartschlüssel'>".$rowan["buchungsart"]."</span><br>";}
+							echo $rowan["bart"];
+						echo "</td>";
+					echo "\n\t</tr>";
+				echo "\n\t</table>";
+				if ($rowan["zaehler"] <> "") {
+					echo "\n<p class='ant'>".$rowan["zaehler"]."/".$rowan["nenner"]."&nbsp;Anteil am Flurstück</p>";
+				}
+			echo "\n</td>";
+			echo "\n<td>"; // outer rechte Spalte
+				if ($idanzeige) {
+					linkgml($gkz, $rowan["s_gml"], "Buchungsstelle");
+					echo "<br>";
+					linkgml($gkz, $rowan["g_gml"], "Buchungsblatt");
+				}
+				echo "\n<br>";
+				echo "\n\t<p class='nwlink'>";
+					echo "\n\t\t<a href='alkisbestnw.php?gkz=".$gkz."&amp;gmlid=".$rowan["g_gml"];
+						if ($idanzeige) {echo "&amp;id=j";}
+						if ($showkey)   {echo "&amp;showkey=j";}
+						echo "' title='Bestandsnachweis'>";
+						echo $blattartan;
+						echo " <img src='ico/GBBlatt_link.ico' width='16' height='16' alt=''>";
+					echo "</a>";
+				echo "\n\t</p>";
+			echo "\n\t</td>";
+		echo "\n</tr>";
+		echo "\n</table>";
+
+		//++ BeschreibungDesUmfangsDerBuchung?
+		if ($rowan["nrpl"] != "") {
+			echo "<p class='nrap' title='Nummer im Aufteilungsplan'>Nummer <span class='wichtig'>".$rowan["nrpl"]."</span> im Aufteilungsplan.</p>";
+		}
+		if ($rowan["sond"] != "") {
+			echo "<p class='sond' title='Sondereigentum'>Verbunden mit dem Sondereigentum…<br>…".$rowan["sond"]."</p>";
+		}
+		$n = eigentuemer($con, $rowan["g_gml"], false, ""); // ohne Adresse
+		$an++;	
+	}
+	pg_free_result($resan);
+	$bs++;
+
+	// Buchungstelle  >an>  Buchungstelle  >istBestandteilVon>  BLATT  ->  Bezirk
+	$sql ="SELECT sf.gml_id AS s_gml, sf.buchungsart, sf.laufendenummer as lfd, ";
+	$sql.="sf.zaehler, sf.nenner, sf.nummerimaufteilungsplan as nrpl, sf.beschreibungdessondereigentums as sond, ";
+	$sql.="b.gml_id AS g_gml, b.bezirk, b.buchungsblattnummermitbuchstabenerweiterung as blatt, b.blattart, ";
+	$sql.="z.bezeichnung, a.beschreibung AS bart ";
+    $sql.="FROM aaa_ogr.ax_buchungsstelle sb ";
+    $sql.="JOIN aaa_ogr.ax_buchungsstelle sf ON sb.gml_id = ANY(sf.an) ";
+    $sql.="JOIN aaa_ogr.ax_buchungsblatt b ON b.gml_id = sf.istbestandteilvon ";
+    $sql.="LEFT JOIN aaa_ogr.ax_buchungsblattbezirk z ON z.bezirk = b.bezirk ";
+    $sql.="LEFT JOIN aaa_ogr.ax_buchungsart_buchungsstelle a ON a.wert = sf.buchungsart ";
+    $sql.="WHERE sb.endet IS NULL AND sf.endet IS NULL AND b.endet IS NULL AND z.endet IS NULL AND sb.gml_id = $1";
+    $sql.="ORDER BY b.bezirk, b.buchungsblattnummermitbuchstabenerweiterung;";
+	$v = array($gmlsx);
+	$resan = pg_prepare("", $sql);
+	$resan = pg_execute("", $v);
+	if (!$resan) {
+		echo "\n<p class='err'>Keine weiteren Buchungsstellen.</p>\n";
+		if ($debug > 2) {echo "<p class='dbg'>SQL=<br>".$sql."<br>$1 = gml_id = '".$gmlsx."'</p>";}
+	}
+	$an=0; // Stelle an Stelle
+	while($rowan = pg_fetch_array($resan)) {
 		$beznam=$rowan["bezeichnung"];
 		$blattkeyan=$rowan["blattart"]; // Schluessel von Blattart
 		$blattartan=blattart($blattkeyan);
