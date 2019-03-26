@@ -63,6 +63,15 @@ parameters:
     cookie_secure: false
     cookie_lifetime: 36000
 
+    olc:
+        url: https://geo.sv.rostock.de/olca?
+        default_epsg_in: 4326
+        epsg_out: 25833
+        minx: 160696.271328
+        miny: 5816652.02712
+        maxx: 500000.0
+        maxy: 6106230.44024
+
     geocodr:
         url: https://geo.sv.rostock.de/geocodr/query?
         key: 1234567890abcdefghijklmnopqrstuv

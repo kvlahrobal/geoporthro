@@ -186,6 +186,7 @@ class BaseSearchOne extends Element
             $url = $conf['url'] . 'key=' . $conf['key'] . '&type=' . $conf['type'] . '&class=' . $searchclass . '&offset=' . $offset . '&limit=' . $hits . '&query=' . $term;
             curl_setopt($curl, CURLOPT_URL, $url); 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             
             // Suchresultat verarbeiten
             $json = json_decode(curl_exec($curl), true); 

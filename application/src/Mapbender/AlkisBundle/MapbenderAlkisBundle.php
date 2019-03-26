@@ -15,6 +15,7 @@ class MapbenderAlkisBundle extends MapbenderBundle
             'Mapbender\AlkisBundle\Element\BaseSearchOne',
             'Mapbender\AlkisBundle\Element\BaseSearchTwo',
             'Mapbender\AlkisBundle\Element\ThematicSearchOne',
+            'Mapbender\AlkisBundle\Element\OlcSearch',
             'Mapbender\AlkisBundle\Element\AlkisInfo',
         );
     }

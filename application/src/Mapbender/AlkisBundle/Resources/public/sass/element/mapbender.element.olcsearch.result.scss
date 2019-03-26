@@ -1,0 +1,30 @@
+@import "libs/variables";
+@import "libs/mixins";
+@import "modules/text";
+@import "modules/input";
+
+.searcholccontent{
+    .search-result-navi{
+      border-bottom: 3px solid $secondColor;
+      height:$fontSize*2;
+      margin-bottom:$space/4;
+    }
+  .results{
+    @extend .subTitle;
+    font-size:$fontSize*1.2;
+    margin-top:$space/4;
+    margin-bottom:$space/4;
+  }
+  .clickable{
+    cursor:pointer;
+    margin-bottom: 5px;
+  }
+  .even {
+    color: rgba(100, 100, 100, 0.7);
+  }
+  .even:hover {
+    color: #646464;
+  }
+  .noPage{color:$thirdColor;}
+  .document, .eigen, .grund{@extend .subTitle;}
+}

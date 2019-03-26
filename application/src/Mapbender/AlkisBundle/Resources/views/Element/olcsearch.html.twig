@@ -1,0 +1,22 @@
+<div id="{{ id }}" class="mb-element mb-element-olcsearch" data-title="{{ title }}">
+    <div class="search">
+        <div class="dropdown" title="Koordinatensystem des gesuchten Koordinatenpaars auswählen">
+            <select id="inputSrs" class="hiddenDropdown">
+                <option value="25833">ETRS89/UTM-33N</option>
+                <option value="2398">S42/83/Gauß-Krüger-3°</option>
+                <option value="4326">WGS84/Geographische Koordinaten</option>
+            </select>
+            <div class="dropdownValue iconDown"></div>
+            <ul class="dropdownList"></ul>
+        </div>  
+        <div class="clearContainer"></div>
+        <div class="inputWrapper">  
+            <input type="text" id="search-olc" name="search" class="input left validationInput" title="Sucheingabefeld" placeholder="Sucheingabe…" />
+            <span class="clearer" id="clear-search-olc"><i class="fa fa-times" title="Sucheingabefeld und Liste mit Suchresultaten leeren"></i></span>
+        </div>
+        <div class="clearContainer"></div>
+        <div class="searcholccontent"></div>
+    </div>
+    <div class="clearContainer"></div>
+    <span id="removeResults" class="removeResultsButton button critical left" title="Sucheingabefeld und Liste mit Suchresultaten leeren sowie Objektmarkierungen aus Karte entfernen">{{ "Zurücksetzen"|trans}}</span>
+</div>
