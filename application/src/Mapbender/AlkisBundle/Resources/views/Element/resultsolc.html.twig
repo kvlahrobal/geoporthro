@@ -1,5 +1,5 @@
 <div id="searchResultsOlc">
-    <div title="Karte auf Objekt zoomen und Objekt in Karte markieren" class="{% if innerhalb is defined and innerhalb == true %}clickable {% endif %}olc document"{% if wkt is defined %} data-geom="{{ wkt }}"{% endif %}>
+    <div title="{% if result.properties.level > 2 and innerhalb is defined and innerhalb == true %}Karte auf Objekt zoomen und Objekt in Karte markieren{% else %}Objekt außerhalb des gültigen Kartenbereichs{% endif %}" class="{% if result.properties.level > 2 and innerhalb is defined and innerhalb == true %}clickable document {% else %}ausserhalb {% endif %}olc"{% if wkt is defined %} data-geom="{{ wkt }}"{% endif %}>
         {% if result.properties.level == 1 %}
             {{ result.properties.code_level_1 }}
         {% elseif result.properties.level == 2 %}

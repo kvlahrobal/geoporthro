@@ -53,7 +53,7 @@
             $(document).on('mouseout', "#" + this.element.attr('id') + ' .document', $.proxy(self._highlightOff, self));
             $(document).on('mouseout', "#" + this.element.attr('id') + ' .document > i', $.proxy(self._highlightOff, self));
             $(document).on('mouseout', "#" + this.element.attr('id') + ' .document > small', $.proxy(self._highlightOff, self));
-            $('#inputSrs', this.element).on('change', $.proxy(self._findOnKeyup, self));
+            $('#inputSrs', this.element).on('change', $.proxy(self._inputSrsChanged, self));
             this._showSearch();
         },
         _showSearch: function () {
@@ -96,6 +96,10 @@
             map.setCenter(targetCoord);
             $.proxy(this._zoom(map), false);
 
+        },
+        _inputSrsChanged: function () {
+            if ($('#search-olc').val().length)
+                $.proxy(this._findOnKeyup, this);
         },
         _findOnKeyup: function (e) {
             var self = this;

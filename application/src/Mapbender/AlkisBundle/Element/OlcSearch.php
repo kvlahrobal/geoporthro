@@ -142,15 +142,32 @@ class OlcSearch extends Element
         // Suchresultat verarbeiten
         $json = json_decode(curl_exec($curl), true);
         curl_close($curl);
-        
-        // Geometrien in WKT umwandeln
-        $wkt = strtoupper($json['geometry']['type']) . '(' . $this->extract($json['geometry']['coordinates'], $json['geometry']['type']) . ')';
-        
-        // Suchresultat innerhalb in Konfiguration definierter Bounding-Box?
         $minx = $json['geometry']['coordinates'][0][0][0];
         $miny = $json['geometry']['coordinates'][0][0][1];
         $maxx = $json['geometry']['coordinates'][0][2][0];
         $maxy = $json['geometry']['coordinates'][0][2][1];
+        
+        // Geometrien in WKT umwandeln
+        switch ($json['properties']['level']) {
+            case 3:
+                $deltax1 = 232.1;
+                $deltax2 = 228.2;
+                $deltay = 135.3;
+                break;
+            case 4:
+                $deltax1 = 11.4;
+                $deltax2 = 11.4;
+                $deltay = 6.75;
+                break;
+            case 5:
+                $deltax1 = 0.6;
+                $deltax2 = 0.6;
+                $deltay = 0.33;
+                break;
+        }
+        $wkt = 'POLYGON ((' . $minx . ' ' . $miny . ', ' . ($maxx - $deltax2) . ' ' . ($miny - $deltay) . ', ' . $maxx . ' ' . $maxy . ', ' . ($minx + $deltax1) . ' ' . ($maxy + $deltay) . ', ' . $minx . ' ' . $miny . '))';
+        
+        // Suchresultat innerhalb in Konfiguration definierter Bounding-Box?
         if ($minx >= $conf['minx'] && $maxx <= $conf['maxx'] && $miny >= $conf['miny'] && $maxy <= $conf['maxy'])
             $innerhalb = true;
         
@@ -165,33 +182,5 @@ class OlcSearch extends Element
         );
 
         return new Response($html, 200, array('Content-Type' => 'text/html'));
-    }
-    
-    public function extract($geometry, $type)
-    {
-        $array = array();
-        switch (strtolower($type)) {
-            case 'point':
-                return $geometry[0] . ' ' . $geometry[1];
-            case 'multipoint':
-            case 'linestring':
-                foreach ($geometry as $geom) {
-                    $array[] = $this->extract($geom, 'point');
-                }
-                return implode(',', $array);
-            case 'multilinestring':
-            case 'polygon':
-                foreach ($geometry as $geom) {
-                    $array[] = '(' . $this->extract($geom, 'linestring') . ')';
-                }
-                return implode(',', $array);
-            case 'multipolygon':
-                foreach ($geometry as $geom) {
-                    $array[] = '(' . $this->extract($geom, 'polygon') . ')';
-                }
-                return implode(',', $array);
-            default:
-              return null;
-        }
     }
 }

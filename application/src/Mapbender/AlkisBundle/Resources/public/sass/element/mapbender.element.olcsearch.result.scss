@@ -17,13 +17,11 @@
   }
   .clickable{
     cursor:pointer;
-    margin-bottom: 5px;
   }
-  .even {
-    color: rgba(100, 100, 100, 0.7);
-  }
-  .even:hover {
-    color: #646464;
+  .ausserhalb {
+    color: rgba(80, 80, 80, 0.6);
+    cursor: default;
+    font-style: italic;
   }
   .noPage{color:$thirdColor;}
   .document, .eigen, .grund{@extend .subTitle;}
