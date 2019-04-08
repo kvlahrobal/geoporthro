@@ -131,6 +131,13 @@ class OlcSearch extends Element
         // Konfiguration einlesen
         $conf = $this->container->getParameter('olc');
         
+        // Suchwort manipulieren, damit auch unvollständige Plus codes zu einem Resultat führen
+        if (strlen($term) < 9 && strpos($term, ',') === false && strpos($term, ' ') === false) {
+            if (strlen($term) < 8)
+                $term = str_pad($term, 8, "0");
+            $term .= "+";
+        }
+        
         // Suche durchführen mittels cURL
         $curl = curl_init();
         $term = curl_escape($curl, $term);
