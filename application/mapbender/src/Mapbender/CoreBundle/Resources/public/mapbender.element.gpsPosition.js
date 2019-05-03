@@ -179,12 +179,20 @@
             }
             return widget.activate();
         },
+        numberWithCommas: function (x) {
+            var parts = x.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return parts.join('.');
+        },
         /**
          * Activate GPS positioning
          *
          * @returns {self}
          */
         activate: function () {
+            $("#content").append("<span id='mobileCoordinatesDisplay' class='mb-element mb-element-coordsdisplay center' style='top:20px;left:15px;font-size:8px;'><span class='iconCoordinates' id='coordinatesdisplay'></span><span id='mobileCoordinatesDisplayText'></span><span style='font-size:5px;'> (ETRS89/UTM-Koordinaten)</span></span>" );
+            $("#content").append("<span id='mobileCoordinatesDisplayGPS' class='mb-element mb-element-coordsdisplay center' style='top:35px;left:15px;font-size:8px;'><span class='iconCoordinates' id='coordinatesdisplay'></span><span id='mobileCoordinatesDisplayGPSText'></span><span style='font-size:5px;'> (WGS84/Geografische Koordinaten)</span></span>" );
+          
             var widget = this;
             var olmap = widget.map.map.olMap;
             if (navigator.geolocation) {
@@ -211,6 +219,45 @@
                     widget._createMarker(p, position.coords.accuracy);
                     widget._centerMap(p);
                     widget._zoomMap(p, position.coords.accuracy);
+                    
+                    // falsch:
+                    /*var x = widget.numberWithCommas(Math.round(p.lon * 1000) / 1000);
+                    var y = widget.numberWithCommas(Math.round(p.lat * 1000) / 1000);
+                    x = x.replace('.', 'x');
+                    x = x.replace(/,/g, '.');
+                    x = x.replace('x', ',');
+                    x = 'Zone 33U ' + x;
+                    y = y.replace('.', 'x');
+                    y = y.replace(/,/g, '.');
+                    y = y.replace('x', ',');*/
+                    
+                    // richtig:
+                    var x = Math.round(p.lon);
+                    var y = Math.round(p.lat);
+                    
+                    $('#mobileCoordinatesDisplayText').text(x + ' m | ' + y + ' m');
+                    
+                    p.transform(newProj, proj);
+                    
+                    // falsch:
+                    /*var ln = Math.round(p.lon * 10000000) / 10000000;
+                    var lt = Math.round(p.lat * 10000000) / 10000000;
+                    var ln_deg = Math.trunc(ln);
+                    var lt_deg = Math.trunc(lt);
+                    var ln_min = (ln - ln_deg) * 60;
+                    var lt_min = (lt - lt_deg) * 60;
+                    var ln_sec = Math.round(((ln_min - Math.floor(ln_min)) * 60) * 100000) / 100000;
+                    var lt_sec = Math.round(((lt_min - Math.floor(lt_min)) * 60) * 100000) / 100000;
+                    ln = ln_deg + '° ' + Math.floor(ln_min).toString() + '′ ' + ln_sec.toString().replace('.', ',') + '′′';
+                    lt = lt_deg + '° ' + Math.floor(lt_min).toString() + '′ ' + lt_sec.toString().replace('.', ',') + '′′';*/
+                    
+                    // richtig:
+                    var ln = Math.round(p.lon * 100000) / 100000;
+                    var lt = Math.round(p.lat * 100000) / 100000;
+                    ln = ln.toString().replace('.', ',') + '°';
+                    lt = lt.toString().replace('.', ',') + '°';
+
+                    $('#mobileCoordinatesDisplayGPSText').text(ln + ' | ' + lt);
 
                     if (widget.firstPosition) {
                         widget.firstPosition = false;
@@ -257,6 +304,15 @@
                 olmap.removeLayer(candidates[0]);
                 candidates[0].destroy();
             }
+            
+            if ($('#mobileCoordinatesDisplay').length) {
+                $('#mobileCoordinatesDisplay').remove();
+            }
+            
+            if ($('#mobileCoordinatesDisplayGPS').length) {
+                $('#mobileCoordinatesDisplayGPS').remove();
+            }
+            
             return this;
         },
         /**
