@@ -193,15 +193,15 @@
         activate: function () {
                     
             if (this.options.laivMode) {
-                var utmString = " (ETRS89/UTM-Koordinaten)";
-                var gpsString = " (WGS84/Geografische Koordinaten)";
+                var utmString = "";
+                var gpsString = "";
             } else {
                 var utmString = " (ETRS89/UTM-33N)";
                 var gpsString = " (WGS84/Geographische Koordinaten)";
             }
 
-            $("#content").append("<span id='mobileCoordinatesDisplay' class='mb-element mb-element-coordsdisplay center' style='top:20px;left:15px;font-size:8px;'><span class='iconCoordinates' id='coordinatesdisplay'></span><span id='mobileCoordinatesDisplayText'></span><span style='font-size:5px;'>" + utmString + "</span></span>");
-            $("#content").append("<span id='mobileCoordinatesDisplayGPS' class='mb-element mb-element-coordsdisplay center' style='top:35px;left:15px;font-size:8px;'><span class='iconCoordinates' id='coordinatesdisplay'></span><span id='mobileCoordinatesDisplayGPSText'></span><span style='font-size:5px;'>" + gpsString + ")</span></span>");
+            $("#content").append("<span id='mobileCoordinatesDisplay' class='mb-element mb-element-coordsdisplay center' style='top:20px;left:15px;font-size:12px;'><span class='iconCoordinates' id='coordinatesdisplay'></span><span id='mobileCoordinatesDisplayText'></span><span style='font-size:5px;'>" + utmString + "</span></span>");
+            $("#content").append("<span id='mobileCoordinatesDisplayGPS' class='mb-element mb-element-coordsdisplay center' style='top:35px;left:15px;font-size:12px;'><span class='iconCoordinates' id='coordinatesdisplay'></span><span id='mobileCoordinatesDisplayGPSText'></span><span style='font-size:5px;'>" + gpsString + ")</span></span>");
           
             var widget = this;
             var olmap = widget.map.map.olMap;
@@ -244,12 +244,12 @@
                         y = y.replace('.', 'x');
                         y = y.replace(/,/g, '.');
                         y = y.replace('x', ',');
-                        $('#mobileCoordinatesDisplayText').text(x + ' m Ost | ' + y + ' m Nord');
                     } else {
                         var x = Math.round(p.lon);
                         var y = Math.round(p.lat);
-                        $('#mobileCoordinatesDisplayText').text(x + ' m | ' + y + ' m');
                     }
+                    
+                    $('#mobileCoordinatesDisplayText').text(x + ' m | ' + y + ' m');
 
                     if (widget.options.laivMode) {
                         p.transform(proj25832, proj);
@@ -263,17 +263,17 @@
                         var lt_sec = Math.round(((lt_min - Math.floor(lt_min)) * 60) * 100000) / 100000;
                         var ln_sec_dec = (ln_sec - Math.floor(ln_sec)) * 100000;
                         var lt_sec_dec = (lt_sec - Math.floor(lt_sec)) * 100000;
-                        ln = ln_deg + '° ' + Math.floor(ln_min).toString().padStart(2, '0') + '′ ' + Math.floor(ln_sec).toString().padStart(2, '0') + ',' + Math.round(ln_sec_dec) + '′′';
-                        lt = lt_deg + '° ' + Math.floor(lt_min).toString().padStart(2, '0') + '′ ' + Math.floor(lt_sec).toString().padStart(2, '0') + ',' + Math.round(lt_sec_dec) + '′′';
-                        $('#mobileCoordinatesDisplayGPSText').text(ln + ' Länge | ' + lt + ' Breite');
+                        ln = ln_deg + '°' + Math.floor(ln_min).toString().padStart(2, '0') + '′' + Math.floor(ln_sec).toString().padStart(2, '0') + ',' + Math.round(ln_sec_dec) + '′′';
+                        lt = lt_deg + '°' + Math.floor(lt_min).toString().padStart(2, '0') + '′' + Math.floor(lt_sec).toString().padStart(2, '0') + ',' + Math.round(lt_sec_dec) + '′′';
                     } else {
                         p.transform(newProj, proj);
                         var ln = Math.round(p.lon * 100000) / 100000;
                         var lt = Math.round(p.lat * 100000) / 100000;
                         ln = ln.toString().replace('.', ',') + '°';
                         lt = lt.toString().replace('.', ',') + '°';
-                        $('#mobileCoordinatesDisplayGPSText').text(ln + ' | ' + lt);
                     }
+                    
+                    $('#mobileCoordinatesDisplayGPSText').text(ln + ' | ' + lt);
 
                     if (widget.firstPosition) {
                         widget.firstPosition = false;
