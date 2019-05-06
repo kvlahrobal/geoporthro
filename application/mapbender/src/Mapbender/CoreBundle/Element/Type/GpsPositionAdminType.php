@@ -62,7 +62,10 @@ class GpsPositionAdminType extends AbstractType
                 'property_path' => '[zoomToAccuracy]'))
             ->add('zoomToAccuracyOnFirstPosition', 'checkbox', array(
                 'required' => false,
-                'property_path' => '[zoomToAccuracyOnFirstPosition]'));
+                'property_path' => '[zoomToAccuracyOnFirstPosition]'))
+            ->add('laivMode', 'checkbox', array(
+                'required' => false,
+                'property_path' => '[laivMode]'));
     }
 
 }

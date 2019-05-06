@@ -75,7 +75,8 @@ class GpsPosition extends Element
             'follow' => false,
             'centerOnFirstPosition' => true,
             'zoomToAccuracy' => false,
-            'zoomToAccuracyOnFirstPosition' => true);
+            'zoomToAccuracyOnFirstPosition' => true,
+            'laivMode' => false);
     }
 
     /**
