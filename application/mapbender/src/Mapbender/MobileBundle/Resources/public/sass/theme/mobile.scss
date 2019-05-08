@@ -535,7 +535,7 @@ fieldset{
 }
 .contentPane{
   .mb-element-coordsdisplay{
-    z-index: 20;
+    z-index: 9;
     @include pos('',$space,$space*2,'');
   }
 }
