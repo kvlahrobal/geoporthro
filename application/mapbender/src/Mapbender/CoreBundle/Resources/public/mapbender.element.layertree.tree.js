@@ -191,7 +191,7 @@
             var value = $('#filter-input').val().toLowerCase();
             if (value.length > 2) {
                 $("#list-root li").each(function() {
-                    if ($(this).data("title").toLowerCase().search(value) > -1) {
+                    if ($(this).data("title").toString().toLowerCase().search(value) > -1) {
                         $(this).addClass("filterSurvivor").show();
                     } else {
                         $(this).removeClass("filterSurvivor").hide();
