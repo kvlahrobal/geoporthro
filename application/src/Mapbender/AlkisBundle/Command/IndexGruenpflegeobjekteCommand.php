@@ -55,7 +55,7 @@ class IndexGruenpflegeobjekteCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Gruenpflegeobjekte fuer HRO-Gruenpflegeobjektesuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.gruenamt_objekte');
+        $stmt = $conn->query("SELECT count(*) AS count FROM regis.gruenamt_objekte WHERE art IN ('Friedhof', 'Park oder GrÃ¼nanlage', 'Spielplatz', 'StraÃŸenbegleitgrÃ¼n')");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
@@ -68,6 +68,7 @@ class IndexGruenpflegeobjekteCommand extends ContainerAwareCommand
                 objektart,
                 ST_AsText(geometrie) AS wktgeom
                 FROM regis.gruenamt_objekte
+                WHERE art IN ('Friedhof', 'Park oder GrÃ¼nanlage', 'Spielplatz', 'StraÃŸenbegleitgrÃ¼n')
                 ORDER BY id
                 LIMIT " . $limit . " OFFSET " . $offset);
 
@@ -135,11 +136,11 @@ class IndexGruenpflegeobjekteCommand extends ContainerAwareCommand
         $phonetic = ColognePhonetic::singleton();
 
         $array = array_filter(
-            explode(" ", preg_replace("/[^a-zäöüßÄÖÜ0-9]/i", " ", $string))
+            explode(" ", preg_replace("/[^a-zÃ¤Ã¶Ã¼ÃŸÃ„Ã–Ãœ0-9]/i", " ", $string))
         );
 
         foreach ($array as $val) {
-            if (preg_match("/^[a-zäöüßÄÖÜ]+$/i", $val)) {
+            if (preg_match("/^[a-zÃ¤Ã¶Ã¼ÃŸÃ„Ã–Ãœ]+$/i", $val)) {
                 $result .= " AND (" . $val. '^20 OR ' . $val . '*^15';
                 
                 if($val !== 'h') {

@@ -49,7 +49,7 @@ class IconClassType extends AbstractType
             'iconPoi'           => 'POI (FontAwesome)',
             'iconImageExport'   => 'Image Export (FontAwesome)',
             'iconSketch'        => 'Sketch (FontAwesome)',
-            'iconSave'        => 'Save (FontAwesome)',
+            'iconSave'          => 'Save (FontAwesome)',
             'iconSignOut'       => 'Sign out (FontAwesome)');
 
         asort($icons);
