@@ -91,7 +91,7 @@ if ($row = pg_fetch_array($res)) {
 
 	// A d r e s s e
 	echo "\n<h3><img src='ico/Strasse_mit_Haus.ico' width='16' height='16' alt=''> Adresse</h3>\n";
-	$sqla ="SELECT to_char(a.beginnt::date, 'DD.MM.YYYY') AS datum, a.gml_id, a.ort_post, a.postleitzahlpostzustellung AS plz, a.strasse, a.hausnummer, a.bestimmungsland, aaa.value AS anlass_bezeichnung, aaa.id AS anlass_schluessel, aa.kennzeichen AS antrag, aq.qualitaetsangabe ";
+	$sqla ="SELECT to_char(a.beginnt::date, 'DD.MM.YYYY') AS datum, a.gml_id, a.ortsteil, a.ort_post, a.postleitzahlpostzustellung AS plz, a.strasse, a.hausnummer, a.bestimmungsland, aaa.value AS anlass_bezeichnung, aaa.id AS anlass_schluessel, aa.kennzeichen AS antrag, aq.qualitaetsangabe ";
 	$sqla.="FROM aaa_ogr.ax_anschrift a ";
     $sqla.="LEFT JOIN aaa_ogr.ax_person p ON a.gml_id = ANY(p.hat) ";
     $sqla.="LEFT JOIN aaa_ogr.aa_anlassart aaa ON lpad(a.anlass[1], 6, '0') = aaa.id ";
@@ -125,6 +125,7 @@ if ($row = pg_fetch_array($res)) {
         $plz=str_pad($plz, 5, "0", STR_PAD_LEFT);
       }
 			$ort=htmlentities($rowa["ort_post"], ENT_QUOTES, "UTF-8");
+			$ortsteil=htmlentities($rowa["ortsteil"], ENT_QUOTES, "UTF-8");
 			$str=htmlentities($rowa["strasse"], ENT_QUOTES, "UTF-8");
 			$hsnr=$rowa["hausnummer"];
             $aanlass_bezeichnung=$rowa["anlass_bezeichnung"];
@@ -139,6 +140,7 @@ if ($row = pg_fetch_array($res)) {
 				echo "\t<tr><td class='nhd'>Hausnummer:</td><td class='nam'>".str_replace(' ', '', $hsnr)."</td></tr>\n";
 				echo "\t<tr><td class='nhd'>Postleitzahl:</td><td class='nam'>".$plz."</td></tr>\n";
 				echo "\t<tr><td class='nhd'>Ort:</td><td class='nam'>".$ort."</td></tr>\n";
+				echo "\t<tr><td class='nhd'>Ortsteil:</td><td class='nam'>".$ortsteil."</td></tr>\n";
 				echo "\t<tr><td class='nhd'>Land:</td><td class='nam'>".$land."</td></tr>\n";
                 echo "\t<tr><td class='nhd'>Metadaten:</td>";
                     echo "\t<td>Antrag:</td><td>".$aantrag."&nbsp;</td></tr>\n";
@@ -154,7 +156,7 @@ if ($row = pg_fetch_array($res)) {
 			echo "<img src='ico/Namen.ico' width='16' height='16' alt='Brief' title='Anschrift'>"; // Symbol "Brief"
 			echo "\n<div class='adr' title='Anschrift'>".$anr." ".$aka." ".$vor." ".$nbest." ".$nam."<br>";
 			echo "\n".$str." ".str_replace(' ', '', $hsnr)."<br>";
-			echo "\n".$plz." ".$ort."</div>";
+			echo "\n".$plz." ".$ort.", OT ".$ortsteil."</div>";
 		}
 	}
 	pg_free_result($resa);

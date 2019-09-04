@@ -275,7 +275,7 @@ function eigentuemer($con, $gmlid, $mitadresse, $lnkclass) {
 
 			if ($mitadresse) {
 				// Schleife 3:  A d r e s s e  (OPTIONAL)
-				$sqla ="SELECT DISTINCT a.gml_id, a.ort_post, a.postleitzahlpostzustellung AS plz, a.strasse, a.hausnummer, a.bestimmungsland ";
+				$sqla ="SELECT DISTINCT a.gml_id, a.ortsteil, a.ort_post, a.postleitzahlpostzustellung AS plz, a.strasse, a.hausnummer, a.bestimmungsland ";
 				$sqla.="FROM aaa_ogr.ax_anschrift a ";
                 $sqla.="JOIN aaa_ogr.ax_person p ON a.gml_id=ANY(p.hat) ";
 				$sqla.="WHERE p.gml_id = $1 AND a.endet IS NULL AND p.endet IS NULL;"; // ORDER?
@@ -298,6 +298,7 @@ function eigentuemer($con, $gmlid, $mitadresse, $lnkclass) {
 						$plz=str_pad($plz, 5, "0", STR_PAD_LEFT);
 					}
 					$ort=htmlentities($rowa["ort_post"], ENT_QUOTES, "UTF-8");
+          $ortsteil=htmlentities($rowa["ortsteil"], ENT_QUOTES, "UTF-8");
 					$str=htmlentities($rowa["strasse"], ENT_QUOTES, "UTF-8");
 					$hsnr=$rowa["hausnummer"];
 
@@ -306,7 +307,10 @@ function eigentuemer($con, $gmlid, $mitadresse, $lnkclass) {
 					if ($str.$hsnr != "") {
 						echo $str." ".str_replace(' ', '', $hsnr)."<br>";
 					}
-					if ($plz.$ort != "") {
+					if ($ortsteil != "") {
+						echo $plz." ".$ort.", OT ".$ortsteil;
+					}
+					else if ($plz.$ort != "") {
 						echo $plz." ".$ort;
 					}
 					if ($land != "" and $land != "DEUTSCHLAND") {
