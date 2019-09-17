@@ -141,6 +141,7 @@ class OlcSearch extends Element
         // Suche durchführen mittels cURL
         $curl = curl_init();
         $term = curl_escape($curl, $term);
+        $term = preg_replace("/%2B/", '+', $term);
         $url = $conf['url'] . 'query=' . $term . '&epsg_out=' . $conf['epsg_out'] . '&epsg_in=' . $epsg_in;
         curl_setopt($curl, CURLOPT_URL, $url); 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -183,6 +184,7 @@ class OlcSearch extends Element
             'MapbenderAlkisBundle:Element:resultsolc.html.twig',
             array(
                 'result' => $json,
+                'url' => $url,
                 'innerhalb' => $innerhalb,
                 'wkt' => $wkt
             )

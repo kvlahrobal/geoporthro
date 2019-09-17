@@ -8,7 +8,7 @@
             spatialSearchSrs: 'EPSG:4326'
         },
         firstTimeSearch: true,
-        hilfetext: 'Die Suche startet automatisch während der Eingabe. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste"><li>→ voller <i>Plus code</i> [Beispiele: <span>9F6J33VX+55</span>, <span>9F000000+</span> oder <span>9F6J33+</span>]</li><li>→ regionaler <i>Plus code</i> [Beispiele: <span>33VX+55, Rostock</span> oder <span>rostock,33VX+55</span>]</li><li>→ Koordinatenpaar in der Notation <span>x/Länge,y/Breite</span> [Beispiele: <span>310223,5997644</span> oder <span>12.098,54.092</span>]</li></ul>',
+        hilfetext: 'Die Suche startet automatisch während der Eingabe. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste"><li>→ voller <i>Plus code</i> [Beispiele: <span>9F6J33VX+55</span>, <span>9F000000+</span> oder <span>9F6J33</span>]</li><li>→ regionaler <i>Plus code</i> [Beispiele: <span>33VX+55, Rostock</span> oder <span>rostock 33VX+55</span>]</li><li>→ Koordinatenpaar in der Notation <span>x/Länge,y/Breite</span> [Beispiele: <span>310223,5997644</span> oder <span>12.098,54.092</span>]</li></ul>',
         line_style: {
             'strokeColor': '#cc00ff',
             'fillColor': '#cc00ff',
