@@ -512,8 +512,9 @@
                     li.find('ul:first').remove();
                 }
             }
-            if (li.find('ul.layers').length === 1) {
-                if (li.find('ul.layers > li').length === 1 && li.find('ul.layers > li').data('type') === 'simple' && li.find('ul.layers > li').data('title') === li.data('title')) {
+            // Achtung: enthält hart-codierte Hacks!!!
+            if (li.find('ul.layers').length === 1 || li.data('title') === 'Plan von Rostock 1911') {
+                if ((li.find('ul.layers > li').length === 1 && li.find('ul.layers > li').data('type') === 'simple' && li.find('ul.layers > li').data('title') === li.data('title')) || li.data('title') === 'Plan von Rostock 1911') {
                     li.removeClass('showLeaves').find('.iconFolder').removeClass('iconFolderActive').removeClass('iconFolder');
                     li.find('.iconOk').addClass('iconOkMarginLeft');
                 }
