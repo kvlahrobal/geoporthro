@@ -512,9 +512,30 @@
                     li.find('ul:first').remove();
                 }
             }
-            // Achtung: enthält hart-codierte Hacks!!!
-            if (li.find('ul.layers').length === 1 || li.data('title') === 'Plan von Rostock 1911') {
-                if ((li.find('ul.layers > li').length === 1 && li.find('ul.layers > li').data('type') === 'simple' && li.find('ul.layers > li').data('title') === li.data('title')) || li.data('title') === 'Plan von Rostock 1911') {
+            var thisTitle = li.data('title');
+            var thisSubs = li.find('ul.layers');
+            var thisSubsCount = thisSubs.length;
+            var thisFirstSub = li.find('ul.layers > li');
+            var thisFirstSubTitle = thisFirstSub.data('title');
+            var thisFirstSubType = thisFirstSub.data('type');
+            if (thisSubsCount === 1 || (thisSubsCount === 2 && thisFirstSubType === 'group' && thisFirstSubTitle === thisTitle)) {
+                var ok = true;
+                if (thisFirstSubType === 'simple') {
+                    thisSubs.find('li').each(function() {
+                        if ($(this).data('title') !== thisTitle) {
+                            ok = false;
+                            return false;
+                        }
+                    });
+                } else if (thisFirstSubType === 'group') {
+                    thisFirstSub.find('li').each(function() {
+                        if ($(this).data('title') !== thisTitle) {
+                            ok = false;
+                            return false;
+                        }
+                    });
+                }
+                if (ok) {
                     li.removeClass('showLeaves').find('.iconFolder').removeClass('iconFolderActive').removeClass('iconFolder');
                     li.find('.iconOk').addClass('iconOkMarginLeft');
                 }
