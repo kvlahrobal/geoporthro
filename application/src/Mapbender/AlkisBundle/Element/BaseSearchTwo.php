@@ -355,7 +355,7 @@ class BaseSearchTwo extends Element
             if (preg_match("/^[a-zäöüßÄÖÜ]+$/i", $val)) {
                 $result .= " AND (" . $val. '^20 OR ' . $val . '*^15';
                 
-                if(!preg_match('/^h+$/', $val) && !preg_match('/^i+$/', $val)) {
+                if(!preg_match('/^h+/', $val) && !preg_match('/^i+/', $val)) {
                     $result .= ' OR phonetic:' . $phonetic->encode($val) . '^1'
                     . ' OR phonetic:' . $phonetic->encode($val) . '*^0.5';
                 }

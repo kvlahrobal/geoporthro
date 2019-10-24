@@ -8,7 +8,7 @@
             spatialSearchSrs: 'EPSG:4326'
         },
         hilfetexte: {
-            allgemein: 'Die Suche startet automatisch während der Eingabe. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
+            allgemein: 'Die Suche startet automatisch während der Eingabe, und zwar ab dem dritten eingegebenen Zeichen. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
             addr: '<li>→ Gemeindename [Beispiel: <span>neubukow</span>]</li><li>→ Gemeindeteilname [Beispiele: <span>schmadebe</span> oder <span>büschow</span>]</li><li>→ Gemeindeteil als Kombination aus Gemeindename und Gemeindeteilname (Reihenfolge egal) [Beispiel: <span>lohmen nienhagen</span>]</li><li>→ Straßenname [Beispiel: <span>sportplatz</span>]</li><li>→ Straße als Kombination aus Gemeindename und Straßenname (Reihenfolge egal) [Beispiel: <span>sportplatz kröpelin</span>]</li><li>→ Adresse (Straße mit Hausnummer und eventuellem Hausnummernzusatz) [Beispiel: <span>sportplatz 6</span>]</li><li>→ Adresse (Straße mit Hausnummer und eventuellem Hausnummernzusatz) in Kombination mit Gemeindename und/oder Gemeindeteilname (Reihenfolge egal) [Beispiel: <span>kröpelin sportplatz 6</span> oder <span>sportplatz 6 schmade</span>]</li></ul><br/>Resultate können Gemeindeteile, Straßen und Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz) sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
             flur: '<li>→ Gemarkungsschlüssel [Beispiel: <span>2218</span>]</li><li>→ Gemarkungsname [Beispiel: <span>kasseb</span>]</li><li>→ Flur als Kombination aus Gemarkungsschlüssel und Flurnummer [Beispiel: <span>2222 flur 3</span>]</li><li>→ Flur als Kombination aus Gemarkungsname und Flurnummer [Beispiel: <span>evershagen 3</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Flurnummer, Zähler (und Nenner) [Beispiele: <span>2232 1 461</span> oder <span>2232 1 160/2</span> oder <span>krummen 1 461</span> oder <span>krummen 1 160/2</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Zähler (und Nenner) [Beispiele: <span>2232 461</span> oder <span>2232 160/2</span> oder <span>krummen 461</span> oder <span>krummen 160/2</span>]</li><li>→ Flurstück mittels Zähler und Nenner [Beispiele: <span>160/2</span> oder <span>12/20</span>]</li><li>→ Flurstück mittels Zähler [Beispiele: <span>160</span> oder <span>12</span>]</li></ul><br/>Resultate können Gemarkungen, Fluren und Flurstücke sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.'
         },
@@ -158,16 +158,20 @@
         },
         _findOnKeyup: function (e) {
             var self = this;
+            
+            if ($('#search-two', self.element).val().length > 2) {
 
-            if (typeof self.options.timeoutId !== 'undefined') {
-                window.clearTimeout(self.options.timeoutId);
+                if (typeof self.options.timeoutId !== 'undefined') {
+                    window.clearTimeout(self.options.timeoutId);
+                }
+
+                self.options.timeoutId = window.setTimeout(function () {
+                    self.options.timeoutId = undefined;
+                    $('#page-two', this.element).val(1);
+                    self._find();
+                }, self.options.timeoutDelay);
+
             }
-
-            self.options.timeoutId = window.setTimeout(function () {
-                self.options.timeoutId = undefined;
-                $('#page-two', this.element).val(1);
-                self._find();
-            }, self.options.timeoutDelay);
         },
         _find: function (terms) {
             var self = this;

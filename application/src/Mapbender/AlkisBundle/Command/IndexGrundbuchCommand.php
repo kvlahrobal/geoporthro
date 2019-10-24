@@ -6,7 +6,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Mapbender\AlkisBundle\Component\ColognePhonetic;
 
 use ARP\SolrClient2\SolrClient;
 
@@ -37,7 +36,6 @@ class IndexGrundbuchCommand extends ContainerAwareCommand
 
         
         $type = 'grund';
-        $phonetic = ColognePhonetic::singleton();
         
         $solr = new SolrClient(
             $this->getContainer()->getParameter('solr')
@@ -82,7 +80,7 @@ class IndexGrundbuchCommand extends ContainerAwareCommand
                 $doc->text = $this->concat(
                     $row['schluesselgesamt'],
                     $row['bezirkname'],
-                    $phonetic->encode($row['bezirkname']),
+                    $row['bezirkname'],
                     $row['bezirk'],
                     $row['flurstueckskennzeichen'],
                     $row['gb_blatt'],

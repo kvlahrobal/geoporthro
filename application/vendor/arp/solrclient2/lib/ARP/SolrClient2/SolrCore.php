@@ -265,7 +265,7 @@ class SolrCore extends CurlBrowser
     protected function solrSelect($params)
     {
         $this->content = http_build_query($params);
-        $this->content = preg_replace('/%5B([\d]{1,2})%5D=/', '=', $this->content);
+        //$this->content = preg_replace('/%5B([\d]{1,2})%5D=/', '=', $this->content);
 
         $response = $this->httpPost(
             $this->generateURL('select'),
