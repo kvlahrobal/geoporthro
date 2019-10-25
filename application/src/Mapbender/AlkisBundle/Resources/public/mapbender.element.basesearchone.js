@@ -8,7 +8,9 @@
             spatialSearchSrs: 'EPSG:4326'
         },
         hilfetexte: {
-            allgemein: 'Die Suche startet automatisch während der Eingabe, und zwar ab dem dritten eingegebenen Zeichen. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
+            allgemein_eins: 'Die Suche startet automatisch während der Eingabe. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
+            allgemein_zwei: 'Die Suche startet automatisch während der Eingabe, und zwar ab dem <i>zweiten</i> eingegebenen Zeichen. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
+            allgemein_drei: 'Die Suche startet automatisch während der Eingabe, und zwar ab dem <i>dritten</i> eingegebenen Zeichen. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
             addr: '<li>→ Ortsteilname [Beispiele: <span>schmarl</span> oder <span>brinckmans</span>]</li><li>→ Straßenname [Beispiele: <span>wagner</span> oder <span>holbei</span>]</li><li>→ Adresse (Straße mit Hausnummer und eventuellem Hausnummernzusatz) [Beispiele: <span>riga 19</span> oder <span>löns 14a</span>]</li></ul><br/>Resultate können Ortsteile, Straßen, Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz) und historische Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz sowie Angabe des Datums, an dem die Adresse historisch wurde) sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
             eigen: '<li>→ Vorname [Beispiel: <span>jürg</span>]</li><li>→ Nachname [Beispiel: <span>schmi</span>]</li><li>→ Kombination aus Vor- und Nachname (Reihenfolge egal) [Beispiel: <span>schmi jürg</span>]</li><li>→ Bezeichnung (bei Firmen, Organisationen etc.) [Beispiel: <span>carit</span>]</li></ul>',
             flur: '<li>→ Gemarkungsschlüssel [Beispiel: <span>2218</span>]</li><li>→ Gemarkungsname [Beispiel: <span>kasseb</span>]</li><li>→ Flur als Kombination aus Gemarkungsschlüssel und Flurnummer [Beispiel: <span>2222 flur 3</span>]</li><li>→ Flur als Kombination aus Gemarkungsname und Flurnummer [Beispiel: <span>evershagen 3</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Flurnummer, Zähler (und Nenner) [Beispiele: <span>2232 1 461</span> oder <span>2232 1 160/2</span> oder <span>krummen 1 461</span> oder <span>krummen 1 160/2</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Zähler (und Nenner) [Beispiele: <span>2232 461</span> oder <span>2232 160/2</span> oder <span>krummen 461</span> oder <span>krummen 160/2</span>]</li><li>→ Flurstück mittels Zähler und Nenner [Beispiele: <span>160/2</span> oder <span>12/20</span>]</li><li>→ Flurstück mittels Zähler [Beispiele: <span>160</span> oder <span>12</span>]</li></ul><br/>Resultate können Gemarkungen, Fluren und Flurstücke sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
@@ -111,15 +113,15 @@
             $('#search', this.element).val('');
             $('#searchResults', this.element).remove();
             if (search === 'addr') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.addr));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_drei.concat(this.hilfetexte.addr));
             } else if (search === 'eigen') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.eigen));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.eigen));
             } else if (search === 'flur') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.flur));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.flur));
             } else if (search === 'grund') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.grund));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_eins.concat(this.hilfetexte.grund));
             } else if (search === 'schiffe') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.schiffe));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_eins.concat(this.hilfetexte.schiffe));
             }
         },
         _clearSearch: function () {
@@ -130,15 +132,15 @@
             $('#searchResults', this.element).remove();
             var search = $('#search-select', this.element).val();
             if (search === 'addr') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.addr));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_drei.concat(this.hilfetexte.addr));
             } else if (search === 'eigen') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.eigen));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.eigen));
             } else if (search === 'flur') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.flur));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.flur));
             } else if (search === 'grund') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.grund));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_eins.concat(this.hilfetexte.grund));
             } else if (search === 'schiffe') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.schiffe));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_eins.concat(this.hilfetexte.schiffe));
             }
         },
         _resetSearch: function () {
@@ -148,15 +150,15 @@
             $('#searchResults', this.element).remove();
             var search = $('#search-select', this.element).val();
             if (search === 'addr') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.addr));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_drei.concat(this.hilfetexte.addr));
             } else if (search === 'eigen') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.eigen));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.eigen));
             } else if (search === 'flur') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.flur));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.flur));
             } else if (search === 'grund') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.grund));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_eins.concat(this.hilfetexte.grund));
             } else if (search === 'schiffe') {
-                $('.basesearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.schiffe));
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_eins.concat(this.hilfetexte.schiffe));
             }
         },
         _zoomToTarget: function (point) {
@@ -209,7 +211,8 @@
         _findOnKeyup: function (e) {
             var self = this;
             
-            if ($('#search', self.element).val().length > 2) {
+            var search = $('#search-select', this.element).val();
+            if ((search === 'addr' && $('#search', self.element).val().length > 2) || ((search === 'eigen' || search === 'flur') && $('#search', self.element).val().length > 1) || (search !== 'addr' && search !== 'eigen' && search !== 'flur')) {
 
                 if (typeof self.options.timeoutId !== 'undefined') {
                     window.clearTimeout(self.options.timeoutId);
