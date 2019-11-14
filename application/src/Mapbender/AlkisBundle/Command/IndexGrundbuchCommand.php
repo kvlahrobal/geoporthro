@@ -121,14 +121,4 @@ class IndexGrundbuchCommand extends ContainerAwareCommand
     {
         return implode(" ", array_filter(func_get_args()));
     }
-
-    public function prepairFlurstueckskennzeichen($f)
-    {
-        return
-            '(' . substr($f, 0, 2) . ') '
-            . substr($f, 2, 4) . '-'
-            . substr($f, 6, 3) . '-'
-            . substr($f, 9, 5) . (substr($f, 14) != "" ? '/' : '')
-            . substr($f, 14);
-    }
 }
