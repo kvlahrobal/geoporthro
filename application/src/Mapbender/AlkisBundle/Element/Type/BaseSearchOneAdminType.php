@@ -49,6 +49,7 @@ class BaseSearchOneAdminType extends AbstractType
                     "eigen" => "Eigentümer",
                     "flur" => "Flurstücke",
                     "grund" => "Grundbuchblätter",
+                    "risse_fst" => "Risse zu Flurstücken",
                     "schiffe" => "Schiffssuche Hanse Sail"))
             )
             ->add('target', 'target_element',

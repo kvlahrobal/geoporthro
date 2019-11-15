@@ -248,10 +248,25 @@ class BaseSearchOne extends Element
                 ->orderBy('label', 'asc');
             
             // Suchresultat verarbeiten
-            $result = $solr
-                ->numericWildcard(true)
-                ->wildcardMinStrlen(0)
-                ->find(null, $this->addPhonetic($term));
+            if ($type === 'risse_fst') {
+                // Suchwort manipulieren
+                $term = strtolower($term);
+                if (strpos($term, "-") !== false)
+                    $term = str_replace("-", "", $term);
+                if (strpos($term, "/") !== false)
+                    $term = str_replace("/", "", $term);
+                $result = $solr
+                    ->numericWildcard(true)
+                    ->wildcardMinStrlen(0)
+                    // ohne Phonetik
+                    ->find(null, $this->withoutPhonetic($term));
+            } else {
+                $result = $solr
+                    ->numericWildcard(true)
+                    ->wildcardMinStrlen(0)
+                    // mit Phonetik
+                    ->find(null, $this->addPhonetic($term));
+            }
         }
         
         // Übergabe des Suchresultats sowie weiterer (für die Pagination beim Suchtyp geocodr-Suche benötigter) Parameter an Template
@@ -321,6 +336,25 @@ class BaseSearchOne extends Element
                 $result .= ")";
             } else {
                 $result .= " AND (" . $val. '^2' . " OR " . $val . "*^1)";
+            }
+        }
+
+        return substr(trim($result), 3);
+    }
+
+    public function withoutPhonetic($string)
+    {
+        $result = "";
+
+        $array = array_filter(
+            explode(" ", preg_replace("/[^-a-zäöüßÄÖÜ0-9]/i", " ", $string))
+        );
+
+        foreach ($array as $val) {
+            if (preg_match("/^[a-zäöüßÄÖÜ]+$/i", $val)) {
+                $result .= " AND (" . $val. "^2" . " OR " . $val . "*^15)";
+            } else {
+                $result .= " AND (" . $val. "^2" . " OR " . $val . "*^1)";
             }
         }
 

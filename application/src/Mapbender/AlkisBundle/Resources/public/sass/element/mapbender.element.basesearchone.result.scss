@@ -19,6 +19,9 @@
     cursor:pointer;
     margin-bottom: 5px;
   }
+  .unclickable{
+    margin-bottom: 5px;
+  }
   .even {
     color: rgba(100, 100, 100, 0.7);
   }
@@ -27,6 +30,14 @@
   }
   .noPage{color:$thirdColor;}
   .document, .eigen, .grund{@extend .subTitle;}
+  .subdocument {
+    margin-top: -5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
+  .subdocument span {
+    cursor:pointer;
+  }
 }
 
 /* PAGING */

@@ -66,8 +66,10 @@ class IndexAuftragsverwaltungCommand extends ContainerAwareCommand
                  auftrag_art,
                  substring(auftrag_nummer from 3) AS auftrag_nummer_georg,
                  auftrag_nummer AS auftrag_nummer_hybrid,
-                 substring(auftrag_nummer for 4) || lpad(regexp_replace(auftrag_nummer, '^.*[A-Z]+', ''), 5, '0') AS auftrag_nummer_lah,
-                 substring(riss for 4) AS riss_gemarkung,
+                 CASE
+                  WHEN auftrag_art = 'K' THEN substring(auftrag_nummer for 4) || lpad(regexp_replace(auftrag_nummer, '^.*[A-Z]+', ''), 5, '0')
+                  ELSE NULL::text
+                 END AS auftrag_nummer_lah,
                  array_to_string(dokumente, ',') AS dokumente,
                  ST_AsText(ST_Centroid(geometrie)) AS geom,
                  ST_AsText(geometrie) AS wktgeom
@@ -88,7 +90,6 @@ class IndexAuftragsverwaltungCommand extends ContainerAwareCommand
                     $row['auftrag_nummer_georg'],
                     $row['auftrag_nummer_hybrid'],
                     $row['auftrag_nummer_lah'],
-                    $row['riss_gemarkung'],
                     $row['dokumente']
                 );
 
@@ -101,7 +102,6 @@ class IndexAuftragsverwaltungCommand extends ContainerAwareCommand
                         'auftrag_nummer_georg'  => $row['auftrag_nummer_georg'],
                         'auftrag_nummer_hybrid' => $row['auftrag_nummer_hybrid'],
                         'auftrag_nummer_lah'    => $row['auftrag_nummer_lah'],
-                        'riss_gemarkung'        => $row['riss_gemarkung'],
                         'dokumente'             => $row['dokumente']
                     ),
                     'x'      => $x,

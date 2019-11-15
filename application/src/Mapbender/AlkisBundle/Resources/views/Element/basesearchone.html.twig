@@ -14,6 +14,8 @@
             <option value="grund"{% if loop.first %} selected="true" {% endif %}>{{ 'Grundbuchblätter' | trans }}</option>
           {% elseif opt == 'schiffe' %}
             <option value="schiffe"{% if loop.first %} selected="true" {% endif %}>{{ 'Schiffssuche Hanse Sail' | trans }}</option>
+          {% elseif opt == 'risse_fst' %}
+            <option value="risse_fst"{% if loop.first %} selected="true" {% endif %}>{{ 'Risse zu Flurstücken' | trans }}</option>
           {% endif %}
         {% endfor %}
         </select>
