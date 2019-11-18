@@ -258,6 +258,11 @@
         },
         _find: function (terms) {
             var self = this;
+            if ($('#opr-search-select option[value="risse_fst"]').length) {
+                var risseFstLink = 1;
+            } else {
+                var risseFstLink = 0;
+            }
             $.ajax({
                 url: Mapbender.configuration.application.urls.element + '/' + this.element.attr('id') + '/search',
                 type: 'POST',
@@ -265,6 +270,7 @@
                     term: $('#search', self.element).val(),
                     page: $('#page', self.element).val(),
                     type: $("#" + $(self.element).attr('id') + " select").val(),
+                    risse_fst_link: risseFstLink,
                 },
                 dataType: 'text',
                 contetnType: 'text/html',

@@ -142,6 +142,7 @@ class BaseSearchOne extends Element
     {
         // für beide Suchtypen benötigte Parameter einlesen
         $type = $this->container->get('request')->get('type', 'flur');
+        $risse_fst_link = $this->container->get('request')->get('risse_fst_link', 0);
         $term = $this->container->get('request')->get('term', null);
         $page = $this->container->get('request')->get('page', 1);
         
@@ -275,6 +276,7 @@ class BaseSearchOne extends Element
             array(
                 'result'         => $result,
                 'type'           => $type,
+                'risse_fst_link' => $risse_fst_link,
                 'results'        => $results,
                 'pages'          => $pages,
                 'currentPage'    => $page,
