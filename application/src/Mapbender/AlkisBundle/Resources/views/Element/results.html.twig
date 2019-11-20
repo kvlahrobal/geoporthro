@@ -30,12 +30,12 @@
                     <div title="ALKIS-Auskunft zu Eigentümer erhalten"
                 {% elseif type == 'grund' %}
                     <div title="ALKIS-Auskunft zu Grundbuchblatt erhalten"
-                {% elseif type == 'risse_fst' %}
+                {% elseif type == 'risse_fst' or (json.geom is defined and json.geom == '') or (json.x is defined and json.x == '') %}
                     <div
                 {% else %}
                     <div title="Karte auf Objekt zoomen und Objekt in Karte markieren"
                 {% endif %}
-                {% if type == 'risse_fst' %}
+                {% if type == 'risse_fst' or (json.geom is defined and json.geom == '') or (json.x is defined and json.x == '') %}
                     class="unclickable
                 {% else %}
                     {% if loop.index is odd %}

@@ -53,7 +53,7 @@ class IndexAuftragsverwaltungCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Auftragsverwaltung fuer HRO-Auftragsverwaltungssuche ... ');
 
 
-        $stmt = $conn->query("SELECT count(*) AS count FROM regis.auftragsverwaltung WHERE auftrag_art IN ('A', 'E', 'G', 'K', 'M', 'V')");
+        $stmt = $conn->query("SELECT sum(count) AS count FROM (SELECT count(*) AS count FROM regis.auftragsverwaltung WHERE auftrag_art IN ('A', 'E', 'G', 'K', 'M', 'V') UNION SELECT count(*) AS count FROM alkis.dokumente_zu_altauftraegen) AS tabelle");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
@@ -75,7 +75,17 @@ class IndexAuftragsverwaltungCommand extends ContainerAwareCommand
                  ST_AsText(geometrie) AS wktgeom
                   FROM regis.auftragsverwaltung
                    WHERE auftrag_art IN ('A', 'E', 'G', 'K', 'M', 'V')
-                    ORDER BY id
+                UNION SELECT
+                 0::smallint AS erledigt,
+                 'K',
+                 substring(auftrag_nummer from 3) AS auftrag_nummer_georg,
+                 auftrag_nummer AS auftrag_nummer_hybrid,
+                 substring(auftrag_nummer for 4) || lpad(regexp_replace(auftrag_nummer, '^.*[A-Z]+', ''), 5, '0') AS auftrag_nummer_lah,
+                 array_to_string(dokumente, ',') AS dokumente,
+                 NULL AS geom,
+                 NULL AS wktgeom
+                  FROM alkis.dokumente_zu_altauftraegen
+                    ORDER BY auftrag_nummer_georg
                      LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
