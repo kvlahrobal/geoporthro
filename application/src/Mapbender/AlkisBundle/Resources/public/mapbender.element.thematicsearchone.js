@@ -20,6 +20,7 @@
             ingenieurbauwerke: true,
             kleingartenanlagen: true,
             leuchten: true,
+            leuchtenschalteinrichtungen: true,
             lichtsignalanlagen: true,
             mietenpachten: true,
             spielgeraete: true,
@@ -39,6 +40,7 @@
             ingenieurbauwerke: '<li>→ Art [Beispiel: <span>Brücke</span>]</li><li>→ ASB-Nummer [Beispiele: <span>1938:523</span> oder <span>523</span>]</li><li>→ interne Bauwerksnummer [Beispiel: <span>bw 108</span>]</li></ul>',
             kleingartenanlagen: '<li>→ Bezeichnung [Beispiel: <span>helsin</span>]</li></ul>',
             leuchten: '<li>→ Nummer des Leuchtentragsystems [Beispiel: <span>055-01-2-6</span>]</li><li>→ MSLINK des Leuchtentragsystems [Beispiel: <span>7725660</span>]</li><li>→ Nummer der Leuchte [Beispiel: <span>106-33-4-5</span>]</li><li>→ MSLINK der Leuchte [Beispiel: <span>3058105</span>]</li></ul>',
+            leuchtenschalteinrichtungen: '<li>→ Bezeichnung der Leuchtenschalteinrichtung [Beispiel: <span>S 107-13</span>]</li><li>→ MSLINK der Leuchtenschalteinrichtung [Beispiel: <span>853138</span>]</li></ul>',
             lichtsignalanlagen: '<li>→ Nummer [Beispiel: <span>LSA 303</span>]</li><li>→ Bezeichnung [Beispiel: <span>goetheplatz</span>]</li><li>→ Knoten-Nummer [Beispiel: <span>422</span>]</li></ul>',
             mietenpachten: '<li>→ Aktenzeichen [Beispiel: <span>2341l04</span>]</li></ul><br/>Es werden je Aktenzeichen immer sowohl die Teilflächen als auch die Gesamtfläche gelistet.',
             spielgeraete: '<li>→ Bezirk [Beispiel: <span>19</span>]</li><li>→ Objektnummer [Beispiele: <span>1100/02</span> oder <span>1100</span>]</li><li>→ Objektbezeichnung [Beispiel: <span>park am fi</span>]</li><li>→ Objektart [Beispiel: <span>ballspielan</span>]</li><li>→ Pflegeeinheit [Beispiel: <span>8313</span>]</li><li>→ Nummer als Kombination aus Bezirk, Objektnummer und Nummer (Reihenfolge egal) [Beispiel: <span>19 1100 10</span>]</li><li>→ Nummer als Kombination aus Bezirk, Objektbezeichnung und Nummer (Reihenfolge egal) [Beispiel: <span>19 wallanlagen 10</span>]</li></ul>',
@@ -128,6 +130,9 @@
             else if (search === 'leuchten') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchten));
             }
+            else if (search === 'leuchtenschalteinrichtungen') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchtenschalteinrichtungen));
+            }
             else if (search === 'lichtsignalanlagen') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.lichtsignalanlagen));
             }
@@ -192,6 +197,10 @@
             else if (search === 'leuchten') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchten));
                 this.firstTimeSearch.leuchten = true;
+            }
+            else if (search === 'leuchtenschalteinrichtungen') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchtenschalteinrichtungen));
+                this.firstTimeSearch.leuchtenschalteinrichtungen = true;
             }
             else if (search === 'lichtsignalanlagen') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.lichtsignalanlagen));
@@ -262,6 +271,10 @@
             else if (search === 'leuchten') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchten));
                 this.firstTimeSearch.leuchten = true;
+            }
+            else if (search === 'leuchtenschalteinrichtungen') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.leuchtenschalteinrichtungen));
+                this.firstTimeSearch.leuchtenschalteinrichtungen = true;
             }
             else if (search === 'lichtsignalanlagen') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.lichtsignalanlagen));
@@ -564,6 +577,15 @@
                         layertreeLayerCheckbox.change();
                     }
                     this.firstTimeSearch.leuchten = false;
+                    break;
+                case 'leuchtenschalteinrichtungen':
+                    if (this.firstTimeSearch.leuchtenschalteinrichtungen === true) {
+                        var layertreeLayerContainer = $('li[data-type="simple"][data-title="Leuchtenschalteinrichtungen"]');
+                        var layertreeLayerCheckbox = $('input[name="selected"]:first', layertreeLayerContainer);
+                        layertreeLayerCheckbox.prop('checked', true);
+                        layertreeLayerCheckbox.change();
+                    }
+                    this.firstTimeSearch.leuchtenschalteinrichtungen = false;
                     break;
                 case 'lichtsignalanlagen':
                     if (this.firstTimeSearch.lichtsignalanlagen === true) {

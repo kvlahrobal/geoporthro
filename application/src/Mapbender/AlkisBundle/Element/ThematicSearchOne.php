@@ -143,14 +143,14 @@ class ThematicSearchOne extends Element
             ->where('type', $type);
         
         // Sortierung
-        if ($type !== 'leuchten' && $type !== 'lichtsignalanlagen') {
+        if ($type !== 'leuchten' && $type !== 'leuchtenschalteinrichtungen' && $type !== 'lichtsignalanlagen') {
             $solr->orderBy('score desc, label', 'asc');
         } else {
             $solr->orderBy('label', 'asc');
         }
         
         // tatsächliche Suche
-        if ($type === 'leuchten' || $type === 'lichtsignalanlagen') {
+        if ($type === 'leuchten' || $type === 'leuchtenschalteinrichtungen' || $type === 'lichtsignalanlagen') {
             $result = $solr
                 ->numericWildcard(true)
                 ->wildcardMinStrlen(0)

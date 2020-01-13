@@ -56,6 +56,7 @@ class ThematicSearchOneAdminType extends AbstractType
                     "ingenieurbauwerke" => "Ingenieurbauwerke",
                     "kleingartenanlagen" => "Kleingartenanlagen",
                     "leuchten" => "Leuchten",
+                    "leuchtenschalteinrichtungen" => "Leuchtenschalteinrichtungen",
                     "lichtsignalanlagen" => "Lichtsignalanlagen",
                     "mietenpachten" => "Mieten und Pachten",
                     "spielgeraete" => "Spielgeräte",

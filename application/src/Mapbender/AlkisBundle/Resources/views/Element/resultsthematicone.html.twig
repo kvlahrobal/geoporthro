@@ -24,6 +24,7 @@
              {% elseif type == 'ingenieurbauwerke'%} ingenieurbauwerke document
              {% elseif type == 'kleingartenanlagen' %} kleingartenanlagen document
              {% elseif type == 'leuchten' %} leuchten document
+             {% elseif type == 'leuchtenschalteinrichtungen' %} leuchtenschalteinrichtungen document
              {% elseif type == 'lichtsignalanlagen' %} lichtsignalanlagen document
              {% elseif type == 'mietenpachten' %} mietenpachten document
              {% elseif type == 'spielgeraete' %} spielgeraete document
@@ -61,6 +62,8 @@
                 {{ json.data.bezeichnung }}
             {% elseif type == 'leuchten' and json.data.type == 'leuchten' %}
                 Leuchtentragsystem: {{ json.data.tragsystem_nummer }}, {{ json.data.tragsystem_mslink }}; Leuchte: {{ json.data.nummer }}{% if json.data.nummer_zusatz is defined and json.data.bezeichnung != null%}, {{ json.data.nummer_zusatz }}{% endif %}, {{ json.data.mslink }}
+            {% elseif type == 'leuchtenschalteinrichtungen' and json.data.type == 'leuchtenschalteinrichtungen' %}
+                {{ json.data.bezeichnung }}, {{ json.data.mslink }}
             {% elseif type == 'lichtsignalanlagen' and json.data.type == 'lichtsignalanlagen' %}
                 {{ json.data.nummer }}{% if json.data.bezeichnung is defined and json.data.bezeichnung != null%}, {{ json.data.bezeichnung }}{% endif %}{% if json.data.knoten_nummer is defined and json.data.knoten_nummer != null%}, {{ json.data.knoten_nummer }}{% endif %}
             {% elseif type == 'mietenpachten' and json.data.type == 'mietenpachten' %}
