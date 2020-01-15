@@ -131,7 +131,14 @@
         _findSuccess: function(response, textStatus, jqXHR) {
             var result = JSON.parse(response);
             if (result) {
-                var iframe = this._getIframeDeclaration(Mapbender.Util.UUID(), this.options.infourl + '?gmlid=' + result.properties.id_fachsystem);
+                if (result.properties.id_alkis && !result.properties.id_fachsystem) {
+                    var gmlid = result.properties.id_alkis;
+                } else if (!result.properties.id_alkis && result.properties.id_fachsystem) {
+                    var gmlid = result.properties.id_fachsystem;
+                } else {
+                    var gmlid = '';
+                }
+                var iframe = this._getIframeDeclaration(Mapbender.Util.UUID(), this.options.infourl + '?gmlid=' + gmlid);
                 this._getContext().html(iframe);
             } else {
                 Mapbender.info('ALKIS-Auskunft: kein Abfrageresultat');

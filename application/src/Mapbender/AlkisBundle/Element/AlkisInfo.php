@@ -210,7 +210,7 @@ class AlkisInfo extends Element
             // alle Features des Suchresultats durchgehen…
             foreach ($features as $key=>$feature) {
                 // …und erstes passendes Feature als gewünschte Feature speichern
-                if ($feature['properties']['objektgruppe'] === 'Flurstück HRO' && !$feature['properties']['gueltigkeit_bis']) {
+                if ($feature['properties']['objektgruppe'] === 'Flurstück HRO' && !$feature['properties']['historisch_seit'] && !$feature['properties']['gueltigkeit_bis']) {
                     $result = $feature;
                     break;
                 }
