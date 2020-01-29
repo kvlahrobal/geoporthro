@@ -53,18 +53,19 @@ class IndexWirtschaftseinheitenWiroCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Wirtschaftseinheiten fuer WIRO-Wirtschaftseinheitensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM alkis.wirtschaftseinheiten_wiro');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.wiro_wirtschaftseinheiten');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT nummer,
-                adressen,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM alkis.wirtschaftseinheiten_wiro
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 nummer,
+                 adressen,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.wiro_wirtschaftseinheiten
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
