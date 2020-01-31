@@ -55,50 +55,57 @@ class IndexAnundverkaufCommand extends ContainerAwareCommand
         $output->writeln('Indiziere An- und Verkauf fuer HRO-Suche nach An- und Verkauf ... ');
 
 
-        $stmt = $conn->query("SELECT sum(count) AS count FROM (SELECT count(*) FROM regis.realnutzungsarten WHERE realnutzungsarten LIKE '%Ankauf%' OR realnutzungsarten LIKE '%ED%' OR realnutzungsarten = 'KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%' OR realnutzungsarten LIKE '%UV%' UNION SELECT count(*) FROM regis.an_verkauf WHERE realnutzungsarten LIKE '%Ankauf%' OR realnutzungsarten = 'KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%') AS tabelle");
+        $stmt = $conn->query("SELECT count(*) FROM (SELECT uuid FROM fachdaten_flurstuecksbezug.realnutzungsarten_regis_hro WHERE realnutzungsarten ~ 'Ankauf' OR realnutzungsarten ~ 'ED' OR realnutzungsarten = 'KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ '\,KG$' OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ 'KG\,' OR realnutzungsarten ~ 'UV' UNION SELECT uuid FROM fachdaten_flurstuecksbezug.an_und_verkauf_regis_hro WHERE realnutzungsarten ~ 'Ankauf' OR realnutzungsarten = 'KG' OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ '\,KG$' OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ 'KG\,' OR realnutzungsarten = 'SO' OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ '\,SO$' OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ 'SO\,') AS tabelle");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT gemarkung_name,
-                gemarkung_schluessel,
-                substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
-                substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
-                flur::int AS flur_kurz,
-                zaehler::int AS zaehler_kurz,
-                nenner::int AS nenner_kurz,
-                flurstueckskennzeichen,
-                anundverkauf_aktenzeichen,
-                realnutzungsarten,
-                anundverkauf_bemerkung,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.realnutzungsarten
-                WHERE realnutzungsarten LIKE '%Ankauf%'
-                OR realnutzungsarten LIKE '%ED%'
-                OR realnutzungsarten = 'KG'
-                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG'
-                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%'
-                OR realnutzungsarten LIKE '%UV%'
-                UNION SELECT gemarkung_name,
-                gemarkung_schluessel,
-                substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
-                substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
-                flur::int AS flur_kurz,
-                zaehler::int AS zaehler_kurz,
-                nenner::int AS nenner_kurz,
-                flurstueckskennzeichen,
-                anundverkauf_aktenzeichen,
-                realnutzungsarten,
-                anundverkauf_bemerkung,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.an_verkauf
-                WHERE realnutzungsarten LIKE '%Ankauf%'
-                OR realnutzungsarten = 'KG'
-                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%,KG'
-                OR regexp_replace(realnutzungsarten, ' ', '', 'g') LIKE '%KG,%'
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 uuid,
+                 gemarkung_name,
+                 gemarkung_schluessel,
+                 substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
+                 substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
+                 flur::int AS flur_kurz,
+                 zaehler::int AS zaehler_kurz,
+                 nenner::int AS nenner_kurz,
+                 flurstueckskennzeichen,
+                 aktenzeichen_anundverkauf AS aktenzeichen,
+                 bemerkungen_anundverkauf AS bemerkungen,
+                 realnutzungsarten,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten_flurstuecksbezug.realnutzungsarten_regis_hro
+                   WHERE realnutzungsarten ~ 'Ankauf'
+                   OR realnutzungsarten ~ 'ED'
+                   OR realnutzungsarten = 'KG'
+                   OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ '\,KG$'
+                   OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ 'KG\,'
+                   OR realnutzungsarten ~ 'UV'
+                UNION SELECT
+                 uuid,
+                 gemarkung_name,
+                 gemarkung_schluessel,
+                 substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
+                 substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
+                 flur::int AS flur_kurz,
+                 zaehler::int AS zaehler_kurz,
+                 nenner::int AS nenner_kurz,
+                 flurstueckskennzeichen,
+                 aktenzeichen,
+                 bemerkungen,
+                 realnutzungsarten,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten_flurstuecksbezug.an_und_verkauf_regis_hro
+                   WHERE realnutzungsarten ~ 'Ankauf'
+                   OR realnutzungsarten = 'KG'
+                   OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ '\,KG$'
+                   OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ 'KG\,'
+                   OR realnutzungsarten = 'SO'
+                   OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ '\,SO$' OR regexp_replace(realnutzungsarten, ' ', '', 'g') ~ 'SO\,'
+                    ORDER BY uuid
+                     LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
@@ -107,27 +114,27 @@ class IndexAnundverkaufCommand extends ContainerAwareCommand
                 $doc->id = $type . '_' . ++$id;
                 $doc->text = $this->concat(
                     $row['nenner_kurz'] . ' ' . $row['zaehler_kurz'] . ' ' . $row['flur_kurz'] . ' ' . $row['gemarkung_schluessel_kurz'] . ' ' . $row['gemarkung_schluessel'] . ' ' . $row['gemarkung_name'],
-                    $row['anundverkauf_aktenzeichen'],
-                    $row['realnutzungsarten'],
-                    $row['anundverkauf_bemerkung']
+                    $row['aktenzeichen'],
+                    $row['bemerkungen'],
+                    $row['realnutzungsarten']
                 );
                 
                 $doc->phonetic = $this->addPhonetic($this->concat(
                     $row['nenner_kurz'] . ' ' . $row['zaehler_kurz'] . ' ' . $row['flur_kurz'] . ' ' . $row['gemarkung_schluessel_kurz'] . ' ' . $row['gemarkung_schluessel'] . ' ' . $row['gemarkung_name'],
-                    $row['anundverkauf_aktenzeichen'],
-                    $row['realnutzungsarten'],
-                    $row['anundverkauf_bemerkung']
+                    $row['aktenzeichen'],
+                    $row['bemerkungen'],
+                    $row['realnutzungsarten']
                 ));
 
-                $doc->label = "1".$row['flurstueckskennzeichen'].$row['anundverkauf_aktenzeichen'].$row['realnutzungsarten'].$row['anundverkauf_bemerkung'];
+                $doc->label = "1".$row['flurstueckskennzeichen'].$row['aktenzeichen'].$row['bemerkungen'].$row['realnutzungsarten'];
 
                 $doc->json = json_encode(array(
                     'data'   => array(
-                        'type'                                  => $type,
-                        'flurstueckskennzeichen'                => $row['flurstueckskennzeichen'],
-                        'anundverkauf_aktenzeichen'             => $row['anundverkauf_aktenzeichen'],
-                        'realnutzungsarten'                     => $row['realnutzungsarten'],
-                        'anundverkauf_bemerkung'                => $row['anundverkauf_bemerkung']
+                        'type'                   => $type,
+                        'flurstueckskennzeichen' => $row['flurstueckskennzeichen'],
+                        'aktenzeichen'           => $row['aktenzeichen'],
+                        'bemerkungen'            => $row['bemerkungen'],
+                        'realnutzungsarten'      => $row['realnutzungsarten']
                     ),
                     'x'      => $x,
                     'y'      => $y,

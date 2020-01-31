@@ -55,29 +55,32 @@ class IndexAnlagevermoegenDerEigenbetriebeCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Anlagevermögen der Eigenbetriebe fuer HRO-Suche nach Anlagevermögen der Eigenbetriebe ... ');
 
 
-        $stmt = $conn->query("SELECT count(*) AS count FROM regis.realnutzungsarten WHERE realnutzungsarten LIKE '%BV%'");
+        $stmt = $conn->query("SELECT count(*) AS count FROM fachdaten_flurstuecksbezug.realnutzungsarten_regis_hro WHERE realnutzungsarten ~ 'BV'");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT gemarkung_name,
-                gemarkung_schluessel,
-                substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
-                substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
-                flur::int AS flur_kurz,
-                zaehler::int AS zaehler_kurz,
-                nenner::int AS nenner_kurz,
-                flurstueckskennzeichen,
-                vermoegensbewertung_aktenzeichen,
-                regexp_replace(vermoegensbewertung_aktenzeichen, '(\.|-)', '', 'g') AS vermoegensbewertung_aktenzeichen_ohne_sonderzeichen,
-                regexp_replace(vermoegensbewertung_aktenzeichen, '(\.|-)', ' ', 'g') AS vermoegensbewertung_aktenzeichen_mit_leerzeichen,
-                realnutzungsarten,
-                betriebsvermoegen_wirtschaftseinheit,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.realnutzungsarten
-                WHERE realnutzungsarten LIKE '%BV%'
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 uuid,
+                 gemarkung_name,
+                 gemarkung_schluessel,
+                 substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
+                 substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
+                 flur::int AS flur_kurz,
+                 zaehler::int AS zaehler_kurz,
+                 nenner::int AS nenner_kurz,
+                 flurstueckskennzeichen,
+                 aktenzeichen_vermoegensbewertung AS aktenzeichen,
+                 regexp_replace(aktenzeichen_vermoegensbewertung, '(\.|-)', '', 'g') AS aktenzeichen_ohne_sonderzeichen,
+                 regexp_replace(aktenzeichen_vermoegensbewertung, '(\.|-)', ' ', 'g') AS aktenzeichen_mit_leerzeichen,
+                 realnutzungsarten,
+                 wirtschaftseinheit_betriebsvermoegen,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten_flurstuecksbezug.realnutzungsarten_regis_hro
+                   WHERE realnutzungsarten ~ 'BV'
+                    ORDER BY uuid
+                     LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
@@ -86,31 +89,31 @@ class IndexAnlagevermoegenDerEigenbetriebeCommand extends ContainerAwareCommand
                 $doc->id = $type . '_' . ++$id;
                 $doc->text = $this->concat(
                     $row['nenner_kurz'] . ' ' . $row['zaehler_kurz'] . ' ' . $row['flur_kurz'] . ' ' . $row['gemarkung_schluessel_kurz'] . ' ' . $row['gemarkung_schluessel'] . ' ' . $row['gemarkung_name'],
-                    $row['vermoegensbewertung_aktenzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_mit_leerzeichen'],
+                    $row['aktenzeichen'],
+                    $row['aktenzeichen_ohne_sonderzeichen'],
+                    $row['aktenzeichen_mit_leerzeichen'],
                     $row['realnutzungsarten'],
-                    $row['betriebsvermoegen_wirtschaftseinheit']
+                    $row['wirtschaftseinheit_betriebsvermoegen']
                 );
                 
                 $doc->phonetic = $this->addPhonetic($this->concat(
                     $row['nenner_kurz'] . ' ' . $row['zaehler_kurz'] . ' ' . $row['flur_kurz'] . ' ' . $row['gemarkung_schluessel_kurz'] . ' ' . $row['gemarkung_schluessel'] . ' ' . $row['gemarkung_name'],
-                    $row['vermoegensbewertung_aktenzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_mit_leerzeichen'],
+                    $row['aktenzeichen'],
+                    $row['aktenzeichen_ohne_sonderzeichen'],
+                    $row['aktenzeichen_mit_leerzeichen'],
                     $row['realnutzungsarten'],
-                    $row['betriebsvermoegen_wirtschaftseinheit']
+                    $row['wirtschaftseinheit_betriebsvermoegen']
                 ));
 
-                $doc->label = "1".$row['flurstueckskennzeichen'].$row['vermoegensbewertung_aktenzeichen'].$row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'].$row['vermoegensbewertung_aktenzeichen_mit_leerzeichen'].$row['realnutzungsarten'].$row['betriebsvermoegen_wirtschaftseinheit'];
+                $doc->label = "1".$row['flurstueckskennzeichen'].$row['aktenzeichen'].$row['aktenzeichen_ohne_sonderzeichen'].$row['aktenzeichen_mit_leerzeichen'].$row['realnutzungsarten'].$row['wirtschaftseinheit_betriebsvermoegen'];
 
                 $doc->json = json_encode(array(
                     'data'   => array(
-                        'type'                                  => $type,
-                        'flurstueckskennzeichen'                => $row['flurstueckskennzeichen'],
-                        'vermoegensbewertung_aktenzeichen'      => $row['vermoegensbewertung_aktenzeichen'],
-                        'realnutzungsarten'                     => $row['realnutzungsarten'],
-                        'betriebsvermoegen_wirtschaftseinheit'  => $row['betriebsvermoegen_wirtschaftseinheit']
+                        'type'                                 => $type,
+                        'flurstueckskennzeichen'               => $row['flurstueckskennzeichen'],
+                        'aktenzeichen'                         => $row['aktenzeichen'],
+                        'realnutzungsarten'                    => $row['realnutzungsarten'],
+                        'wirtschaftseinheit_betriebsvermoegen' => $row['wirtschaftseinheit_betriebsvermoegen']
                     ),
                     'x'      => $x,
                     'y'      => $y,

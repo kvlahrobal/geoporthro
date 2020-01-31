@@ -55,18 +55,21 @@ class IndexGrundvermoegenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Grundvermoegen fuer HRO-Grundvermoegensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.grundvermoegen');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten_flurstuecksbezug.grundvermoegen_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT vermoegensbewertung_aktenzeichen,
-                regexp_replace(vermoegensbewertung_aktenzeichen, '(\.|-)', '', 'g') AS vermoegensbewertung_aktenzeichen_ohne_sonderzeichen,
-                regexp_replace(vermoegensbewertung_aktenzeichen, '(\.|-)', ' ', 'g') AS vermoegensbewertung_aktenzeichen_mit_leerzeichen,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.grundvermoegen
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 id,
+                 aktenzeichen,
+                 regexp_replace(aktenzeichen, '(\.|-)', '', 'g') AS aktenzeichen_ohne_sonderzeichen,
+                 regexp_replace(aktenzeichen, '(\.|-)', ' ', 'g') AS aktenzeichen_mit_leerzeichen,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten_flurstuecksbezug.grundvermoegen_hro
+                   ORDER BY id
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
@@ -74,23 +77,23 @@ class IndexGrundvermoegenCommand extends ContainerAwareCommand
                 $doc = $solr->newDocument();
                 $doc->id = $type . '_' . ++$id;
                 $doc->text = $this->concat(
-                    $row['vermoegensbewertung_aktenzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_mit_leerzeichen']
+                    $row['aktenzeichen'],
+                    $row['aktenzeichen_ohne_sonderzeichen'],
+                    $row['aktenzeichen_mit_leerzeichen']
                 );
                 
                 $doc->phonetic = $this->addPhonetic($this->concat(
-                    $row['vermoegensbewertung_aktenzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_mit_leerzeichen']
+                    $row['aktenzeichen'],
+                    $row['aktenzeichen_ohne_sonderzeichen'],
+                    $row['aktenzeichen_mit_leerzeichen']
                 ));
 
-                $doc->label = "1".$row['vermoegensbewertung_aktenzeichen'].$row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'].$row['vermoegensbewertung_aktenzeichen_mit_leerzeichen'];
+                $doc->label = "1".$row['aktenzeichen'].$row['aktenzeichen_ohne_sonderzeichen'].$row['aktenzeichen_mit_leerzeichen'];
 
                 $doc->json = json_encode(array(
                     'data'   => array(
-                        'type'                              => $type,
-                        'vermoegensbewertung_aktenzeichen'  => $row['vermoegensbewertung_aktenzeichen']
+                        'type'         => $type,
+                        'aktenzeichen' => $row['aktenzeichen']
                     ),
                     'x'      => $x,
                     'y'      => $y,

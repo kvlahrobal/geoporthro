@@ -55,29 +55,32 @@ class IndexBetriebeGewerblicherArtCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Betriebe gewerblicher Art fuer HRO-Suche nach Betrieben gewerblicher Art ... ');
 
 
-        $stmt = $conn->query("SELECT count(*) AS count FROM regis.realnutzungsarten WHERE realnutzungsarten LIKE '%BgA%'");
+        $stmt = $conn->query("SELECT count(*) AS count FROM fachdaten_flurstuecksbezug.realnutzungsarten_regis_hro WHERE realnutzungsarten ~ 'BgA'");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT gemarkung_name,
-                gemarkung_schluessel,
-                substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
-                substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
-                flur::int AS flur_kurz,
-                zaehler::int AS zaehler_kurz,
-                nenner::int AS nenner_kurz,
-                flurstueckskennzeichen,
-                vermoegensbewertung_aktenzeichen,
-                regexp_replace(vermoegensbewertung_aktenzeichen, '(\.|-)', '', 'g') AS vermoegensbewertung_aktenzeichen_ohne_sonderzeichen,
-                regexp_replace(vermoegensbewertung_aktenzeichen, '(\.|-)', ' ', 'g') AS vermoegensbewertung_aktenzeichen_mit_leerzeichen,
-                realnutzungsarten,
-                bga_bemerkung,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.realnutzungsarten
-                WHERE realnutzungsarten LIKE '%BgA%'
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 uuid,
+                 gemarkung_name,
+                 gemarkung_schluessel,
+                 substring(gemarkung_schluessel from 1 for 2) AS land_schluessel,
+                 substring(gemarkung_schluessel from 3) AS gemarkung_schluessel_kurz,
+                 flur::int AS flur_kurz,
+                 zaehler::int AS zaehler_kurz,
+                 nenner::int AS nenner_kurz,
+                 flurstueckskennzeichen,
+                 aktenzeichen_vermoegensbewertung AS aktenzeichen,
+                 regexp_replace(aktenzeichen_vermoegensbewertung, '(\.|-)', '', 'g') AS aktenzeichen_ohne_sonderzeichen,
+                 regexp_replace(aktenzeichen_vermoegensbewertung, '(\.|-)', ' ', 'g') AS aktenzeichen_mit_leerzeichen,
+                 bemerkungen_bga,
+                 realnutzungsarten,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten_flurstuecksbezug.realnutzungsarten_regis_hro
+                   WHERE realnutzungsarten ~ 'BgA'
+                    ORDER BY uuid
+                     LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
@@ -86,31 +89,31 @@ class IndexBetriebeGewerblicherArtCommand extends ContainerAwareCommand
                 $doc->id = $type . '_' . ++$id;
                 $doc->text = $this->concat(
                     $row['nenner_kurz'] . ' ' . $row['zaehler_kurz'] . ' ' . $row['flur_kurz'] . ' ' . $row['gemarkung_schluessel_kurz'] . ' ' . $row['gemarkung_schluessel'] . ' ' . $row['gemarkung_name'],
-                    $row['vermoegensbewertung_aktenzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_mit_leerzeichen'],
-                    $row['realnutzungsarten'],
-                    $row['bga_bemerkung']
+                    $row['aktenzeichen'],
+                    $row['aktenzeichen_ohne_sonderzeichen'],
+                    $row['aktenzeichen_mit_leerzeichen'],
+                    $row['bemerkungen_bga'],
+                    $row['realnutzungsarten']
                 );
                 
                 $doc->phonetic = $this->addPhonetic($this->concat(
                     $row['nenner_kurz'] . ' ' . $row['zaehler_kurz'] . ' ' . $row['flur_kurz'] . ' ' . $row['gemarkung_schluessel_kurz'] . ' ' . $row['gemarkung_schluessel'] . ' ' . $row['gemarkung_name'],
-                    $row['vermoegensbewertung_aktenzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'],
-                    $row['vermoegensbewertung_aktenzeichen_mit_leerzeichen'],
-                    $row['realnutzungsarten'],
-                    $row['bga_bemerkung']
+                    $row['aktenzeichen'],
+                    $row['aktenzeichen_ohne_sonderzeichen'],
+                    $row['aktenzeichen_mit_leerzeichen'],
+                    $row['bemerkungen_bga'],
+                    $row['realnutzungsarten']
                 ));
 
-                $doc->label = "1".$row['flurstueckskennzeichen'].$row['vermoegensbewertung_aktenzeichen'].$row['vermoegensbewertung_aktenzeichen_ohne_sonderzeichen'].$row['vermoegensbewertung_aktenzeichen_mit_leerzeichen'].$row['realnutzungsarten'].$row['bga_bemerkung'];
+                $doc->label = "1".$row['flurstueckskennzeichen'].$row['aktenzeichen'].$row['aktenzeichen_ohne_sonderzeichen'].$row['aktenzeichen_mit_leerzeichen'].$row['bemerkungen_bga'].$row['realnutzungsarten'];
 
                 $doc->json = json_encode(array(
                     'data'   => array(
-                        'type'                              => $type,
-                        'flurstueckskennzeichen'            => $row['flurstueckskennzeichen'],
-                        'vermoegensbewertung_aktenzeichen'  => $row['vermoegensbewertung_aktenzeichen'],
-                        'realnutzungsarten'                 => $row['realnutzungsarten'],
-                        'bga_bemerkung'                     => $row['bga_bemerkung']
+                        'type'                   => $type,
+                        'flurstueckskennzeichen' => $row['flurstueckskennzeichen'],
+                        'aktenzeichen'           => $row['aktenzeichen'],
+                        'bemerkungen_bga'        => $row['bemerkungen_bga'],
+                        'realnutzungsarten'      => $row['realnutzungsarten']
                     ),
                     'x'      => $x,
                     'y'      => $y,
