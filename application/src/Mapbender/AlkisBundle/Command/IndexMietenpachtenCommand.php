@@ -55,30 +55,30 @@ class IndexMietenpachtenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Mietenpachten fuer HRO-Mietenpachtensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.mieten_pachten');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten_flurstuecksbezug.mieten_und_pachten_regis_hro');
         $result = $stmt->fetch();
         $count = intval($result['count']);
-        $stmt = $conn->query('SELECT count(*) AS count FROM (SELECT aktenzeichen FROM regis.mieten_pachten GROUP BY aktenzeichen, vertragsflaeche) AS tabelle');
+        $stmt = $conn->query('SELECT count(*) AS count FROM (SELECT aktenzeichen FROM fachdaten_flurstuecksbezug.mieten_und_pachten_regis_hro GROUP BY aktenzeichen, flaeche_formatiert) AS tabelle');
         $result = $stmt->fetch();
         $count = $count + intval($result['count']);
 
         while ($offset < $count) {
             $stmt = $conn->query("
                 SELECT
-                 aktenzeichen,
-                 to_char(round(flaeche_im_flurstueck, 2), 'FM99G999G990D99') AS flaeche,
                  flurstueckskennzeichen,
+                 aktenzeichen,
+                 flaeche_im_flurstueck_formatiert AS flaeche,
                  ST_AsText(ST_Centroid(geometrie)) AS geom,
                  ST_AsText(geometrie) AS wktgeom
-                  FROM regis.mieten_pachten
+                  FROM fachdaten_flurstuecksbezug.mieten_und_pachten_regis_hro
                 UNION SELECT
-                 aktenzeichen,
-                 to_char(round(vertragsflaeche, 2), 'FM99G999G990D99') AS flaeche,
                  NULL AS flurstueckskennzeichen,
+                 aktenzeichen,
+                 flaeche_formatiert AS flaeche,
                  ST_AsText(ST_Centroid(ST_Union(ST_MakeValid(geometrie)))) AS geom,
                  ST_AsText(ST_Union(ST_MakeValid(geometrie))) AS wktgeom
-                  FROM regis.mieten_pachten
-                   GROUP BY aktenzeichen, vertragsflaeche
+                  FROM fachdaten_flurstuecksbezug.mieten_und_pachten_regis_hro
+                   GROUP BY aktenzeichen, flaeche_formatiert
                      ORDER BY geom
                       LIMIT " . $limit . " OFFSET " . $offset);
 
