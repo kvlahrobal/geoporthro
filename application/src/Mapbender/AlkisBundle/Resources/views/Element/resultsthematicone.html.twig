@@ -68,9 +68,9 @@
                 {{ json.data.nummer }}{% if json.data.bezeichnung is defined and json.data.bezeichnung != null%}, {{ json.data.bezeichnung }}{% endif %}{% if json.data.knoten_nummer is defined and json.data.knoten_nummer != null%}, {{ json.data.knoten_nummer }}{% endif %}
             {% elseif type == 'mietenpachten' and json.data.type == 'mietenpachten' %}
                 {% if json.data.flurstueckskennzeichen is defined and json.data.flurstueckskennzeichen != '' %}
-                    {{ json.data.aktenzeichen }} – {{ json.data.flurstueckskennzeichen }} ({{ json.data.flaeche }} m²)
+                    {{ json.data.aktenzeichen }} – {{ json.data.flurstueckskennzeichen }} ({{ json.data.flaeche }})
                 {% else %}
-                    {{ json.data.aktenzeichen }} – Gesamtfläche ({{ json.data.flaeche }} m²)
+                    {{ json.data.aktenzeichen }} – Gesamtfläche ({{ json.data.flaeche }})
                 {% endif %}
             {% elseif type == 'spielgeraete' and json.data.type == 'spielgeraete' %}
                 Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Objektart {{ json.data.objektart }}, Pflegeeinheit {{ json.data.pflegeeinheit }}, Nummer {{ json.data.nummer }}
