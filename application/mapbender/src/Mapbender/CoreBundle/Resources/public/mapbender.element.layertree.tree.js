@@ -119,14 +119,18 @@
                         origId: source.origId
                     }
                 });
-                var theme = {};
-                $.each(this.options.themes, function(idx, item) {
-                    if (item.id === layerset.id)
-                        theme = item;
-                })
-                if (theme.useTheme) {
-                    var $layersetEl = this._createThemeNode(layerset, theme);
-                    $("ul.layers:first", $layersetEl).append($toAdd);
+                if (layerset) {
+                    var theme = {};
+                    $.each(this.options.themes, function(idx, item) {
+                        if (item.id === layerset.id)
+                            theme = item;
+                    })
+                    if (theme.useTheme) {
+                        var $layersetEl = this._createThemeNode(layerset, theme);
+                        $("ul.layers:first", $layersetEl).append($toAdd);
+                    } else {
+                        $("ul.layers:first", this.element).append($toAdd);
+                    }
                 } else {
                     $("ul.layers:first", this.element).append($toAdd);
                 }
