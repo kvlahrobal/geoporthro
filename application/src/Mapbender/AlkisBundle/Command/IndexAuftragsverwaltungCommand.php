@@ -53,39 +53,35 @@ class IndexAuftragsverwaltungCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Auftragsverwaltung fuer HRO-Auftragsverwaltungssuche ... ');
 
 
-        $stmt = $conn->query("SELECT sum(count) AS count FROM (SELECT count(*) AS count FROM regis.auftragsverwaltung WHERE auftrag_art IN ('A', 'E', 'G', 'K', 'M', 'V') UNION SELECT count(*) AS count FROM alkis.dokumente_zu_altauftraegen) AS tabelle");
+        $stmt = $conn->query("SELECT count(*) FROM (SELECT uuid FROM fachdaten.auftragsverwaltung_regis_hro WHERE auftrag_art IN ('A', 'E', 'G', 'K', 'M', 'V') UNION SELECT uuid FROM fachdaten.altauftraege_hro) AS tabelle");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
                 SELECT
-                 CASE
-                  WHEN datum_erledigt IS NULL THEN 0::smallint
-                  ELSE 1::smallint
-                 END AS erledigt,
+                 uuid,
+                 erledigt,
                  auftrag_art,
-                 substring(auftrag_nummer from 3) AS auftrag_nummer_georg,
-                 auftrag_nummer AS auftrag_nummer_hybrid,
-                 CASE
-                  WHEN auftrag_art = 'K' THEN substring(auftrag_nummer for 4) || lpad(regexp_replace(auftrag_nummer, '^.*[A-Z]+', ''), 5, '0')
-                  ELSE NULL::text
-                 END AS auftrag_nummer_lah,
-                 array_to_string(dokumente, ',') AS dokumente,
+                 auftrag_nummer_georg,
+                 auftrag_nummer_hybrid,
+                 auftrag_nummer_lah,
+                 dokumente,
                  ST_AsText(ST_Centroid(geometrie)) AS geom,
                  ST_AsText(geometrie) AS wktgeom
-                  FROM regis.auftragsverwaltung
+                  FROM fachdaten.auftragsverwaltung_regis_hro
                    WHERE auftrag_art IN ('A', 'E', 'G', 'K', 'M', 'V')
                 UNION SELECT
-                 0::smallint AS erledigt,
+                 uuid,
+                 0,
                  'K',
-                 substring(auftrag_nummer from 3) AS auftrag_nummer_georg,
-                 auftrag_nummer AS auftrag_nummer_hybrid,
-                 substring(auftrag_nummer for 4) || lpad(regexp_replace(auftrag_nummer, '^.*[A-Z]+', ''), 5, '0') AS auftrag_nummer_lah,
-                 array_to_string(dokumente, ',') AS dokumente,
+                 substring(auftrag_nummer from 3),
+                 auftrag_nummer,
+                 substring(auftrag_nummer for 4) || lpad(regexp_replace(auftrag_nummer, '^.*[A-Z]+', ''), 5, '0'),
+                 array_to_string(dokumente, ','),
                  NULL AS geom,
                  NULL AS wktgeom
-                  FROM alkis.dokumente_zu_altauftraegen
-                    ORDER BY auftrag_nummer_georg
+                  FROM fachdaten.altauftraege_hro
+                    ORDER BY uuid
                      LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
