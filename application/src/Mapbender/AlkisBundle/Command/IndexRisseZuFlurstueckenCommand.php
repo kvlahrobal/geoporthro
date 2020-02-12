@@ -53,18 +53,18 @@ class IndexRisseZuFlurstueckenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Risse fuer HRO-Suche nach Rissen zu Flurstuecken ... ');
 
 
-        $stmt = $conn->query("SELECT count(*) AS count FROM alkis.risse_zu_flurstuecken");
+        $stmt = $conn->query("SELECT count(*) AS count FROM fachdaten_flurstuecksbezug.flurstuecke_risse_regis_hro");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
                 SELECT
-                 rpad(regexp_replace(flurstueckskennzeichen, '\D', '', 'g'), 18, '0') AS flurstuecksnummer,
+                 flurstuecksnummer,
                  flurstueckskennzeichen,
-                 array_to_string(risse, ',') AS risse,
-                 array_to_string(risse_wkt, 'x') AS risse_wkt
-                  FROM alkis.risse_zu_flurstuecken
-                   ORDER BY id
+                 risse,
+                 risse_wkt
+                  FROM fachdaten_flurstuecksbezug.flurstuecke_risse_regis_hro
+                   ORDER BY uuid
                     LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
