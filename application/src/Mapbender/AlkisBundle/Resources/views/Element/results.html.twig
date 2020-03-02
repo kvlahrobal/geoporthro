@@ -45,6 +45,7 @@
                     {% endif %}
                 {% endif %}
                 {% if type == 'auftrag' %} auftrag document
+                {% elseif type == 'baulasten'%} baulasten document
                 {% elseif type == 'eigen'%} eigen
                 {% elseif type == 'grund'%} grund
                 {% elseif type == 'risse_fst'%} risse_fst document
@@ -55,6 +56,8 @@
                 >
                 {% if type == 'auftrag' %}
                     <i class="fa fa-circle" title="{% if json.data.auftrag_art == 'A' %}Auskunftsauftrag{% elseif json.data.auftrag_art == 'E' %}Eigenauftrag{% elseif json.data.auftrag_art == 'G' %}Gebäudeeinmessungsauftrag {% if json.data.erledigt == 1 %}erledigt{% else %}offen{% endif %}{% elseif json.data.auftrag_art == 'K' %}Katasterfortführungsauftrag{% elseif json.data.auftrag_art == 'M' %}Messungsauftrag{% elseif json.data.auftrag_art == 'V' %}Vorbereitungsauftrag{% endif %}" style="color:{% if json.data.auftrag_art == 'A' %}rgb(190,130,255){% elseif json.data.auftrag_art == 'E' %}rgb(255,100,0){% elseif json.data.auftrag_art == 'G' %}{% if json.data.erledigt == 1 %}rgb(100,150,100){% else %}rgb(220,0,0){% endif %}{% elseif json.data.auftrag_art == 'K' %}rgb(0,220,255){% elseif json.data.auftrag_art == 'M' %}rgb(255,255,0){% elseif json.data.auftrag_art == 'V' %}rgb(0,220,0){% endif %}"></i> {{ json.data.auftrag_nummer_hybrid}}</div>{% if json.data.dokumente != '' %}<div class="subdocument">{% for dokument in json.data.dokumente|split(',') %}<a href="https://geo.sv.rostock.de/risse/{{dokument[:4]}}/PDFA/{{dokument}}.pdf" target="_blank" title="Dokument öffnen (via HTTP)">{{dokument}}</a>{% if not loop.last %} • {% endif %}{% endfor %}</div>{% endif %}
+                {% elseif type == 'baulasten' %}
+                    {{ json.data.bezeichnung }}</div>
                 {% elseif type == 'eigen' %}
                     {{json.nachname}}{% if json.vorname is defined and json.vorname != null%}, {{json.vorname}}{% endif %}
                     {% if json.geburtsdatum is defined and json.geburtsdatum != null%} ({{json.geburtsdatum | date('d.m.Y')}}){% endif %}</div>

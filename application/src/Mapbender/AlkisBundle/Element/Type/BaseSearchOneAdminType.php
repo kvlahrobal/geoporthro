@@ -46,6 +46,7 @@ class BaseSearchOneAdminType extends AbstractType
                 'choices' => array(
                     "addr" => "Adressen",
                     "auftrag" => "Auftragsverwaltung",
+                    "baulasten" => "Baulasten",
                     "eigen" => "Eigentümer",
                     "flur" => "Flurstücke",
                     "grund" => "Grundbuchblätter",

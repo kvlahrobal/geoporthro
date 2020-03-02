@@ -6,6 +6,8 @@
             <option value="addr"{% if loop.first %} selected="true" {% endif %}>{{ 'Adressen' | trans }}</option>
           {% elseif opt == 'auftrag' %}
             <option value="auftrag"{% if loop.first %} selected="true" {% endif %}>{{ 'Auftragsverwaltung' | trans }}</option>
+          {% elseif opt == 'baulasten' %}
+            <option value="baulasten"{% if loop.first %} selected="true" {% endif %}>{{ 'Baulasten' | trans }}</option>
           {% elseif opt == 'eigen' %}
             <option value="eigen"{% if loop.first %} selected="true" {% endif %}>{{ 'Eigentümer' | trans }}</option>
           {% elseif opt == 'flur' %}

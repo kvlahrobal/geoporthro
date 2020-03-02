@@ -13,6 +13,7 @@
             allgemein_drei: 'Die Suche startet automatisch während der Eingabe, und zwar ab dem <i>dritten</i> eingegebenen Zeichen. Sie können Ihre Suche über folgende Arten von Eingaben gestalten:<br/><br/><ul class="hilfetexte-liste">',
             addr: '<li>→ Ortsteilname [Beispiele: <span>schmarl</span> oder <span>brinckmans</span>]</li><li>→ Straßenname [Beispiele: <span>wagner</span> oder <span>holbei</span>]</li><li>→ Adresse (Straße mit Hausnummer und eventuellem Hausnummernzusatz) [Beispiele: <span>riga 19</span> oder <span>löns 14a</span>]</li></ul><br/>Resultate können Ortsteile, Straßen, Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz) und historische Adressen (Straßen mit Hausnummer und eventuellem Hausnummernzusatz sowie Angabe des Datums, an dem die Adresse historisch wurde) sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
             auftrag: '<li>→ Auftragsnummer im Georg.net-Format [Beispiele: <span>08K665</span> oder <span>15K0955</span>]</li><li>→ Auftragsnummer im „hybriden“ Format [Beispiele: <span>2008K665</span> oder <span>2015K0955</span>]</li><li>→ Auftragsnummer im ALKIS-/LAH-Format [Beispiele: <span>200800665</span> oder <span>201500955</span>]</li></ul><br/>Die Auftragsart ist jeweils gekennzeichnet durch ein vorangestelltes Icon, dessen Farbe die Auftragsart repräsentiert. Außerdem werden – sofern vorhanden – je Auftrag immer die verknüpften Dokumente gelistet.',
+            baulasten: '<li>→ Bezeichnung [Beispiele: <span>51198</span> oder <span>.0029</span>]</li></ul>',
             eigen: '<li>→ Vorname [Beispiel: <span>jürg</span>]</li><li>→ Nachname [Beispiel: <span>schmi</span>]</li><li>→ Kombination aus Vor- und Nachname (Reihenfolge egal) [Beispiel: <span>schmi jürg</span>]</li><li>→ Bezeichnung (bei Firmen, Organisationen etc.) [Beispiel: <span>carit</span>]</li></ul>',
             flur: '<li>→ Gemarkungsschlüssel [Beispiel: <span>2218</span>]</li><li>→ Gemarkungsname [Beispiel: <span>kasseb</span>]</li><li>→ Flur als Kombination aus Gemarkungsschlüssel und Flurnummer [Beispiel: <span>2222 flur 3</span>]</li><li>→ Flur als Kombination aus Gemarkungsname und Flurnummer [Beispiel: <span>evershagen 3</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Flurnummer, Zähler (und Nenner) [Beispiele: <span>2232 1 461</span> oder <span>2232 1 160/2</span> oder <span>krummen 1 461</span> oder <span>krummen 1 160/2</span>]</li><li>→ Flurstück als Kombination aus Gemarkungsschlüssel oder Gemarkungsname und Zähler (und Nenner) [Beispiele: <span>2232 461</span> oder <span>2232 160/2</span> oder <span>krummen 461</span> oder <span>krummen 160/2</span>]</li><li>→ Flurstück mittels Zähler und Nenner [Beispiele: <span>160/2</span> oder <span>12/20</span>]</li><li>→ Flurstück mittels Zähler [Beispiele: <span>160</span> oder <span>12</span>]</li></ul><br/>Resultate können Gemarkungen, Fluren und Flurstücke sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
             grund: '<li>→ Grundbuchbezirksname [Beispiel: <span>rosto</span>]</li><li>→ Grundbuchbezirksnummer [Beispiel: <span>2250</span>]</li><li>→ Grundbuchblattnummer [Beispiel: <span>18305</span>]</li><li>→ Kombination aus Grundbuchbezirks- und Grundbuchblattnummer (Reihenfolge egal) [Beispiel: <span>2250 18305</span>]</li></ul>',
@@ -122,6 +123,8 @@
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_drei.concat(this.hilfetexte.addr));
             } else if (search === 'auftrag') {
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.auftrag));
+            } else if (search === 'baulasten') {
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.baulasten));
             } else if (search === 'eigen') {
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.eigen));
             } else if (search === 'flur') {
@@ -145,6 +148,8 @@
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_drei.concat(this.hilfetexte.addr));
             } else if (search === 'auftrag') {
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.auftrag));
+            } else if (search === 'baulasten') {
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.baulasten));
             } else if (search === 'eigen') {
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.eigen));
             } else if (search === 'flur') {
@@ -167,6 +172,8 @@
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_drei.concat(this.hilfetexte.addr));
             } else if (search === 'auftrag') {
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.auftrag));
+            } else if (search === 'baulasten') {
+                $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.baulasten));
             } else if (search === 'eigen') {
                 $('.basesearchonecontent').html(this.hilfetexte.allgemein_zwei.concat(this.hilfetexte.eigen));
             } else if (search === 'flur') {
@@ -242,7 +249,7 @@
             var self = this;
             
             var search = $('#search-select', this.element).val();
-            if (((search === 'addr' || search === 'risse_fst') && $('#search', self.element).val().length > 2) || ((search === 'auftrag' || search === 'eigen' || search === 'flur') && $('#search', self.element).val().length > 1) || (search !== 'addr' && search !== 'auftrag' && search !== 'eigen' && search !== 'flur' && search !== 'risse_fst')) {
+            if (((search === 'addr' || search === 'risse_fst') && $('#search', self.element).val().length > 2) || ((search === 'auftrag' || search === 'baulasten' || search === 'eigen' || search === 'flur') && $('#search', self.element).val().length > 1) || (search !== 'addr' && search !== 'baulasten' && search !== 'auftrag' && search !== 'eigen' && search !== 'flur' && search !== 'risse_fst')) {
 
                 if (typeof self.options.timeoutId !== 'undefined') {
                     window.clearTimeout(self.options.timeoutId);
