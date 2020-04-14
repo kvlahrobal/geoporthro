@@ -54,25 +54,24 @@ class IndexLeuchtenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Leuchten fuer HRO-Leuchtensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM ukos.leuchten_leuchtentragsysteme WHERE datensatz_ende IS NULL AND tragsystem_datensatz_ende IS NULL');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.swrag_leuchten_leuchtentragsysteme_regis');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT tragsystem_id_stadtwerke AS tragsystem_nummer,
-                regexp_replace(tragsystem_id_stadtwerke, '\D','','g') AS tragsystem_nummer_nur_zahlen,
-                tragsystem_mslink,
-                id_stadtwerke AS nummer,
-                regexp_replace(id_stadtwerke, '\D','','g') AS nummer_nur_zahlen,
-                id_stadtwerke_zusatz AS nummer_zusatz,
-                mslink,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM ukos.leuchten_leuchtentragsysteme
-                WHERE datensatz_ende IS NULL
-                AND tragsystem_datensatz_ende IS NULL
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 tragsystem_nummer,
+                 regexp_replace(tragsystem_nummer, '\D','','g') AS tragsystem_nummer_nur_zahlen,
+                 tragsystem_mslink,
+                 nummer,
+                 regexp_replace(nummer, '\D','','g') AS nummer_nur_zahlen,
+                 nummer_zusatz,
+                 mslink,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.swrag_leuchten_leuchtentragsysteme_regis
+                   ORDER BY id
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);

@@ -54,20 +54,19 @@ class IndexLeuchtenschalteinrichtungenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Leuchtenschalteinrichtungen fuer HRO-Leuchtenschalteinrichtungensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM ukos.leuchtenschalteinrichtungen WHERE datensatz_ende IS NULL');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.swrag_leuchtenschalteinrichtungen');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
                 SELECT
                  mslink,
-                 bezeichnung,
+                 id_fachsystem AS bezeichnung,
                  ST_AsText(ST_Centroid(geometrie)) AS geom,
                  ST_AsText(geometrie) AS wktgeom
-                  FROM ukos.leuchtenschalteinrichtungen
-                   WHERE datensatz_ende IS NULL
-                    ORDER BY id
-                     LIMIT " . $limit . " OFFSET " . $offset);
+                  FROM fachdaten.swrag_leuchtenschalteinrichtungen
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
