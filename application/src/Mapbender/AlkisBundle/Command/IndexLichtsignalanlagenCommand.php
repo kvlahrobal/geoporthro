@@ -54,22 +54,22 @@ class IndexLichtsignalanlagenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Lichtsignalanlagen fuer HRO-Lichtsignalanlagensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM ukos.lichtsignalanlagensteuergeraete WHERE datensatz_ende IS NULL');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten_strassenbezug.swrag_lichtsignalanlagensteuergeraete');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT id_stadtwerke AS nummer,
-                regexp_replace(id_stadtwerke, '\D','','g') AS nummer_nur_zahlen,
-                bezeichnung,
-                knoten_nummer,
-                regexp_replace(knoten_nummer, '\D','','g') AS knoten_nummer_nur_zahlen,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM ukos.lichtsignalanlagensteuergeraete
-                WHERE datensatz_ende IS NULL
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 id_fachsystem AS nummer,
+                 regexp_replace(id_fachsystem, '\D','','g') AS nummer_nur_zahlen,
+                 bezeichnung,
+                 knoten_nummer,
+                 regexp_replace(knoten_nummer, '\D','','g') AS knoten_nummer_nur_zahlen,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten_strassenbezug.swrag_lichtsignalanlagensteuergeraete
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
