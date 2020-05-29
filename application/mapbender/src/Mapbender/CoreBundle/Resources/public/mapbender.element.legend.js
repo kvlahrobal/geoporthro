@@ -226,7 +226,7 @@
                         $('li.hintergrundkarte_image').remove();
                     }
                     if (source.title.indexOf('Luftbild') !== -1) {
-                        $('li.hintergrundkarte').append('<li class="ebene2 image hintergrundkarte_image"><img src="https://geo.sv.rostock.de/geodienste/luftbild_mv-40/wms?service=WMS&version=1.3.0&request=GetLegendGraphic&sld_version=1.1.0&layer=hro.luftbild_mv-40.luftbild_mv-40&format=image/png&STYLE=hro.luftbild_mv-40.luftbild_mv-40.Default"></li>');
+                        $('li.hintergrundkarte').append('<li class="ebene2 image hintergrundkarte_image"><img src="https://geo.sv.rostock.de/geodienste/luftbild_mv-20/wms?service=WMS&version=1.3.0&request=GetLegendGraphic&sld_version=1.1.0&layer=hro.luftbild_mv-20.luftbild_mv-20&format=image/png&STYLE=hro.luftbild_mv-20.luftbild_mv-20.Default"></li>');
                     } else if (source.title.indexOf('Liegenschaftskarte') !== -1) {
                         $('li.hintergrundkarte').append('<li class="ebene2 image hintergrundkarte_image"><img src="https://geo.sv.rostock.de/geodienste/liegenschaftskarte/wms?service=WMS&version=1.3.0&request=GetLegendGraphic&sld_version=1.1.0&layer=hro.liegenschaftskarte.liegenschaftskarte&format=image/png&STYLE="></li>');
                     } else if (source.title.indexOf('DTK') !== -1) {
