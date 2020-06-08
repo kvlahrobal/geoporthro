@@ -289,11 +289,17 @@ class BaseSearchTwo extends Element
                 ->where('type', $type)
                 ->orderBy('label', 'asc');
             
-            // Suchresultat verarbeiten
+            // Suchwort manipulieren
+            $term = strtolower($term);
+            if (strpos($term, "-") !== false)
+                $term = str_replace("-", "", $term);
+            if (strpos($term, "/") !== false)
+                $term = str_replace("/", "", $term);
             $result = $solr
                 ->numericWildcard(true)
                 ->wildcardMinStrlen(0)
-                ->find(null, $this->addPhonetic($term));
+                // ohne Phonetik
+                ->find(null, $this->withoutPhonetic($term));
         }
         
         // Übergabe des Suchresultats sowie weiterer (für die Pagination beim Suchtyp geocodr-Suche benötigter) Parameter an Template

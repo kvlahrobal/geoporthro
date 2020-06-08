@@ -248,26 +248,17 @@ class BaseSearchOne extends Element
                 ->where('type', $type)
                 ->orderBy('label', 'asc');
             
-            // Suchresultat verarbeiten
-            if ($type === 'risse_fst') {
-                // Suchwort manipulieren
-                $term = strtolower($term);
-                if (strpos($term, "-") !== false)
-                    $term = str_replace("-", "", $term);
-                if (strpos($term, "/") !== false)
-                    $term = str_replace("/", "", $term);
-                $result = $solr
-                    ->numericWildcard(true)
-                    ->wildcardMinStrlen(0)
-                    // ohne Phonetik
-                    ->find(null, $this->withoutPhonetic($term));
-            } else {
-                $result = $solr
-                    ->numericWildcard(true)
-                    ->wildcardMinStrlen(0)
-                    // mit Phonetik
-                    ->find(null, $this->addPhonetic($term));
-            }
+            // Suchwort manipulieren
+            $term = strtolower($term);
+            if (strpos($term, "-") !== false)
+                $term = str_replace("-", "", $term);
+            if (strpos($term, "/") !== false)
+                $term = str_replace("/", "", $term);
+            $result = $solr
+                ->numericWildcard(true)
+                ->wildcardMinStrlen(0)
+                // ohne Phonetik
+                ->find(null, $this->withoutPhonetic($term));
         }
         
         // Übergabe des Suchresultats sowie weiterer (für die Pagination beim Suchtyp geocodr-Suche benötigter) Parameter an Template
