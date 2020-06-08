@@ -150,11 +150,19 @@ class ThematicSearchOne extends Element
         }
         
         // tatsächliche Suche
-        $result = $solr
-            ->numericWildcard(true)
-            ->wildcardMinStrlen(0)
-            // ohne Phonetik
-            ->find(null, $this->withoutPhonetic($term));
+        if ($type === 'leuchten' || $type === 'leuchtenschalteinrichtungen' || $type === 'lichtsignalanlagen') {
+            $result = $solr
+                ->numericWildcard(true)
+                ->wildcardMinStrlen(0)
+                // ohne Phonetik
+                ->find(null, $this->withoutPhonetic($term));
+        } else {
+            $result = $solr
+                ->numericWildcard(true)
+                ->wildcardMinStrlen(0)
+                // mit Phonetik
+                ->find(null, $this->addPhonetic($term));
+        }
             
         // Übergabe an Template
         $html = $this->container->get('templating')->render(
