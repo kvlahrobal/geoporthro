@@ -55,21 +55,21 @@ class IndexSchiffeCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Schiffe fuer Schiffssuche Hanse Sail ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.hansesail_schiffe_schiffsliegeplaetze');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.hansesail_schiffe_schiffsliegeplaetze_regis');
         $result = $stmt->fetch();
         $count = intval($result['count']);
 
         while ($offset < $count) {
             $stmt = $conn->query("
                 SELECT
-                 bezeichnung,
-                 typ,
-                 baujahr,
-                 liegeplatz_bezeichnung_kurz,
-                 liegeplatz_bezeichnung_lang,
+                 schiff_bezeichnung AS bezeichnung,
+                 schiff_typ AS typ,
+                 schiff_baujahr AS baujahr,
+                 schiffsliegeplatz_bezeichnung_kurz AS liegeplatz_bezeichnung_kurz,
+                 schiffsliegeplatz_bezeichnung_lang AS liegeplatz_bezeichnung_lang,
                  ST_AsText(ST_Centroid(geometrie)) AS geom,
                  ST_AsText(geometrie) AS wktgeom
-                  FROM regis.hansesail_schiffe_schiffsliegeplaetze
+                  FROM fachdaten.hansesail_schiffe_schiffsliegeplaetze_regis
                    ORDER BY uuid
                     LIMIT " . $limit . " OFFSET " . $offset);
 
