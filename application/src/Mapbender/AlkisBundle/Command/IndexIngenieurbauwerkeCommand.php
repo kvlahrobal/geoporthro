@@ -55,19 +55,20 @@ class IndexIngenieurbauwerkeCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Ingenieurbauwerke fuer HRO-Ingenieurbauwerkesuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.ingenieurbauwerke');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten_strassenbezug.ingenieurbauwerke_regis_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT nummer_asb,
-                nummer,
-                art,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.ingenieurbauwerke
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 nummer_asb,
+                 nummer,
+                 art,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten_strassenbezug.ingenieurbauwerke_regis_hro
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
