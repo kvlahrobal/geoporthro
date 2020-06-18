@@ -35,9 +35,9 @@
 
              >
             {% if type == 'anundverkauf' and json.data.type == 'anundverkauf' %}
-                {{ json.data.flurstueckskennzeichen }}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}, {{ json.data.aktenzeichen }}{% endif %}, Realnutzungsart {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen is defined and json.data.bemerkungen != null%}, {{ json.data.bemerkungen }}{% endif %}
+                {{ json.data.flurstueckskennzeichen }}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}, {{ json.data.aktenzeichen }}{% endif %}, Status {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen is defined and json.data.bemerkungen != null%}, {{ json.data.bemerkungen }}{% endif %}
             {% elseif type == 'anlagevermoegendereigenbetriebe' and json.data.type == 'anlagevermoegendereigenbetriebe' %}
-                {{ json.data.flurstueckskennzeichen }}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}, {{ json.data.aktenzeichen }}{% endif %}, Realnutzungsart {{ json.data.realnutzungsarten }}, Wirtschaftseinheit {{ json.data.wirtschaftseinheit_betriebsvermoegen }}
+                {% if json.data.flurstueckskennzeichen is defined and json.data.flurstueckskennzeichen != null%}{{ json.data.flurstueckskennzeichen }}, {% endif %}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}{{ json.data.aktenzeichen }}, {% endif %}Status {{ json.data.realnutzungsarten }}{% if json.data.wirtschaftseinheit_betriebsvermoegen is defined and json.data.wirtschaftseinheit_betriebsvermoegen != null%}, {{ json.data.wirtschaftseinheit_betriebsvermoegen }}{% endif %}
             {% elseif type == 'baumkataster' and json.data.type == 'baum' %}
                 Baum (Bewirtschafter {{ json.data.bewirtschafter }}, Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Nummer {{ json.data.nummer }})
             {% elseif type == 'baumkataster' and json.data.type == 'baumgruppe' %}
@@ -49,7 +49,7 @@
             {% elseif type == 'bebauungsplaene_nur_rk' and json.data.type == 'bebauungsplaene_nur_rk' %}
                 {{ json.data.nummer }}, {{ json.data.bezeichnung }}
             {% elseif type == 'betriebegewerblicherart' and json.data.type == 'betriebegewerblicherart' %}
-                {{ json.data.flurstueckskennzeichen }}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}, {{ json.data.aktenzeichen }}{% endif %}, Realnutzungsart {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen_bga is defined and json.data.bemerkungen_bga != null%}, {{ json.data.bemerkungen_bga }}{% endif %}
+                {{ json.data.flurstueckskennzeichen }}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}, {{ json.data.aktenzeichen }}{% endif %}, Status {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen_bga is defined and json.data.bemerkungen_bga != null%}, {{ json.data.bemerkungen_bga }}{% endif %}
             {% elseif type == 'grundvermoegen' and json.data.type == 'grundvermoegen' %}
                 {{ json.data.aktenzeichen }}
             {% elseif type == 'gruenfriedhofsflaechen' and json.data.type == 'gruenfriedhofsflaechen' %}
