@@ -37,11 +37,11 @@
             grundvermoegen: '<li>→ Aktenzeichen [Beispiele: <span>00.06.-22413-igb-0021</span> oder <span>00.06.-22352</span> oder <span>2235</span>]</li></ul>',
             gruenfriedhofsflaechen: '<li>→ Art [Beispiel: <span>rasen</span>]</li><li>→ Bezirk [Beispiel: <span>24</span>]</li><li>→ Objektnummer [Beispiele: <span>1118/02</span> oder <span>1118</span>]</li><li>→ Objektbezeichnung [Beispiel: <span>kriegsgräb</span>]</li><li>→ Pflegebezeichnung [Beispiel: <span>1116 wiese</span>]</li><li>→ Teil als Kombination aus Bezirk, Objektnummer und Teil (Reihenfolge egal) [Beispiel: <span>21 1118 13</span>]</li><li>→ Teil als Kombination aus Bezirk, Objektbezeichnung und Teil (Reihenfolge egal) [Beispiel: <span>21 spiellandschaft 13</span>]</li></ul>',
             gruenpflegeobjekte: '<li>→ Bezirk [Beispiel: <span>25</span>]</li><li>→ Objektnummer [Beispiele: <span>3015/02</span> oder <span>3015</span>]</li><li>→ Objektbezeichnung [Beispiel: <span>langenorter hufe/haferweg</span>]</li><li>→ Objektart [Beispiel: <span>ballspielan</span>]</li></ul><br/>Resultate können Friedhöfe, Parks und Grünanlagen, Spielplätze sowie Straßenbegleitgrün sein.',
-            ingenieurbauwerke: '<li>→ Art [Beispiel: <span>Brücke</span>]</li><li>→ ASB-Nummer [Beispiele: <span>1938:523</span> oder <span>523</span>]</li><li>→ interne Bauwerksnummer [Beispiel: <span>bw 108</span>]</li></ul>',
+            ingenieurbauwerke: '<li>→ Nummer [Beispiel: <span>bw 108</span>]</li><li>→ ASB-Nummer [Beispiele: <span>1938:523</span> oder <span>523</span>]</li><li>→ Art [Beispiel: <span>Brücke</span>]</li></ul>',
             kleingartenanlagen: '<li>→ Bezeichnung [Beispiel: <span>helsin</span>]</li></ul>',
             leuchten: '<li>→ Nummer des Leuchtentragsystems [Beispiel: <span>055-01-2-6</span>]</li><li>→ MSLINK des Leuchtentragsystems [Beispiel: <span>7725660</span>]</li><li>→ Nummer der Leuchte [Beispiel: <span>106-33-4-5</span>]</li><li>→ MSLINK der Leuchte [Beispiel: <span>3058105</span>]</li></ul>',
-            leuchtenschalteinrichtungen: '<li>→ Bezeichnung der Leuchtenschalteinrichtung [Beispiel: <span>S 107-13</span>]</li><li>→ MSLINK der Leuchtenschalteinrichtung [Beispiel: <span>853138</span>]</li></ul>',
-            lichtsignalanlagen: '<li>→ Nummer [Beispiel: <span>LSA 303</span>]</li><li>→ Bezeichnung [Beispiel: <span>goetheplatz</span>]</li><li>→ Knoten-Nummer [Beispiel: <span>422</span>]</li></ul>',
+            leuchtenschalteinrichtungen: '<li>→ MSLINK [Beispiel: <span>853138</span>]</li><li>→ Bezeichnung [Beispiel: <span>S 107-13</span>]</li></ul>',
+            lichtsignalanlagen: '<li>→ Nummer [Beispiel: <span>LSA 303</span>]</li><li>→ Knoten-Nummer [Beispiel: <span>422</span>]</li><li>→ Bezeichnung [Beispiel: <span>goetheplatz</span>]</li></ul>',
             mietenpachten: '<li>→ Aktenzeichen [Beispiel: <span>2341l04</span>]</li></ul><br/>Es werden je Aktenzeichen immer sowohl die Teilflächen als auch die Gesamtfläche gelistet.',
             spielgeraete: '<li>→ Bezirk [Beispiel: <span>19</span>]</li><li>→ Objektnummer [Beispiele: <span>1100/02</span> oder <span>1100</span>]</li><li>→ Objektbezeichnung [Beispiel: <span>park am fi</span>]</li><li>→ Objektart [Beispiel: <span>ballspielan</span>]</li><li>→ Pflegeeinheit [Beispiel: <span>8313</span>]</li><li>→ Nummer als Kombination aus Bezirk, Objektnummer und Nummer (Reihenfolge egal) [Beispiel: <span>19 1100 10</span>]</li><li>→ Nummer als Kombination aus Bezirk, Objektbezeichnung und Nummer (Reihenfolge egal) [Beispiel: <span>19 wallanlagen 10</span>]</li></ul>',
             wirtschaftseinheiten_wiro: '<li>→ Nummer [Beispiel: <span>6433</span>]</li></ul>'
@@ -553,7 +553,7 @@
                     break;
                 case 'ingenieurbauwerke':
                     if (this.firstTimeSearch.ingenieurbauwerke === true) {
-                        var layertreeLayerContainer = $('li[data-type="simple"][data-title="Ingenieurbauwerke"]');
+                        var layertreeLayerContainer = $('li[data-type="simple"][data-title="Ingenieurbauwerke Verkehr"]');
                         var layertreeLayerCheckbox = $('input[name="selected"]:first', layertreeLayerContainer);
                         layertreeLayerCheckbox.prop('checked', true);
                         layertreeLayerCheckbox.change();

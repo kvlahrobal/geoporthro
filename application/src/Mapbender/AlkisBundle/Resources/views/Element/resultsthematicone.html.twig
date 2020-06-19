@@ -35,7 +35,7 @@
 
              >
             {% if type == 'anundverkauf' and json.data.type == 'anundverkauf' %}
-                {{ json.data.flurstueckskennzeichen }}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}, {{ json.data.aktenzeichen }}{% endif %}, Status {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen is defined and json.data.bemerkungen != null%}, {{ json.data.bemerkungen }}{% endif %}
+                {% if json.data.flurstueckskennzeichen is defined and json.data.flurstueckskennzeichen != null%}{{ json.data.flurstueckskennzeichen }}, {% endif %}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}{{ json.data.aktenzeichen }}, {% endif %}Status {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen is defined and json.data.bemerkungen != null%}, {{ json.data.bemerkungen }}{% endif %}
             {% elseif type == 'anlagevermoegendereigenbetriebe' and json.data.type == 'anlagevermoegendereigenbetriebe' %}
                 {% if json.data.flurstueckskennzeichen is defined and json.data.flurstueckskennzeichen != null%}{{ json.data.flurstueckskennzeichen }}, {% endif %}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}{{ json.data.aktenzeichen }}, {% endif %}Status {{ json.data.realnutzungsarten }}{% if json.data.wirtschaftseinheit_betriebsvermoegen is defined and json.data.wirtschaftseinheit_betriebsvermoegen != null%}, {{ json.data.wirtschaftseinheit_betriebsvermoegen }}{% endif %}
             {% elseif type == 'baumkataster' and json.data.type == 'baum' %}
@@ -49,7 +49,7 @@
             {% elseif type == 'bebauungsplaene_nur_rk' and json.data.type == 'bebauungsplaene_nur_rk' %}
                 {{ json.data.nummer }}, {{ json.data.bezeichnung }}
             {% elseif type == 'betriebegewerblicherart' and json.data.type == 'betriebegewerblicherart' %}
-                {{ json.data.flurstueckskennzeichen }}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}, {{ json.data.aktenzeichen }}{% endif %}, Status {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen_bga is defined and json.data.bemerkungen_bga != null%}, {{ json.data.bemerkungen_bga }}{% endif %}
+                {% if json.data.flurstueckskennzeichen is defined and json.data.flurstueckskennzeichen != null%}{{ json.data.flurstueckskennzeichen }}, {% endif %}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}{{ json.data.aktenzeichen }}, {% endif %}Status {{ json.data.realnutzungsarten }}{% if json.data.bemerkungen_bga is defined and json.data.bemerkungen_bga != null%}, {{ json.data.bemerkungen_bga }}{% endif %}
             {% elseif type == 'grundvermoegen' and json.data.type == 'grundvermoegen' %}
                 {{ json.data.aktenzeichen }}
             {% elseif type == 'gruenfriedhofsflaechen' and json.data.type == 'gruenfriedhofsflaechen' %}
@@ -57,15 +57,15 @@
             {% elseif type == 'gruenpflegeobjekte' and json.data.type == 'gruenpflegeobjekte' %}
                 Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Objektart {{ json.data.objektart }}
             {% elseif type == 'ingenieurbauwerke' and json.data.type == 'ingenieurbauwerke' %}
-                {{ json.data.art }}, {{ json.data.nummer_asb }}, {{ json.data.nummer }}
+                {{ json.data.art }}, {% if json.data.nummer_asb is defined and json.data.nummer_asb != null%}{{ json.data.nummer_asb }}, {% endif %}{{ json.data.nummer }}
             {% elseif type == 'kleingartenanlagen' and json.data.type == 'kleingartenanlagen' %}
                 {{ json.data.bezeichnung }}
             {% elseif type == 'leuchten' and json.data.type == 'leuchten' %}
                 Leuchtentragsystem: {{ json.data.tragsystem_nummer }}, {{ json.data.tragsystem_mslink }}; Leuchte: {{ json.data.nummer }}{% if json.data.nummer_zusatz is defined and json.data.bezeichnung != null%}, {{ json.data.nummer_zusatz }}{% endif %}, {{ json.data.mslink }}
             {% elseif type == 'leuchtenschalteinrichtungen' and json.data.type == 'leuchtenschalteinrichtungen' %}
-                {{ json.data.bezeichnung }}, {{ json.data.mslink }}
+                {{ json.data.mslink }}, {{ json.data.bezeichnung }}
             {% elseif type == 'lichtsignalanlagen' and json.data.type == 'lichtsignalanlagen' %}
-                {{ json.data.nummer }}{% if json.data.bezeichnung is defined and json.data.bezeichnung != null%}, {{ json.data.bezeichnung }}{% endif %}{% if json.data.knoten_nummer is defined and json.data.knoten_nummer != null%}, {{ json.data.knoten_nummer }}{% endif %}
+                {{ json.data.nummer }}{% if json.data.knoten_nummer is defined and json.data.knoten_nummer != null%}, {{ json.data.knoten_nummer }}{% endif %}{% if json.data.bezeichnung is defined and json.data.bezeichnung != null%}, {{ json.data.bezeichnung }}{% endif %}
             {% elseif type == 'mietenpachten' and json.data.type == 'mietenpachten' %}
                 {% if json.data.flurstueckskennzeichen is defined and json.data.flurstueckskennzeichen != '' %}
                     {{ json.data.aktenzeichen }} – {{ json.data.flurstueckskennzeichen }} ({{ json.data.flaeche }})
