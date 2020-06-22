@@ -55,7 +55,7 @@
             {% elseif type == 'gruenfriedhofsflaechen' and json.data.type == 'gruenfriedhofsflaechen' %}
                 {{ json.data.art }} (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Pflegebezeichnung {{ json.data.pflegebezeichnung }}, Teil {{ json.data.teil }})
             {% elseif type == 'gruenpflegeobjekte' and json.data.type == 'gruenpflegeobjekte' %}
-                Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Objektart {{ json.data.objektart }}
+                {{ json.data.objektart }}, {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Grünpflegebezirk {{ json.data.bezirk }}
             {% elseif type == 'ingenieurbauwerke' and json.data.type == 'ingenieurbauwerke' %}
                 {{ json.data.art }}, {% if json.data.nummer_asb is defined and json.data.nummer_asb != null%}{{ json.data.nummer_asb }}, {% endif %}{{ json.data.nummer }}
             {% elseif type == 'kleingartenanlagen' and json.data.type == 'kleingartenanlagen' %}

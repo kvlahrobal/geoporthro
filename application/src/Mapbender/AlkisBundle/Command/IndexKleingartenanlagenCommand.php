@@ -55,17 +55,18 @@ class IndexKleingartenanlagenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Kleingartenanlagen fuer HRO-Kleingartenanlagensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.kleingartenanlagen');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.kleingartenanlagen_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT bezeichnung,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.kleingartenanlagen
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 bezeichnung,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.kleingartenanlagen_hro
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);

@@ -55,22 +55,23 @@ class IndexGruenpflegeobjekteCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Gruenpflegeobjekte fuer HRO-Gruenpflegeobjektesuche ... ');
 
 
-        $stmt = $conn->query("SELECT count(*) AS count FROM regis.gruenamt_objekte WHERE art IN ('Friedhof', 'Park oder Grünanlage', 'Spielplatz', 'Straßenbegleitgrün')");
+        $stmt = $conn->query("SELECT count(*) AS count FROM fachdaten.gruenpflegeobjekte_regis_hro WHERE rubrik IN ('Friedhof', 'Park oder Grünanlage', 'Spielplatz', 'Straßenbegleitgrün')");
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT bezirk,
-                objektnummer,
-                regexp_replace(objektnummer, '\/', '', 'g') AS objektnummer_ohne_slashes,
-                regexp_replace(objektnummer, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
-                objektbezeichnung,
-                objektart,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.gruenamt_objekte
-                WHERE art IN ('Friedhof', 'Park oder Grünanlage', 'Spielplatz', 'Straßenbegleitgrün')
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 gruenpflegebezirk AS bezirk,
+                 nummer AS objektnummer,
+                 regexp_replace(nummer, '\/', '', 'g') AS objektnummer_ohne_slashes,
+                 regexp_replace(nummer, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
+                 bezeichnung AS objektbezeichnung,
+                 art AS objektart,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.gruenpflegeobjekte_regis_hro
+                   WHERE rubrik IN ('Friedhof', 'Park oder Grünanlage', 'Spielplatz', 'Straßenbegleitgrün')
+                    ORDER BY uuid
+                     LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
 
