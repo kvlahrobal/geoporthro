@@ -56,7 +56,7 @@ class IndexBaumCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Baeume fuer HRO-Baumkatastersuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.baeume_regis_hro');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.baeume_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {

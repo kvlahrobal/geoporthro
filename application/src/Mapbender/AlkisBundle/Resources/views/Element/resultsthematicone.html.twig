@@ -73,7 +73,7 @@
                     {{ json.data.aktenzeichen }} – Gesamtfläche ({{ json.data.flaeche }})
                 {% endif %}
             {% elseif type == 'spielgeraete' and json.data.type == 'spielgeraete' %}
-                Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Objektart {{ json.data.objektart }}, Pflegeeinheit {{ json.data.pflegeeinheit }}, Nummer {{ json.data.nummer }}
+                Grünpflegebezirk {{ json.data.bezirk }}, Grünpflegeobjekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Nummer {{ json.data.nummer }}, Pflegeeinheit {{ json.data.pflegeeinheit }}
             {% elseif type == 'wirtschaftseinheiten_wiro' and json.data.type == 'wirtschaftseinheiten_wiro' %}
                 {{ json.data.nummer }} ({{ json.data.adressen }})
             {% endif %}

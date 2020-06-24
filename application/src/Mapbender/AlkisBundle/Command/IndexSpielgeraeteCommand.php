@@ -55,24 +55,25 @@ class IndexSpielgeraeteCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Spielgeraete fuer HRO-Spielgeraetesuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.spielgeraete');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.spielgeraete_regis_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT bezirk,
-                objektnummer,
-                regexp_replace(objektnummer, '\/', '', 'g') AS objektnummer_ohne_slashes,
-                regexp_replace(objektnummer, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
-                objektbezeichnung,
-                objektart,
-                pflegeeinheit,
-                nummer,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.spielgeraete
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 gruenpflegebezirk AS bezirk,
+                 nummer_gruenpflegeobjekt AS objektnummer,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', '', 'g') AS objektnummer_ohne_slashes,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
+                 bezeichnung_gruenpflegeobjekt AS objektbezeichnung,
+                 art_gruenpflegeobjekt AS objektart,
+                 pflegeeinheit,
+                 nummer,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.spielgeraete_regis_hro
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
