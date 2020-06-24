@@ -39,7 +39,7 @@
             {% elseif type == 'anlagevermoegendereigenbetriebe' and json.data.type == 'anlagevermoegendereigenbetriebe' %}
                 {% if json.data.flurstueckskennzeichen is defined and json.data.flurstueckskennzeichen != null%}{{ json.data.flurstueckskennzeichen }}, {% endif %}{% if json.data.aktenzeichen is defined and json.data.aktenzeichen != null%}{{ json.data.aktenzeichen }}, {% endif %}Status {{ json.data.realnutzungsarten }}{% if json.data.wirtschaftseinheit_betriebsvermoegen is defined and json.data.wirtschaftseinheit_betriebsvermoegen != null%}, {{ json.data.wirtschaftseinheit_betriebsvermoegen }}{% endif %}
             {% elseif type == 'baumkataster' and json.data.type == 'baum' %}
-                Baum (Bewirtschafter {{ json.data.bewirtschafter }}, Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Nummer {{ json.data.nummer }})
+                Baum{% if json.data.gefaellt is defined and json.data.gefaellt != null and json.data.gefaellt == 'ja'%} (gefällt){% endif %} (Bewirtschafter {{ json.data.bewirtschafter }}, Grünpflegebezirk {{ json.data.bezirk }}, Grünpflegeobjekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Nummer {{ json.data.nummer }}, laufende Nummer {{ json.data.laufende_nummer }})
             {% elseif type == 'baumkataster' and json.data.type == 'baumgruppe' %}
                 Baumgruppe (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Teil {{ json.data.teil }})
             {% elseif type == 'baumkataster' and json.data.type == 'baumreihe' %}
@@ -55,7 +55,7 @@
             {% elseif type == 'gruenfriedhofsflaechen' and json.data.type == 'gruenfriedhofsflaechen' %}
                 {{ json.data.art }} (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Pflegebezeichnung {{ json.data.pflegebezeichnung }}, Teil {{ json.data.teil }})
             {% elseif type == 'gruenpflegeobjekte' and json.data.type == 'gruenpflegeobjekte' %}
-                {{ json.data.objektart }}, {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Grünpflegebezirk {{ json.data.bezirk }}
+                Grünpflegebezirk {{ json.data.bezirk }}, {{ json.data.objektart }}, {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}
             {% elseif type == 'ingenieurbauwerke' and json.data.type == 'ingenieurbauwerke' %}
                 {{ json.data.art }}, {% if json.data.nummer_asb is defined and json.data.nummer_asb != null%}{{ json.data.nummer_asb }}, {% endif %}{{ json.data.nummer }}
             {% elseif type == 'kleingartenanlagen' and json.data.type == 'kleingartenanlagen' %}

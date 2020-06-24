@@ -48,7 +48,7 @@ class IndexBaumCommand extends ContainerAwareCommand
 
         $conn = $this->getContainer()->get('doctrine.dbal.hro_search_data_connection');
 
-        // niedriges "Pagination"-Limit, da sonst Abfragen nicht vollst‰ndig durchlaufen und damit nicht alle Objekte aus der DB-Tabelle in den Index gelangen
+        // niedriges "Pagination"-Limit, da sonst Abfragen nicht vollst√§ndig durchlaufen und damit nicht alle Objekte aus der DB-Tabelle in den Index gelangen
         $limit = 80;
         $offset = 0;
         $id = 0;
@@ -56,23 +56,51 @@ class IndexBaumCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Baeume fuer HRO-Baumkatastersuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.baeume');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.baeume_regis_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT bewirtschafter,
-                bezirk,
-                objektnummer,
-                regexp_replace(objektnummer, '\/', '', 'g') AS objektnummer_ohne_slashes,
-                regexp_replace(objektnummer, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
-                objektbezeichnung,
-                nummer,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.baeume
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 uuid,
+                 'nein' AS gefaellt,
+                 CASE
+                  WHEN bewirtschafter ~ 'Kataster' THEN '62'
+                  WHEN bewirtschafter ~ 'Stadtgr√ºn' THEN '67'
+                  WHEN bewirtschafter ~ 'Eigenbetrieb Kommunale Objektbewirtschaftung' THEN '88'
+                  ELSE bewirtschafter
+                 END AS bewirtschafter,
+                 gruenpflegebezirk AS bezirk,
+                 nummer_gruenpflegeobjekt AS objektnummer,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', '', 'g') AS objektnummer_ohne_slashes,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
+                 bezeichnung_gruenpflegeobjekt AS objektbezeichnung,
+                 nummer,
+                 laufende_nummer,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.baeume_regis_hro
+                UNION SELECT
+                 uuid,
+                 'ja' AS gefaellt,
+                 CASE
+                  WHEN bewirtschafter ~ 'Kataster' THEN '62'
+                  WHEN bewirtschafter ~ 'Stadtgr√ºn' THEN '67'
+                  WHEN bewirtschafter ~ 'Eigenbetrieb Kommunale Objektbewirtschaftung' THEN '88'
+                  ELSE bewirtschafter
+                 END AS bewirtschafter,
+                 gruenpflegebezirk AS bezirk,
+                 nummer_gruenpflegeobjekt AS objektnummer,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', '', 'g') AS objektnummer_ohne_slashes,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
+                 bezeichnung_gruenpflegeobjekt AS objektbezeichnung,
+                 nummer,
+                 laufende_nummer,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.baeume_gefaellt_regis_hro
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
@@ -86,7 +114,9 @@ class IndexBaumCommand extends ContainerAwareCommand
                     $row['objektnummer_ohne_slashes'],
                     $row['objektnummer_mit_leerzeichen'],
                     $row['objektbezeichnung'],
-                    $row['nummer']
+                    $row['nummer'],
+                    $row['laufende_nummer'],
+                    $row['gefaellt']
                 );
                 
                 $doc->phonetic = $this->addPhonetic($this->concat(
@@ -96,10 +126,12 @@ class IndexBaumCommand extends ContainerAwareCommand
                     $row['objektnummer_ohne_slashes'],
                     $row['objektnummer_mit_leerzeichen'],
                     $row['objektbezeichnung'],
-                    $row['nummer']
+                    $row['nummer'],
+                    $row['laufende_nummer'],
+                    $row['gefaellt']
                 ));
 
-                $doc->label = "3".$row['bewirtschafter'].$row['bezirk'].$row['objektnummer'].$row['objektnummer_ohne_slashes'].$row['objektnummer_mit_leerzeichen'].$row['objektbezeichnung'].$row['nummer'];
+                $doc->label = "3".$row['bewirtschafter'].$row['bezirk'].$row['objektnummer'].$row['objektnummer_ohne_slashes'].$row['objektnummer_mit_leerzeichen'].$row['objektbezeichnung'].$row['nummer'].$row['laufende_nummer'].$row['gefaellt'];
 
                 $doc->json = json_encode(array(
                     'data'   => array(
@@ -108,7 +140,9 @@ class IndexBaumCommand extends ContainerAwareCommand
                         'bezirk'            => $row['bezirk'],
                         'objektnummer'      => $row['objektnummer'],
                         'objektbezeichnung' => $row['objektbezeichnung'],
-                        'nummer'            => $row['nummer']
+                        'nummer'            => $row['nummer'],
+                        'laufende_nummer'   => $row['laufende_nummer'],
+                        'gefaellt'          => $row['gefaellt']
                     ),
                     'x'      => $x,
                     'y'      => $y,
@@ -153,11 +187,11 @@ class IndexBaumCommand extends ContainerAwareCommand
         $phonetic = ColognePhonetic::singleton();
 
         $array = array_filter(
-            explode(" ", preg_replace("/[^a-z‰ˆ¸ﬂƒ÷‹0-9]/i", " ", $string))
+            explode(" ", preg_replace("/[^a-z√§√∂√º√ü√Ñ√ñ√ú0-9]/i", " ", $string))
         );
 
         foreach ($array as $val) {
-            if (preg_match("/^[a-z‰ˆ¸ﬂƒ÷‹]+$/i", $val)) {
+            if (preg_match("/^[a-z√§√∂√º√ü√Ñ√ñ√ú]+$/i", $val)) {
                 $result .= " AND (" . $val. '^20 OR ' . $val . '*^15';
                 
                 if($val !== 'h') {
