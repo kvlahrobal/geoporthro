@@ -56,23 +56,24 @@ class IndexGruenfriedhofsflaechenCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Gruenfriedhofsflaechen fuer HRO-Gruenfriedhofsflaechensuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.gruenflaechen_friedhofsbegleitflaechen');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.gruenflaechen_friedhofsbegleitflaechen_regis_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT art,
-                bezirk,
-                objektnummer,
-                regexp_replace(objektnummer, '\/', '', 'g') AS objektnummer_ohne_slashes,
-                regexp_replace(objektnummer, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
-                objektbezeichnung,
-                pflegebezeichnung,
-                teil,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.gruenflaechen_friedhofsbegleitflaechen
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 art,
+                 gruenpflegebezirk AS bezirk,
+                 nummer_gruenpflegeobjekt AS objektnummer,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', '', 'g') AS objektnummer_ohne_slashes,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
+                 bezeichnung_gruenpflegeobjekt AS objektbezeichnung,
+                 teilnummer AS teil,
+                 pflegebezeichnung,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.gruenflaechen_friedhofsbegleitflaechen_regis_hro
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
 

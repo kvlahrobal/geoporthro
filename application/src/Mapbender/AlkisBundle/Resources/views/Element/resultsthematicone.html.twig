@@ -41,9 +41,9 @@
             {% elseif type == 'baumkataster' and json.data.type == 'baum' %}
                 Baum{% if json.data.gefaellt is defined and json.data.gefaellt != null and json.data.gefaellt == 'ja'%} (gefällt){% endif %} (Bewirtschafter {{ json.data.bewirtschafter }}, Grünpflegebezirk {{ json.data.bezirk }}, Grünpflegeobjekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Nummer {{ json.data.nummer }}, laufende Nummer {{ json.data.laufende_nummer }})
             {% elseif type == 'baumkataster' and json.data.type == 'baumgruppe' %}
-                Baumgruppe (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Teil {{ json.data.teil }})
+                Baumgruppe (Grünpflegebezirk {{ json.data.bezirk }}, Grünpflegeobjekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Teilnummer {{ json.data.teil }})
             {% elseif type == 'baumkataster' and json.data.type == 'baumreihe' %}
-                Baumreihe (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Teil {{ json.data.teil }})
+                Baumgruppe (Grünpflegebezirk {{ json.data.bezirk }}, Grünpflegeobjekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Teilnummer {{ json.data.teil }})
             {% elseif type == 'bebauungsplaene' and json.data.type == 'bebauungsplaene' %}
                 {{ json.data.nummer }}, {{ json.data.bezeichnung }}{{ json.data.rechtskraeftig }}
             {% elseif type == 'bebauungsplaene_nur_rk' and json.data.type == 'bebauungsplaene_nur_rk' %}
@@ -53,7 +53,7 @@
             {% elseif type == 'grundvermoegen' and json.data.type == 'grundvermoegen' %}
                 {{ json.data.aktenzeichen }}
             {% elseif type == 'gruenfriedhofsflaechen' and json.data.type == 'gruenfriedhofsflaechen' %}
-                {{ json.data.art }} (Bezirk {{ json.data.bezirk }}, Objekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}, Pflegebezeichnung {{ json.data.pflegebezeichnung }}, Teil {{ json.data.teil }})
+                {{ json.data.art }} (Grünpflegebezirk {{ json.data.bezirk }}, Grünpflegeobjekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}{% if json.data.pflegebezeichnung is defined and json.data.pflegebezeichnung != null%}, {{ json.data.pflegebezeichnung }}{% endif %}, Teilnummer {{ json.data.teil }})
             {% elseif type == 'gruenpflegeobjekte' and json.data.type == 'gruenpflegeobjekte' %}
                 Grünpflegebezirk {{ json.data.bezirk }}, {{ json.data.objektart }}, {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}
             {% elseif type == 'ingenieurbauwerke' and json.data.type == 'ingenieurbauwerke' %}

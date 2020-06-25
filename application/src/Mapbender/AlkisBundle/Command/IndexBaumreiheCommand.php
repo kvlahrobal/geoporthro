@@ -55,22 +55,23 @@ class IndexBaumreiheCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Baumreihen fuer HRO-Baumkatastersuche ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.baumreihen');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.baumreihen_regis_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT bezirk,
-                objektnummer,
-                regexp_replace(objektnummer, '\/', '', 'g') AS objektnummer_ohne_slashes,
-                regexp_replace(objektnummer, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
-                objektbezeichnung,
-                teil,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.baumreihen
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+               SELECT
+                 gruenpflegebezirk AS bezirk,
+                 nummer_gruenpflegeobjekt AS objektnummer,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', '', 'g') AS objektnummer_ohne_slashes,
+                 regexp_replace(nummer_gruenpflegeobjekt, '\/', ' ', 'g') AS objektnummer_mit_leerzeichen,
+                 bezeichnung_gruenpflegeobjekt AS objektbezeichnung,
+                 teilnummer AS teil,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.baumreihen_regis_hro
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
