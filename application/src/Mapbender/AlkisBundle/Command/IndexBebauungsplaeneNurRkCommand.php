@@ -55,21 +55,21 @@ class IndexBebauungsplaeneNurRkCommand extends ContainerAwareCommand
         $output->writeln('Indiziere Bebauungsplaene (nur rechtskraeftig) fuer HRO-Bebauungsplaenesuche (nur rechtskraeftig) ... ');
 
 
-        $stmt = $conn->query('SELECT count(*) AS count FROM regis.bplaene_geltungsbereiche WHERE rechtskraeftig IS TRUE AND bekanntmachung <= now()::date');
+        $stmt = $conn->query('SELECT count(*) AS count FROM fachdaten.bebauungsplaene_rechtskraeftig_geltungsbereiche_regis_hro');
         $result = $stmt->fetch();
 
         while ($offset < $result['count']) {
             $stmt = $conn->query("
-                SELECT nummer,
-                regexp_replace(nummer, '\.', '', 'g') AS nummer_ohne_punkte,
-                regexp_replace(nummer, '\.', ' ', 'g') AS nummer_mit_leerzeichen,
-                bezeichnung,
-                ST_AsText(ST_Centroid(geometrie)) AS geom,
-                ST_AsText(geometrie) AS wktgeom
-                FROM regis.bplaene_geltungsbereiche
-                WHERE rechtskraeftig IS TRUE AND bekanntmachung <= now()::date
-                ORDER BY id
-                LIMIT " . $limit . " OFFSET " . $offset);
+                SELECT
+                 nummer,
+                 regexp_replace(nummer, '\.', '', 'g') AS nummer_ohne_punkte,
+                 regexp_replace(nummer, '\.', ' ', 'g') AS nummer_mit_leerzeichen,
+                 bezeichnung,
+                 ST_AsText(ST_Centroid(geometrie)) AS geom,
+                 ST_AsText(geometrie) AS wktgeom
+                  FROM fachdaten.bebauungsplaene_rechtskraeftig_geltungsbereiche_regis_hro
+                   ORDER BY uuid
+                    LIMIT " . $limit . " OFFSET " . $offset);
 
             while ($row = $stmt->fetch()) {
                 list($x, $y) = $this->prepairPoint($row['geom']);
