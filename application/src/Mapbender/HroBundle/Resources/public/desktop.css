@@ -57,6 +57,12 @@ a.button:focus, a.button:hover {
     color: #d81920 !important;
 }
 
+.contextmenu-text {
+    font-family: "Open Sans","Calluna Sans","Gill Sans MT",Calibri,"Trebuchet MS",sans-serif !important;
+    font-size: 11px !important;
+    margin-right: 3px !important;
+}
+
 .customPrintDialog {
     height: 550px !important;
 }
@@ -143,12 +149,6 @@ a.button:focus, a.button:hover {
 .layer-menu .layer-slider-bar .layer-slider-handle, .layer-menu.positionSource .layer-slider-bar .layer-slider-handle {
     background-color: #006cb7 !important;
     font-size: 11px !important;
-}
-
-.layer-metadata-text {
-    font-family: "Open Sans","Calluna Sans","Gill Sans MT",Calibri,"Trebuchet MS",sans-serif !important;
-    font-size: 11px !important;
-    margin-left: 2px !important;
 }
 
 #layer-opacity-text {

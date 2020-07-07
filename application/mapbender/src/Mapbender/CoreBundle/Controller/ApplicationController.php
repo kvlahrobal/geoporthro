@@ -40,6 +40,7 @@ class ApplicationController extends Controller
         $drupal_mark   = function_exists('mapbender_menu') ? '?q=mapbender' : $searchSubject;
 
         $urls = array(
+            'wuschl'   => $this->get('request')->getBaseUrl(),
             'base'     => $this->get('request')->getBaseUrl(),
             'asset'    => $this->get('templating.helper.assets')->getUrl(null),
             'element'  => $router->generate('mapbender_core_application_element', $config),

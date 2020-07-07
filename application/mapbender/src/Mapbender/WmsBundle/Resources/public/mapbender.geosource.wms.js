@@ -32,6 +32,42 @@ Mapbender.Geo.WmsSourceHandler = Class({'extends': Mapbender.Geo.SourceHandler }
         }
 
         function _setProperties(layer, parent, id, num, proxy){
+            /* WMS-URL */
+            var wmsUrl = sourceDef.configuration.options.url;
+            // eigene WMS
+            if (wmsUrl.indexOf('geo.sv.rostock.de') !== -1) {
+                // mit Parametern
+                if (wmsUrl.indexOf('?') !== -1) {
+                    // Parameter entfernen
+                    layer.wmsUrl = wmsUrl.substring(0, wmsUrl.indexOf('?'));
+                }
+                // ohne Parameter
+                else {
+                    // URL unverändert übernehmen
+                    layer.wmsUrl = wmsUrl;
+                }
+            }
+            // andere WMS
+            else {
+                // mit Parametern
+                if (wmsUrl.indexOf('apabilitie') !== -1) {
+                    // URL unverändert übernehmen
+                    layer.wmsUrl = wmsUrl;
+                }
+                // ohne Parameter
+                else {
+                    // bei UMN-MapServer-URL
+                    if (wmsUrl.indexOf('map=') !== -1) {
+                        // Parameter hinzufügen
+                        layer.wmsUrl = wmsUrl + '&service=WMS&version=1.3.0&request=GetCapabilities';
+                    }
+                    // ansonsten
+                    else {
+                        // Parameter hinzufügen
+                        layer.wmsUrl = wmsUrl.substring(0, wmsUrl.indexOf('?')) + '?service=WMS&version=1.3.0&request=GetCapabilities';
+                    }
+                }
+            }
             /* set unic id for a layer */
             layer.options.origId = layer.options.id;
             layer.options.id = parent ? parent.options.id + "_" + num : id + "_" + num;

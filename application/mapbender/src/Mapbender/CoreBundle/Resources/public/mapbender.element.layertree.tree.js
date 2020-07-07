@@ -1127,6 +1127,38 @@
                         }
                     });
                 }
+                
+                if (menu.find('.layer-data').length > 0) {
+                    atLeastOne = true;
+                    var layer = self.model.findLayer({
+                        id: sourceId
+                    },
+                    {
+                        id: layerId
+                    });
+                    if (layer) {
+                        $('.layer-data', menu).removeClass('inactive').on('click', $.proxy(self._dataOpen, self));
+                    }
+                }
+                
+                if (menu.find('.layer-wms').length > 0) {
+                    atLeastOne = true;
+                    var layer = self.model.findLayer({
+                        id: sourceId
+                    },
+                    {
+                        id: layerId
+                    });
+                    if (layer) {
+                        self.currentWmsUrl = layer.layer.wmsUrl;
+                        if (self.currentWmsUrl) {
+                            $('.layer-wms', menu).removeClass('inactive').on('click', $.proxy(self._wmsOpen, self));
+                        } else {
+                            $('.layer-wms', menu).remove();
+                        }
+                    }
+                }
+                
                 if ($.inArray("zoomtolayer", self.options.menu) !== -1 && menu.find('.layer-zoom').length > 0
                     && self.model.getLayerExtents({
                         sourceId: sourceId,
@@ -1317,6 +1349,30 @@
         _showLegend: function(elm) {
         },
         _exportKml: function(elm) {
+        },
+        _dataOpen: function(e) {
+            Mapbender.Metadata.openDataUrl(
+                this.options.target,
+                {
+                    id: $(
+                        e.target).
+                        parents(
+                            'div.layer-menu:first').
+                        attr(
+                            "data-menuSourceId")
+                },
+            {
+                id: $(
+                    e.target).
+                    parents(
+                        'div.layer-menu:first').
+                    attr(
+                        "data-menuLayerId")
+            }
+            );
+        },
+        _wmsOpen: function(e) {
+            window.open(this.currentWmsUrl);
         },
         _zoomToLayer: function(e) {
             var options = {
