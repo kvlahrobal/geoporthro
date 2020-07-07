@@ -40,13 +40,16 @@ class ApplicationController extends Controller
         $drupal_mark   = function_exists('mapbender_menu') ? '?q=mapbender' : $searchSubject;
 
         $urls = array(
-            'wuschl'   => $this->get('request')->getBaseUrl(),
             'base'     => $this->get('request')->getBaseUrl(),
             'asset'    => $this->get('templating.helper.assets')->getUrl(null),
             'element'  => $router->generate('mapbender_core_application_element', $config),
             'trans'    => $router->generate('mapbender_core_translation_trans'),
             'proxy'    => $router->generate('owsproxy3_core_owsproxy_entrypoint'),
-            'metadata' => $router->generate('mapbender_core_application_metadata', $config));
+            'metadata' => $router->generate('mapbender_core_application_metadata', $config),
+            'dataurl'  => $router->generate('mapbender_core_application_dataurl', $config),
+            'wfsurl'   => $router->generate('mapbender_core_application_wfsurl', $config),
+            'wcsurl'   => $router->generate('mapbender_core_application_wcsurl', $config)
+        );
 
         if ($searchSubject !== $drupal_mark) {
             foreach ($urls as $k => $v) {
@@ -321,6 +324,78 @@ class ApplicationController extends Controller
         $browserResponse = $proxy->handle();
         $response = new Response();
         $response->setContent($browserResponse->getContent());
+        return $response;
+    }
+
+    /**
+     * Data-URL controller.
+     *
+     * @Route("/application/{slug}/dataurl")
+     */
+    public function dataUrlAction($slug)
+    {
+        $wmsUrl = $this->container->get('request')->get("wmsUrl", null);
+        # Verbindung zur Datenbank von Geolotse.HRO aufbauen
+        $connection = pg_connect("host=dbnode10.sv.rostock.de dbname=geolotse user=admin password=hro62.15;:_");
+        # verbundene URLs holen
+        pg_prepare("", "SELECT s.link FROM sublinks s, links_sublinks ls, links l WHERE s.target = 'opendata' AND s.id = ls.sublink_id AND (ls.link_id = l.id OR ls.link_id = l.parent_id) AND l.link = '$wmsUrl' LIMIT 1");
+        $result = pg_execute("", array());
+        $dataUrl = '';
+        while ($row = pg_fetch_assoc($result)) {
+            $dataUrl = $row['link'];
+        }
+        pg_close($connection);
+        $response = new Response();
+        $response->setContent($dataUrl);
+        $response->headers->set('Content-Type', 'text/plain');
+        return $response;
+    }
+
+    /**
+     * WFS-URL controller.
+     *
+     * @Route("/application/{slug}/wfsurl")
+     */
+    public function wfsUrlAction($slug)
+    {
+        $wmsUrl = $this->container->get('request')->get("wmsUrl", null);
+        # Verbindung zur Datenbank von Geolotse.HRO aufbauen
+        $connection = pg_connect("host=dbnode10.sv.rostock.de dbname=geolotse user=admin password=hro62.15;:_");
+        # verbundene URLs holen
+        pg_prepare("", "SELECT link FROM links WHERE category = 'geoservice' AND \"group\" = 'WFS' AND parent_id in (SELECT parent_id FROM links WHERE link = '$wmsUrl') LIMIT 1");
+        $result = pg_execute("", array());
+        $wfsUrl = '';
+        while ($row = pg_fetch_assoc($result)) {
+            $wfsUrl = $row['link'];
+        }
+        pg_close($connection);
+        $response = new Response();
+        $response->setContent($wfsUrl);
+        $response->headers->set('Content-Type', 'text/plain');
+        return $response;
+    }
+
+    /**
+     * WCS-URL controller.
+     *
+     * @Route("/application/{slug}/wcsurl")
+     */
+    public function wcsUrlAction($slug)
+    {
+        $wmsUrl = $this->container->get('request')->get("wmsUrl", null);
+        # Verbindung zur Datenbank von Geolotse.HRO aufbauen
+        $connection = pg_connect("host=dbnode10.sv.rostock.de dbname=geolotse user=admin password=hro62.15;:_");
+        # verbundene URLs holen
+        pg_prepare("", "SELECT link FROM links WHERE category = 'geoservice' AND \"group\" = 'WCS' AND parent_id in (SELECT parent_id FROM links WHERE link = '$wmsUrl') LIMIT 1");
+        $result = pg_execute("", array());
+        $wcsUrl = '';
+        while ($row = pg_fetch_assoc($result)) {
+            $wcsUrl = $row['link'];
+        }
+        pg_close($connection);
+        $response = new Response();
+        $response->setContent($wcsUrl);
+        $response->headers->set('Content-Type', 'text/plain');
         return $response;
     }
 

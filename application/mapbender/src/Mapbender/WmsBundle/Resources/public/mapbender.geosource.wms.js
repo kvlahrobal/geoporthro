@@ -39,31 +39,29 @@ Mapbender.Geo.WmsSourceHandler = Class({'extends': Mapbender.Geo.SourceHandler }
                 // mit Parametern
                 if (wmsUrl.indexOf('?') !== -1) {
                     // Parameter entfernen
-                    layer.wmsUrl = wmsUrl.substring(0, wmsUrl.indexOf('?'));
+                    wmsUrl = wmsUrl.substring(0, wmsUrl.indexOf('?'));
                 }
-                // ohne Parameter
-                else {
-                    // URL unverändert übernehmen
-                    layer.wmsUrl = wmsUrl;
-                }
+                layer.wmsUrl = wmsUrl;
+                /* Data-URL */
+                layer.dataUrlAvailable = true;
             }
             // andere WMS
             else {
                 // mit Parametern
                 if (wmsUrl.indexOf('apabilitie') !== -1) {
-                    // URL unverändert übernehmen
+                    // URL unverÃ¤ndert Ã¼bernehmen
                     layer.wmsUrl = wmsUrl;
                 }
                 // ohne Parameter
                 else {
                     // bei UMN-MapServer-URL
                     if (wmsUrl.indexOf('map=') !== -1) {
-                        // Parameter hinzufügen
+                        // Parameter hinzufÃ¼gen
                         layer.wmsUrl = wmsUrl + '&service=WMS&version=1.3.0&request=GetCapabilities';
                     }
                     // ansonsten
                     else {
-                        // Parameter hinzufügen
+                        // Parameter hinzufÃ¼gen
                         layer.wmsUrl = wmsUrl.substring(0, wmsUrl.indexOf('?')) + '?service=WMS&version=1.3.0&request=GetCapabilities';
                     }
                 }

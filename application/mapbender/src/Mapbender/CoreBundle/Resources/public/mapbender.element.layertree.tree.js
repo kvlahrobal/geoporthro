@@ -1137,7 +1137,105 @@
                         id: layerId
                     });
                     if (layer) {
-                        $('.layer-data', menu).removeClass('inactive').on('click', $.proxy(self._dataOpen, self));
+                        self.dataUrlAvailable = layer.layer.dataUrlAvailable;
+                        self.currentWmsUrl = layer.layer.wmsUrl;
+                        if (self.dataUrlAvailable && self.dataUrlAvailable === true) {
+                            var dataUrl = '';
+                            $.ajax({
+                              type: 'POST',
+                              async: false,
+                              global: false,
+                              url: Mapbender.configuration.application.urls['dataurl'],
+                              data: {
+                                  wmsUrl: self.currentWmsUrl
+                              },
+                              success: function (data) {
+                                  dataUrl = data;
+                              }
+                            });
+                            if (dataUrl && dataUrl !== '') {
+                                self.currentDataUrl = dataUrl;
+                                $('.layer-data', menu).removeClass('inactive').on('click', $.proxy(self._dataOpen, self));
+                            } else {
+                                $('.layer-data', menu).remove();
+                            }
+                        } else {
+                            $('.layer-data', menu).remove();
+                        }
+                    }
+                }
+                
+                if (menu.find('.layer-wfs').length > 0) {
+                    atLeastOne = true;
+                    var layer = self.model.findLayer({
+                        id: sourceId
+                    },
+                    {
+                        id: layerId
+                    });
+                    if (layer) {
+                        self.dataUrlAvailable = layer.layer.dataUrlAvailable;
+                        self.currentWmsUrl = layer.layer.wmsUrl;
+                        if (self.dataUrlAvailable && self.dataUrlAvailable === true) {
+                            var wfsUrl = '';
+                            $.ajax({
+                              type: 'POST',
+                              async: false,
+                              global: false,
+                              url: Mapbender.configuration.application.urls['wfsurl'],
+                              data: {
+                                  wmsUrl: self.currentWmsUrl
+                              },
+                              success: function (data) {
+                                  wfsUrl = data;
+                              }
+                            });
+                            if (wfsUrl && wfsUrl !== '') {
+                                self.currentWfsUrl = wfsUrl;
+                                $('.layer-wfs', menu).removeClass('inactive').on('click', $.proxy(self._wfsOpen, self));
+                            } else {
+                                $('.layer-wfs', menu).remove();
+                            }
+                        } else {
+                            $('.layer-wfs', menu).remove();
+                        }
+                    }
+                }
+                
+                if (menu.find('.layer-wcs').length > 0) {
+                    atLeastOne = true;
+                    var layer = self.model.findLayer({
+                        id: sourceId
+                    },
+                    {
+                        id: layerId
+                    });
+                    if (layer) {
+                        self.dataUrlAvailable = layer.layer.dataUrlAvailable;
+                        self.currentWmsUrl = layer.layer.wmsUrl;
+                        if (self.dataUrlAvailable && self.dataUrlAvailable === true) {
+                            var wcsUrl = '';
+                            $.ajax({
+                              type: 'POST',
+                              async: false,
+                              global: false,
+                              url: Mapbender.configuration.application.urls['wcsurl'],
+                              data: {
+                                  wmsUrl: self.currentWmsUrl
+                              },
+                              success: function (data) {
+                                  wcsUrl = data;
+                              }
+                            });
+                            if (wcsUrl && wcsUrl !== '') {
+                                self.currentWcsUrl = wcsUrl;
+                                $('.layer-wcs', menu).removeClass('inactive').on('click', $.proxy(self._wcsOpen, self));
+                            } else {
+                                $('.layer-wcs', menu).remove();
+                            }
+                        } else {
+                            $('.layer-wcs', menu).remove();
+                        }
                     }
                 }
                 
@@ -1351,25 +1449,13 @@
         _exportKml: function(elm) {
         },
         _dataOpen: function(e) {
-            Mapbender.Metadata.openDataUrl(
-                this.options.target,
-                {
-                    id: $(
-                        e.target).
-                        parents(
-                            'div.layer-menu:first').
-                        attr(
-                            "data-menuSourceId")
-                },
-            {
-                id: $(
-                    e.target).
-                    parents(
-                        'div.layer-menu:first').
-                    attr(
-                        "data-menuLayerId")
-            }
-            );
+            window.open(this.currentDataUrl);
+        },
+        _wfsOpen: function(e) {
+            window.open(this.currentWfsUrl);
+        },
+        _wcsOpen: function(e) {
+            window.open(this.currentWcsUrl);
         },
         _wmsOpen: function(e) {
             window.open(this.currentWmsUrl);
