@@ -62,6 +62,7 @@ class IndexRisseZuFlurstueckenCommand extends ContainerAwareCommand
                  flurstuecksnummer,
                  flurstueckskennzeichen,
                  risse,
+                 risse_pdf,
                  risse_wkt
                   FROM fachdaten_flurstuecksbezug.flurstuecke_risse_regis_hro
                    ORDER BY uuid
@@ -84,6 +85,7 @@ class IndexRisseZuFlurstueckenCommand extends ContainerAwareCommand
                         'flurstuecksnummer'      => $row['flurstuecksnummer'],
                         'flurstueckskennzeichen' => $row['flurstueckskennzeichen'],
                         'risse'                  => $row['risse'],
+                        'risse_pdf'              => $row['risse_pdf'],
                         'risse_wkt'              => $row['risse_wkt']
                     )
                 ));
