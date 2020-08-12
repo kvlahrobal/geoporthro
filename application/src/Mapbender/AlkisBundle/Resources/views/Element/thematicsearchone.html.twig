@@ -34,6 +34,8 @@
             <option value="mietenpachten"{% if loop.first %} selected="true" {% endif %}>{{ 'Mieten und Pachten' | trans }}</option>
           {% elseif opt == 'spielgeraete' %}
             <option value="spielgeraete"{% if loop.first %} selected="true" {% endif %}>{{ 'Spielgeräte' | trans }}</option>
+          {% elseif opt == 'strassennetz' %}
+            <option value="strassennetz"{% if loop.first %} selected="true" {% endif %}>{{ 'Straßennetz' | trans }}</option>
           {% elseif opt == 'wirtschaftseinheiten_wiro' %}
             <option value="wirtschaftseinheiten_wiro"{% if loop.first %} selected="true" {% endif %}>{{ 'WIRO-Wirtschaftseinheiten' | trans }}</option>
           {% endif %}

@@ -60,6 +60,7 @@ class ThematicSearchOneAdminType extends AbstractType
                     "lichtsignalanlagen" => "Lichtsignalanlagen",
                     "mietenpachten" => "Mieten und Pachten",
                     "spielgeraete" => "Spielgeräte",
+                    "strassennetz" => "Straßennetz",
                     "wirtschaftseinheiten_wiro" => "WIRO-Wirtschaftseinheiten"))
             )
             ->add('target', 'target_element',

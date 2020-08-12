@@ -24,6 +24,7 @@
             lichtsignalanlagen: true,
             mietenpachten: true,
             spielgeraete: true,
+            strassennetz: true,
             wirtschaftseinheiten_wiro: true
         },
         hilfetexte: {
@@ -44,6 +45,7 @@
             lichtsignalanlagen: '<li>→ Nummer [Beispiel: <span>LSA 303</span>]</li><li>→ Knoten-Nummer [Beispiel: <span>422</span>]</li><li>→ Bezeichnung [Beispiel: <span>goetheplatz</span>]</li></ul>',
             mietenpachten: '<li>→ Aktenzeichen [Beispiel: <span>2341l04</span>]</li></ul><br/>Es werden je Aktenzeichen immer sowohl die Teilflächen als auch die Gesamtfläche gelistet.',
             spielgeraete: '<li>→ Grünpflegebezirk [Beispiel: <span>19</span>]</li><li>→ Art des Grünpflegeobjektes [Beispiel: <span>ballspielan</span>]</li><li>→ Nummer des Grünpflegeobjektes [Beispiele: <span>1100/02</span> oder <span>1100</span>]</li><li>→ Bezeichnung des Grünpflegeobjektes [Beispiel: <span>park am fi</span>]</li><li>→ Pflegeeinheit [Beispiel: <span>8313</span>]</li><li>→ Nummer als Kombination aus Grünpflegebezirk, Nummer des Grünpflegeobjektes und Nummer (Reihenfolge egal) [Beispiel: <span>19 1100 10</span>]</li><li>→ Nummer als Kombination aus Grünpflegebezirk, Bezeichnung des Grünpflegeobjektes und Nummer (Reihenfolge egal) [Beispiel: <span>19 wallanlagen 10</span>]</li></ul>',
+            strassennetz: '<li>→ Nummer [Beispiel: <span>0995071</span>]</li><li>→ SKEY [Beispiel: <span>0105005 0205301</span>]</li></ul><br/>Resultate können Netzknoten sowie Netzabschnitte sein, jeweils gekennzeichnet durch ein vorangestelltes sprechendes Icon.',
             wirtschaftseinheiten_wiro: '<li>→ Nummer [Beispiel: <span>6433</span>]</li></ul>'
         },
         line_style: {
@@ -142,6 +144,9 @@
             else if (search === 'spielgeraete') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.spielgeraete));
             }
+            else if (search === 'strassennetz') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.strassennetz));
+            }
             else if (search === 'wirtschaftseinheiten_wiro') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.wirtschaftseinheiten_wiro));
             }
@@ -213,6 +218,10 @@
             else if (search === 'spielgeraete') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.spielgeraete));
                 this.firstTimeSearch.spielgeraete = true;
+            }
+            else if (search === 'strassennetz') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.strassennetz));
+                this.firstTimeSearch.strassennetz = true;
             }
             else if (search === 'wirtschaftseinheiten_wiro') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.wirtschaftseinheiten_wiro));
@@ -287,6 +296,10 @@
             else if (search === 'spielgeraete') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.spielgeraete));
                 this.firstTimeSearch.spielgeraete = true;
+            }
+            else if (search === 'strassennetz') {
+                $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.strassennetz));
+                this.firstTimeSearch.strassennetz = true;
             }
             else if (search === 'wirtschaftseinheiten_wiro') {
                 $('.thematicsearchonecontent').html(this.hilfetexte.allgemein.concat(this.hilfetexte.wirtschaftseinheiten_wiro));
@@ -613,6 +626,19 @@
                         layertreeLayerCheckbox.change();
                     }
                     this.firstTimeSearch.spielgeraete = false;
+                    break;
+                case 'strassennetz':
+                    if (this.firstTimeSearch.strassennetz === true) {
+                        var layertreeLayerContainer = $('li[data-type="simple"][data-title="Netzknoten"]');
+                        var layertreeLayerCheckbox = $('input[name="selected"]:first', layertreeLayerContainer);
+                        layertreeLayerCheckbox.prop('checked', true);
+                        layertreeLayerCheckbox.change();
+                        layertreeLayerContainer = $('li[data-type="simple"][data-title="Netzabschnitte"]');
+                        layertreeLayerCheckbox = $('input[name="selected"]:first', layertreeLayerContainer);
+                        layertreeLayerCheckbox.prop('checked', true);
+                        layertreeLayerCheckbox.change();
+                    }
+                    this.firstTimeSearch.strassennetz = false;
                     break;
                 default:
                     if (this.firstTimeSearch.wirtschaftseinheiten_wiro === true) {
