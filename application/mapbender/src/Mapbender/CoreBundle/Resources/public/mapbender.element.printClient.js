@@ -523,11 +523,61 @@
                             }));
                             lyrCount++;
                         }
-                        
+
                         layer.olLayer.params.LAYERS = prevLayers;
-                        
-                        if (sources[i].type === 'wms') {
+
+                        if (sources[i].configuration.isBaseSource === false && sources[i].type === 'wms') {
                             var ll = _getLegends(sources[i].configuration.children[0], source.configuration.options.url.replace(/\?.*/i, '?'));
+                            // verhindern, dass bei aktivierten Layern innerhalb von Layergruppen die komplette Legende der Layergruppe mitausgegeben wird
+                            if (Object.keys(ll).length > 1) {
+                              var ll_as_array = Object.entries(ll);
+                              var is_group_of_layers = false;
+                              ll_as_array.forEach(function(element, index) {
+                                var getlegend_layer = element[1].split('layer=').pop();
+                                if (getlegend_layer.split('&')[0].split('.').length - 1 < 2) {
+                                  ll_as_array.splice(index, 1);
+                                } else if (getlegend_layer.split('&')[0].split('.').length - 1 > 2) {
+                                  is_group_of_layers = true;
+                                }
+                              });
+                              ll_as_array.forEach(function(element, index) {
+                                var getlegend_layer = element[1].split('layer=').pop();
+                                if (getlegend_layer.split('&')[0].split('.').length - 1 < 2) {
+                                  ll_as_array.splice(index, 1);
+                                } else if (getlegend_layer.split('&')[0].split('.').length - 1 > 2) {
+                                  is_group_of_layers = true;
+                                }
+                              });
+                              ll_as_array.forEach(function(element, index) {
+                                var getlegend_layer = element[1].split('layer=').pop();
+                                if (getlegend_layer.split('&')[0].split('.').length - 1 < 2) {
+                                  ll_as_array.splice(index, 1);
+                                } else if (getlegend_layer.split('&')[0].split('.').length - 1 > 2) {
+                                  is_group_of_layers = true;
+                                }
+                              });
+                              if (is_group_of_layers == true) {
+                                ll_as_array.forEach(function(element, index) {
+                                  var getlegend_layer = element[1].split('layer=').pop();
+                                  if (getlegend_layer.split('&')[0].split('.').length - 1 < 3) {
+                                    ll_as_array.splice(index, 1);
+                                  }
+                                });
+                                ll_as_array.forEach(function(element, index) {
+                                  var getlegend_layer = element[1].split('layer=').pop();
+                                  if (getlegend_layer.split('&')[0].split('.').length - 1 < 3) {
+                                    ll_as_array.splice(index, 1);
+                                  }
+                                });
+                                ll_as_array.forEach(function(element, index) {
+                                  var getlegend_layer = element[1].split('layer=').pop();
+                                  if (getlegend_layer.split('&')[0].split('.').length - 1 < 3) {
+                                    ll_as_array.splice(index, 1);
+                                  }
+                                });
+                              }
+                              ll = Object.fromEntries(ll_as_array);
+                            }
                             if (ll) {
                                 legends.push(ll);
                             }
