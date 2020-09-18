@@ -531,52 +531,31 @@
                             // verhindern, dass bei aktivierten Layern innerhalb von Layergruppen die komplette Legende der Layergruppe mitausgegeben wird
                             if (Object.keys(ll).length > 1) {
                               var ll_as_array = Object.entries(ll);
+                              var new_ll = [];
                               var is_group_of_layers = false;
                               ll_as_array.forEach(function(element, index) {
                                 var getlegend_layer = element[1].split('layer=').pop();
-                                if (getlegend_layer.split('&')[0].split('.').length - 1 < 2) {
-                                  ll_as_array.splice(index, 1);
-                                } else if (getlegend_layer.split('&')[0].split('.').length - 1 > 2) {
-                                  is_group_of_layers = true;
-                                }
-                              });
-                              ll_as_array.forEach(function(element, index) {
-                                var getlegend_layer = element[1].split('layer=').pop();
-                                if (getlegend_layer.split('&')[0].split('.').length - 1 < 2) {
-                                  ll_as_array.splice(index, 1);
-                                } else if (getlegend_layer.split('&')[0].split('.').length - 1 > 2) {
-                                  is_group_of_layers = true;
-                                }
-                              });
-                              ll_as_array.forEach(function(element, index) {
-                                var getlegend_layer = element[1].split('layer=').pop();
-                                if (getlegend_layer.split('&')[0].split('.').length - 1 < 2) {
-                                  ll_as_array.splice(index, 1);
-                                } else if (getlegend_layer.split('&')[0].split('.').length - 1 > 2) {
-                                  is_group_of_layers = true;
+                                getlegend_layer = getlegend_layer.split('&')[0];
+                                var number_of_dots = getlegend_layer.split('.').length;
+                                if (getlegend_layer.indexOf('hro.') !== -1 && number_of_dots - 1 >= 2) {
+                                  new_ll.push(element);
+                                  if (number_of_dots - 1 > 2) {
+                                    is_group_of_layers = true;
+                                  }
                                 }
                               });
                               if (is_group_of_layers == true) {
+                                new_ll = [];
                                 ll_as_array.forEach(function(element, index) {
                                   var getlegend_layer = element[1].split('layer=').pop();
-                                  if (getlegend_layer.split('&')[0].split('.').length - 1 < 3) {
-                                    ll_as_array.splice(index, 1);
-                                  }
-                                });
-                                ll_as_array.forEach(function(element, index) {
-                                  var getlegend_layer = element[1].split('layer=').pop();
-                                  if (getlegend_layer.split('&')[0].split('.').length - 1 < 3) {
-                                    ll_as_array.splice(index, 1);
-                                  }
-                                });
-                                ll_as_array.forEach(function(element, index) {
-                                  var getlegend_layer = element[1].split('layer=').pop();
-                                  if (getlegend_layer.split('&')[0].split('.').length - 1 < 3) {
-                                    ll_as_array.splice(index, 1);
+                                  getlegend_layer = getlegend_layer.split('&')[0];
+                                  var number_of_dots = getlegend_layer.split('.').length;
+                                  if (number_of_dots - 1 >= 3) {
+                                    new_ll.push(element);
                                   }
                                 });
                               }
-                              ll = Object.fromEntries(ll_as_array);
+                              ll = Object.fromEntries(new_ll);
                             }
                             if (ll) {
                                 legends.push(ll);
