@@ -530,6 +530,17 @@
                             var ll = _getLegends(sources[i].configuration.children[0], source.configuration.options.url.replace(/\?.*/i, '?'));
                             // verhindern, dass bei aktivierten Layern innerhalb von Layergruppen die komplette Legende der Layergruppe mitausgegeben wird
                             if (Object.keys(ll).length > 1) {
+                              // in IE11 existiert Object.entries nicht, daher dann quasi selber schreiben (siehe https://stackoverflow.com/a/45851440)
+                              if (!Object.entries) {
+                                Object.entries = function (obj) {
+                                  var ownProps = Object.keys(obj),
+                                             i = ownProps.length,
+                                      resArray = new Array(i);
+                                  while (i--)
+                                    resArray[i] = [ownProps[i], obj[ownProps[i]]];
+                                  return resArray;
+                                };
+                              }
                               var ll_as_array = Object.entries(ll);
                               var new_ll = [];
                               var is_group_of_layers = false;
@@ -554,6 +565,38 @@
                                     new_ll.push(element);
                                   }
                                 });
+                              }
+                              // in IE11 existiert Object.fromEntries nicht, daher dann quasi selber schreiben (siehe https://github.com/ungap/from-entries)
+                              if (!Object.fromEntries) {
+                                Object.fromEntries = function (iterable) {
+                                  var entries = Array.isArray(iterable) ?
+                                    createEntries(iterable) :
+                                    ('entries' in iterable ? iterable.entries() : iterable);
+                                  var object = {};
+                                  var entry;
+                                  while ((entry = entries.next()) && !entry.done) {
+                                    var pair = entry.value;
+                                    Object.defineProperty(object, pair[0], {
+                                      configurable: true,
+                                      enumerable: true,
+                                      writable: true,
+                                      value: pair[1]
+                                    });
+                                  }
+                                  return object;
+                                };
+                                function createEntries(array) {
+                                  var i = -1;
+                                  return {
+                                    next: function () {
+                                      var done = array.length <= ++i;
+                                      return {
+                                        done: done,
+                                        value: done ? void 0 : array[i]
+                                      };
+                                    }
+                                  };
+                                }
                               }
                               ll = Object.fromEntries(new_ll);
                             }
