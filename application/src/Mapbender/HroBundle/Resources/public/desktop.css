@@ -648,3 +648,11 @@ progress {
     padding-top: 15% !important;
     overflow-y: visible !important;
 }
+
+ul.flipped-list {
+    transform: rotate(180deg);
+}
+
+ul.flipped-list > li {
+    transform: rotate(-180deg);
+}

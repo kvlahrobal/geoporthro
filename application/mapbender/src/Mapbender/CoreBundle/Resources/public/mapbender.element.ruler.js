@@ -12,6 +12,7 @@
             type: 'line',
             precision: 2
         },
+        clicks: 0,
         control: null,
         map: null,
         segments: null,
@@ -75,7 +76,10 @@
             this.map = $('#' + this.options.target);
 
             this.container = $('<div/>');
-            this.segments = $('<ul/>').appendTo(this.container);
+            this.segments = $('<ul/>');
+            
+            this.segments.addClass('flipped-list');
+            this.segments.appendTo(this.container);
 
             this._trigger('ready');
             this._ready();
@@ -161,7 +165,7 @@
             if (this.options.type === 'area') {
                 this.segments.html($('<li/>', { html: measure }));
             } else if (this.options.type === 'line') {
-                this.segments.find('li:last-child').html(measure);
+                this.segments.find('li:last-child').html('Länge bis Stützpunkt ' + (this.clicks + 1) + ': ' + measure);
             }
         },
         _handlePartial: function(event){
@@ -170,6 +174,8 @@
                 this.segments.append($('<li/>'));
                 return;
             }
+            
+            this.clicks++;
 
             var measure = this._getMeasureFromEvent(event);
             
@@ -181,14 +187,20 @@
         },
         _handleFinal: function(event){
             var measure = this._getMeasureFromEvent(event);
-            
-            this.segments.find('li:last-child').wrapInner('<b><b/>');
-
+            if (this.options.type === 'line') {
+                var value = this.segments.find('li:last-child');
+                var value_text = value.text();
+                value_text = value_text.substring(value_text.lastIndexOf(':') + 2);
+                value.text(value_text);
+                value.wrapInner('<b>Gesamtlänge: <b/>');
+            } else {
+                this.segments.find('li:last-child').wrapInner('<b><b/>');
+            }
         },
         _getMeasureFromEvent: function(event){
             var measure = event.measure,
-                    units = event.units,
-                    order = event.order;
+                  units = event.units,
+                  order = event.order;
 
             measure = (measure.toFixed(this.options.precision)).replace('.', ',') + " " + units;
             if (order > 1) {
