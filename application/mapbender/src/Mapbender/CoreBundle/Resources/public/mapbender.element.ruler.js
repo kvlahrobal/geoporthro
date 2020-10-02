@@ -150,6 +150,7 @@
         },
         _reset: function(){
             this.segments.empty();
+            this.clicks = 0;
         },
         _handleModify: function(event){
             if (event.measure === 0.0) {
@@ -196,6 +197,7 @@
             } else {
                 this.segments.find('li:last-child').wrapInner('<b><b/>');
             }
+            this.clicks = 0;
         },
         _getMeasureFromEvent: function(event){
             var measure = event.measure,
