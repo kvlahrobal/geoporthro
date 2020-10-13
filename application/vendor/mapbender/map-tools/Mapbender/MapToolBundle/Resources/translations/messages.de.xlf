@@ -36,7 +36,7 @@
       </trans-unit>
       <trans-unit id="6b99fe71f6687c5b9b53c0ed97cdb6ba" resname="mb.maptool.clickcoordinate.extern.crs.title">
         <source>mb.maptool.clickcoordinate.extern.crs.title</source>
-        <target>Koordinatensystem der Ermittlung</target>
+        <target>Koordinatensystem für Ermittlung</target>
       </trans-unit>
       <trans-unit id="7a19cbd3bd8160e59d86c1f6db034299" resname="mb.maptool.clickcoordinate.extern.crs.tooltip">
         <source>mb.maptool.clickcoordinate.extern.crs.tooltip</source>
@@ -60,7 +60,7 @@
       </trans-unit>
       <trans-unit id="2f7b46c661d43ff666730a8af38083e7" resname="mb.maptool.searchcoordinate.extern.crs.title">
         <source>mb.maptool.searchcoordinate.extern.crs.title</source>
-        <target>Koordinatensystem der Suche</target>
+        <target>Koordinatensystem für Suche</target>
       </trans-unit>
       <trans-unit id="7ab5a8c3921b6c095904f8be71a0347f" resname="mb.maptool.searchcoordinate.extern.crs.tooltip">
         <source>mb.maptool.searchcoordinate.extern.crs.tooltip</source>
@@ -68,7 +68,7 @@
       </trans-unit>
       <trans-unit id="93f4fe75a86034166dd99e91f920a70f" resname="mb.maptool.searchcoordinate.extern.input_coords.tooltip">
         <source>mb.maptool.searchcoordinate.extern.input_coords.tooltip</source>
-        <target>Sucheingabefeld für Koordinaten: Ordinaten müssen mit einem Leerzeichen getrennt werden!</target>
+        <target>Sucheingabefeld für Koordinaten</target>
       </trans-unit>
       <trans-unit id="387ec1c4d5bd11e79296cec278b6b50a" resname="mb.maptool.searchcoordinate.extern.input_coords.placeholder">
         <source>mb.maptool.searchcoordinate.extern.input_coords.placeholder</source>

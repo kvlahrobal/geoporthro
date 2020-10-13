@@ -1,6 +1,13 @@
 <div id="{{ id }}" class="mb-element mb-element-olcsearch" data-title="{{ title }}">
     <div class="search">
-        <div class="dropdown" title="Koordinatensystem des gesuchten Koordinatenpaars auswählen">
+        <p class="olc-coords-hint">
+          Koordinatensystem für Suche
+          <br/>
+          <small>
+            (falls nach Koordinatenpaar gesucht werden soll)
+          </small>
+        </p>
+        <div class="dropdown" title="Koordinatensystem auswählen, falls nach Koordinatenpaar gesucht werden soll">
             <select id="inputSrs" class="hiddenDropdown">
                 <option value="25833">ETRS89/UTM-33N</option>
                 <option value="2398">S42/83/Gauß-Krüger-3°</option>

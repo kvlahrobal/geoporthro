@@ -656,3 +656,11 @@ ul.flipped-list {
 ul.flipped-list > li {
     transform: rotate(-180deg);
 }
+
+.coords-hint span {
+    font-family: monospace;
+}
+
+.olc-coords-hint {
+    margin-bottom: 5px;
+}
