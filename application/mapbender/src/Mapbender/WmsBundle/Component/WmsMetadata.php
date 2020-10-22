@@ -47,18 +47,11 @@ class WmsMetadata extends SourceMetadata
             # Verbindung zur Datenbank von Geolotse.HRO aufbauen
             $connection = pg_connect("host=dbnode10.sv.rostock.de dbname=geolotse user=admin password=hro62.15;:_");
             # verbundene URLs holen
-            pg_prepare("", "SELECT \"group\" AS typ, link FROM links WHERE category = 'geoservice' AND parent_id in (SELECT parent_id FROM links WHERE link = '$originUrl') ORDER BY 1");
+            pg_prepare("", "SELECT CASE WHEN \"group\" = 'WMS' THEN '1' || \"group\" WHEN \"group\" = 'WFS' THEN '3' || \"group\" WHEN \"group\" = 'INSPIRE View Service' THEN '5' || \"group\" WHEN \"group\" = 'INSPIRE Download Service' THEN '7' || \"group\" ELSE \"group\" END AS typ, link FROM links WHERE category = 'geoservice' AND parent_id in (SELECT parent_id FROM links WHERE link = '$originUrl') UNION SELECT DISTINCT CASE WHEN s.target = 'metadata' AND l1.\"group\" = 'INSPIRE Download Service' THEN '8metadata_dls' WHEN s.target = 'metadata' AND l1.\"group\" = 'INSPIRE View Service' THEN '6metadata_vs' WHEN s.target = 'metadata' AND l1.\"group\" = 'WFS' THEN '4metadata_wfs' WHEN s.target = 'metadata' AND l1.\"group\" = 'WMS' THEN '2metadata_wms' ELSE s.target END AS typ, s.link FROM sublinks s, links_sublinks ls, links l1, links l2 WHERE s.target IN ('metadata', 'opendata') AND s.id = ls.sublink_id AND (ls.link_id = l1.id OR ls.link_id = l1.parent_id) AND l1.parent_id = l2.parent_id AND l2.link = '$originUrl' ORDER BY 1, 2");
             $result = pg_execute("", array());
             $urls = array();
             while ($row = pg_fetch_assoc($result)) {
                 $urls[] = array('typ' => $row['typ'], 'link' => $row['link']);
-            }
-            # weitere verbundene URLs holen
-            pg_prepare("", "SELECT DISTINCT s.target AS typ, s.link FROM sublinks s, links_sublinks ls, links l WHERE s.target IN ('metadata', 'opendata') AND s.id = ls.sublink_id AND (ls.link_id = l.id OR ls.link_id = l.parent_id) AND l.link = '$originUrl' ORDER BY 1, 2");
-            $result = pg_execute("", array());
-            $subUrls = array();
-            while ($row = pg_fetch_assoc($result)) {
-                $subUrls[] = array('typ' => $row['typ'], 'link' => $row['link']);
             }
             # Beschreibung holen
             pg_prepare("", "SELECT description FROM links WHERE link = '$originUrl' LIMIT 1");
@@ -110,9 +103,9 @@ class WmsMetadata extends SourceMetadata
                 foreach ($urls as $url) {
                     if ($url['typ'] === 'GeoRSS') {
                         $source_items[] = array("georssUrl" => $url['link']);
-                    } elseif ($url['typ'] === 'INSPIRE Download Service') {
+                    } elseif ($url['typ'] === '7INSPIRE Download Service') {
                         $source_items[] = array("dlsUrl" => $url['link']);
-                    } elseif ($url['typ'] === 'INSPIRE View Service') {
+                    } elseif ($url['typ'] === '5INSPIRE View Service') {
                         $source_items[] = array("vsUrl" => $url['link']);
                     } elseif ($url['typ'] === 'SOS') {
                         $source_items[] = array("sosUrl" => $url['link']);
@@ -120,27 +113,28 @@ class WmsMetadata extends SourceMetadata
                         $source_items[] = array("tmsUrl" => $url['link']);
                     } elseif ($url['typ'] === 'WCS') {
                         $source_items[] = array("wcsUrl" => $url['link']);
-                    } elseif ($url['typ'] === 'WFS') {
+                    } elseif ($url['typ'] === '3WFS') {
                         $source_items[] = array("wfsUrl" => $url['link']);
-                    } elseif ($url['typ'] === 'WMS') {
+                    } elseif ($url['typ'] === '1WMS') {
                         $source_items[] = array("wmsUrl" => $url['link']);
                     } elseif ($url['typ'] === 'WMS-C') {
                         $source_items[] = array("wmscUrl" => $url['link']);
                     } elseif ($url['typ'] === 'WMTS') {
                         $source_items[] = array("wmtsUrl" => $url['link']);
-                    }
+                    } elseif ($url['typ'] === 'opendata') {
+                        $source_items[] = array("opendataUrl" => $url['link']);
+                    } /*elseif ($url['typ'] === '8metadata_dls') {
+                        $source_items[] = array("metadataDlsUrl" => $url['link']);
+                    } elseif ($url['typ'] === '6metadata_vs') {
+                        $source_items[] = array("metadataVsUrl" => $url['link']);
+                    } elseif ($url['typ'] === '4metadata_wfs') {
+                        $source_items[] = array("metadataWfsUrl" => $url['link']);
+                    } elseif ($url['typ'] === '2metadata_wms') {
+                        $source_items[] = array("metadataWmsUrl" => $url['link']);
+                    }*/
                 }
             } else {
                 $source_items[] = array("wmsUrl" => $originUrl);
-            }
-            if ($subUrls) {
-                foreach ($subUrls as $subUrl) {
-                    if ($subUrl['typ'] === 'opendata') {
-                        $source_items[] = array("opendataUrl" => $subUrl['link']);
-                    } elseif ($subUrl['typ'] === 'metadata') {
-                        $source_items[] = array("metadataUrl" => $subUrl['link']);
-                    }
-                }
             }
             $this->addMetadataSection(SourceMetadata::$SECTION_COMMON, $source_items);
         }

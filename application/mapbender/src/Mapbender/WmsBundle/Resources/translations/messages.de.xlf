@@ -584,11 +584,23 @@
       </trans-unit>
       <trans-unit id="6dbcf890105e11e6a8370800200c9a66" resname="mb.wms.metadata.section.common.opendataUrl">
         <source>mb.wms.metadata.section.common.opendataUrl</source>
-        <target>OpenData.HRO</target>
+        <target>Daten (Open Data)</target>
       </trans-unit>
-      <trans-unit id="e5e7eccfe5d546a7ac8d1c4c6f83d683" resname="mb.wms.metadata.section.common.metadataUrl">
-        <source>mb.wms.metadata.section.common.metadataUrl</source>
-        <target>GeoMIS.MV</target>
+      <trans-unit id="e5e7eccfe5d546a7ac8d1c4c6f83d684" resname="mb.wms.metadata.section.common.metadataDlsUrl">
+        <source>mb.wms.metadata.section.common.metadataDlsUrl</source>
+        <target>Metadaten zu INSPIRE Download Service</target>
+      </trans-unit>
+      <trans-unit id="e5e7eccfe5d546a7ac8d1c4c6f83d683" resname="mb.wms.metadata.section.common.metadataVsUrl">
+        <source>mb.wms.metadata.section.common.metadataVsUrl</source>
+        <target>Metadaten zu INSPIRE View Service</target>
+      </trans-unit>
+      <trans-unit id="e5e7eccfe5d546a7ac8d1c4c6f83d685" resname="mb.wms.metadata.section.common.metadataWfsUrl">
+        <source>mb.wms.metadata.section.common.metadataWfsUrl</source>
+        <target>Metadaten zu WFS</target>
+      </trans-unit>
+      <trans-unit id="e5e7eccfe5d546a7ac8d1c4c6f83d686" resname="mb.wms.metadata.section.common.metadataWmsUrl">
+        <source>mb.wms.metadata.section.common.metadataWmsUrl</source>
+        <target>Metadaten zu WMS</target>
       </trans-unit>
       <trans-unit id="b41a13ce28a88496252ebe893e380f3b" resname="mb.wms.metadata.section.common.description">
         <source>mb.wms.metadata.section.common.description</source>
