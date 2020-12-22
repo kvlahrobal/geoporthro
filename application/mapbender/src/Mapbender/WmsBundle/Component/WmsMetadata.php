@@ -191,8 +191,10 @@ class WmsMetadata extends SourceMetadata
         while ($row = pg_fetch_assoc($result)) {
             $currentnessData = $row["currentness_data"];
             $sourcePlaceData = $row["source_place_data"];
-            $sourceData = $row["source_data"];
-            $sourceMailData = $row["source_mail_data"];
+            if ($row["source_data"] && $row["source_mail_data"] && strpos($row["source_data"], "Draheim") === false) {
+                $sourceData = $row["source_data"];
+                $sourceMailData = $row["source_mail_data"];
+            }
         }
         pg_close($connection);
         
