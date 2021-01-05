@@ -273,7 +273,7 @@ class PrintService
         $logger = $this->container->get("logger");
 //        $msg = '';
         $metersPerUnit = 1; // only 1 m /
-        $scaleDenominator = floatval($this->data['scale_select']);
+        $scaleDenominator = floatval($this->data['scale_field']);
         $tilematrixset = $request['matrixset'];
         $matrix = null;
         foreach ($tilematrixset['tilematrices'] as $tilematrix) {
@@ -589,7 +589,7 @@ class PrintService
                     case 'scale' :
                         $pdf->Cell($this->conf['fields']['scale']['width'],
                             $this->conf['fields']['scale']['height'],
-                            '1 : ' . $this->data['scale_select']);
+                            '1 : ' . $this->data['scale_field']);
                         break;
                     default:
                         if (isset($this->data['extra'][$k])) {
@@ -807,7 +807,7 @@ class PrintService
         $pdf->SetFillColor(0,0,0);
         $pdf->SetFont('arial', '', 10 );
 
-        $length = 0.01 * $this->data['scale_select'] * 5;
+        $length = 0.01 * $this->data['scale_field'] * 5;
         $suffix = 'm';
 
         $pdf->Text( $this->conf['scalebar']['x'] -1 , $this->conf['scalebar']['y'] - 1 , '0' );

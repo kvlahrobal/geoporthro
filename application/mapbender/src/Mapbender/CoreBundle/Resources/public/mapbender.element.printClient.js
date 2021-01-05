@@ -387,7 +387,11 @@
         },
 
         _getPrintScale: function() {
-            return $(this.element).find('select[name="scale_select"]').val();
+            var select = $(this.element).find("select[name='scale_select']");
+            var styledSelect = select.parent().find(".dropdownValue.iconDown").html();
+            var scale = styledSelect.split(':')[1];
+            $(this.element).find("input[name='scale_field']").val(scale);
+            return scale;
         },
 
         _getPrintExtent: function() {
