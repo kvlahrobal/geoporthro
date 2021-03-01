@@ -62,6 +62,8 @@ class IndexNetzabschnittCommand extends ContainerAwareCommand
             $stmt = $conn->query("
                SELECT
                  skey AS nummer,
+                 strasse_name,
+                 strasse_schluessel,
                  ST_AsText(geometrie) AS wktgeom
                   FROM fachdaten_strassenbezug.strassennetz_netzabschnitte_regis_hro
                    ORDER BY uuid
@@ -71,19 +73,25 @@ class IndexNetzabschnittCommand extends ContainerAwareCommand
                 $doc = $solr->newDocument();
                 $doc->id = $type . '_' . ++$id;
                 $doc->text = $this->concat(
-                    $row['nummer']
+                    $row['nummer'],
+                    $row['strasse_name'],
+                    $row['strasse_schluessel']
                 );
                 
                 $doc->phonetic = $this->addPhonetic($this->concat(
-                    $row['nummer']
+                    $row['nummer'],
+                    $row['strasse_name'],
+                    $row['strasse_schluessel']
                 ));
 
-                $doc->label = "1".$row['nummer'];
+                $doc->label = "1".$row['nummer'].$row['strasse_name'].$row['strasse_schluessel'];
 
                 $doc->json = json_encode(array(
                     'data'   => array(
-                        'type'              => 'netzabschnitt',
-                        'nummer'            => $row['nummer']
+                        'type'                => 'netzabschnitt',
+                        'nummer'              => $row['nummer'],
+                        'strasse_name'        => $row['strasse_name'],
+                        'strasse_schluessel'  => $row['strasse_schluessel']
                     ),
                     'geom'   => $row['wktgeom'],
                 ));

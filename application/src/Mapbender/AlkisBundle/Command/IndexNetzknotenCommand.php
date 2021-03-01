@@ -61,7 +61,6 @@ class IndexNetzknotenCommand extends ContainerAwareCommand
         while ($offset < $result['count']) {
             $stmt = $conn->query("
                 SELECT
-                 uuid,
                  nummer,
                  ST_AsText(ST_Centroid(geometrie)) AS geom,
                  ST_AsText(geometrie) AS wktgeom

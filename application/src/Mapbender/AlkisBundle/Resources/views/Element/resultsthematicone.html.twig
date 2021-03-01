@@ -77,11 +77,10 @@
                 Grünpflegebezirk {{ json.data.bezirk }}, Grünpflegeobjekt {{ json.data.objektnummer }} {{ json.data.objektbezeichnung }}{% if json.data.nummer is defined and json.data.nummer != null%}, Nummer {{ json.data.nummer }}{% endif %}, Pflegeeinheit {{ json.data.pflegeeinheit }}
             {% elseif type == 'strassennetz' %}
                 {% if json.data.type == 'netzknoten' %}
-                    <i class="fa fa-circle" title="Netzknoten"></i>
+                    <i class="fa fa-circle" title="Netzknoten"></i> {{ json.data.nummer }}
                 {% else %}
-                    <i class="fa fa-road" title="Netzabschnitt"></i>
+                    <i class="fa fa-road" title="Netzabschnitt"></i> {{ json.data.nummer }} [{{ json.data.strasse_name }} ({{ json.data.strasse_schluessel }})]
                 {% endif %}
-                {{ json.data.nummer }}
             {% elseif type == 'wirtschaftseinheiten_wiro' and json.data.type == 'wirtschaftseinheiten_wiro' %}
                 {{ json.data.nummer }} ({{ json.data.adressen }})
             {% endif %}
